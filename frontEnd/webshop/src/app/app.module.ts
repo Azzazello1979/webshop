@@ -1,14 +1,17 @@
+import { AuthService } from './services/auth.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavibarComponent } from './navibar/navibar.component';
-import { LoginLogoutComponent } from './login-logout/login-logout.component';
-import { MainComponent } from './main/main.component';
-import { LeftComponent } from './left/left.component';
-import { RightComponent } from './right/right.component';
-import { MidComponent } from './mid/mid.component';
+import { NavibarComponent } from './components/navibar/navibar.component';
+import { LoginLogoutComponent } from './components/login-logout/login-logout.component';
+import { MainComponent } from './components/main/main.component';
+import { LeftComponent } from './components/left/left.component';
+import { RightComponent } from './components/right/right.component';
+import { MidComponent } from './components/mid/mid.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { UserGreetComponent } from './components/user-greet/user-greet.component';
 
 @NgModule({
   declarations: [
@@ -18,13 +21,15 @@ import { MidComponent } from './mid/mid.component';
     MainComponent,
     LeftComponent,
     RightComponent,
-    MidComponent
+    MidComponent,
+    FooterComponent,
+    UserGreetComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

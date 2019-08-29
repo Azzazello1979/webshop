@@ -1,7 +1,7 @@
-.left{
-  margin-left:0.5vw;
+.right{
+  margin-right:0.5vw;
   width: 20vw;
-  height: 85vh;
+  height: 78vh;
   background-color:white;
   border:1px solid grey;
 }

@@ -1,11 +1,9 @@
-
-.navibar{
-  display:flex;
-  justify-content:flex-end;
+.footer{
   align-items:center;
-  margin-top:0;
+  margin-top:1vh;
+  margin-bottom:5px;
   width:96vw;
-  height:10vh;
+  height:5vh;
   background-color: bisque;
   border:1px solid grey;
 
