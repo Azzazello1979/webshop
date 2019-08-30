@@ -22,12 +22,14 @@ export class LoginLogoutComponent implements OnInit {
 
 
   registerORlogin() {
-    if (this.auth.wantsToRegister === true) { //call register service
+    if (this.auth.hasToken()){
+      this.auth.logout();
+    } else if (this.auth.wantsToRegister === true) { //call register service
       this.auth.register(this.userObject)
         .subscribe(endPointResponseObj => {
           localStorage.setItem('token', endPointResponseObj.token);
-        }
-        );
+          
+        });
     } else if (this.auth.wantsToRegister === false){ //call login service
       // implement login call to service
     }
@@ -35,7 +37,9 @@ export class LoginLogoutComponent implements OnInit {
   }
 
   wantsToRegisterOrLogin() {
-    if (this.auth.wantsToRegister === true) {
+    if (this.auth.hasToken()){
+      this.buttonText = 'Logout';
+    } else if (this.auth.wantsToRegister === true) {
       this.buttonText = 'Register';
     } else if (this.auth.wantsToRegister === false) {
       this.buttonText = 'Login';

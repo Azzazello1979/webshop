@@ -68,6 +68,8 @@ export class AuthService {
 
   logout(){
     //console.log(`at service logout, this loggedIn: ${this.loggedIn}`);
+    localStorage.removeItem('token');
+    this.wantsToRegister = false;
     this.loggedIn = false;
     let observable = new Observable<boolean>(
       observer => {
