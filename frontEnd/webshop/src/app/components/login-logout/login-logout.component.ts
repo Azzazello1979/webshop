@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 export class LoginLogoutComponent implements OnInit {
 
   loggedIn: boolean = false;
+  buttonText: string = 'Register';
 
 
   constructor(private auth: AuthService) { }
