@@ -1,1 +1,3 @@
-<div class="mid"></div>
+<div class="mid" *ngIf="hasToken">
+  <p>This is visible only to registered members! That is, if there is a token in local storage.</p>
+</div>

@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
-  
+
 ];
 
 @NgModule({

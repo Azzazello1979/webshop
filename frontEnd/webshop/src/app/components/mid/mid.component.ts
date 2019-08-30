@@ -1,3 +1,4 @@
+import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MidComponent implements OnInit {
 
-  constructor() { }
+  hasToken:boolean = false;
+
+  constructor(private auth:AuthService) { }
+
+  checkToken(){
+    this.hasToken = this.auth.hasToken();
+  }
 
   ngOnInit() {
+
+    setInterval(() => {
+      this.checkToken()
+    },500)
+    
   }
 
 }

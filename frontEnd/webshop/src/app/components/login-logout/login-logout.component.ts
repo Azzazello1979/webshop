@@ -25,7 +25,7 @@ export class LoginLogoutComponent implements OnInit {
     if (this.auth.wantsToRegister === true) { //call register service
       this.auth.register(this.userObject)
         .subscribe(endPointResponseObj => {
-          console.log(endPointResponseObj.test)
+          localStorage.setItem('token', endPointResponseObj.token);
         }
         );
     } else if (this.auth.wantsToRegister === false){ //call login service

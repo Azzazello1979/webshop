@@ -22,6 +22,14 @@ export class AuthService {
 
 
 
+  hasToken(){
+    if(localStorage.getItem('token')){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   register(userObject){
     return this.http.post<any>(`${environment.backURL}/register`, userObject);
   }
