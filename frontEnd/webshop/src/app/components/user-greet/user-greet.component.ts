@@ -34,10 +34,10 @@ export class UserGreetComponent implements OnInit {
 
   ngOnInit() {
 
-    setInterval(() => {
+    setInterval(() => { 
       this.getGreeting();
     }, 500);
-    
+
   }
 
 
