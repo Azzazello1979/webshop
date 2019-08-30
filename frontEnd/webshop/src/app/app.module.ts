@@ -1,3 +1,4 @@
+import { GreetService } from './services/greet.service';
 import { AuthService } from './services/auth.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -12,6 +13,7 @@ import { RightComponent } from './components/right/right.component';
 import { MidComponent } from './components/mid/mid.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { UserGreetComponent } from './components/user-greet/user-greet.component';
+
 
 @NgModule({
   declarations: [
@@ -29,7 +31,7 @@ import { UserGreetComponent } from './components/user-greet/user-greet.component
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, GreetService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
