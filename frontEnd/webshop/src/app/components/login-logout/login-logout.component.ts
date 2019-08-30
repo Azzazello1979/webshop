@@ -12,11 +12,17 @@ export class LoginLogoutComponent implements OnInit {
 
   loggedIn: boolean = false;
   buttonText: string = 'Login';
+  userObject: any = {};
 
 
   constructor(private auth: AuthService) { }
 
-    registerOrLogin(){
+
+    registerORlogin(){
+      console.log(this.userObject)
+    }
+
+    wantsToRegisterOrLogin(){
       if(this.auth.wantsToRegister === true){
         this.buttonText = 'Register';
       } else if(this.auth.wantsToRegister === false){
@@ -42,7 +48,7 @@ export class LoginLogoutComponent implements OnInit {
     ngOnInit() {
       
       setInterval(()=>{
-        this.registerOrLogin();
+        this.wantsToRegisterOrLogin();
       }, 500)
 
     }
