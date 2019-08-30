@@ -11,12 +11,18 @@ import { Observable } from 'rxjs';
 export class LoginLogoutComponent implements OnInit {
 
   loggedIn: boolean = false;
-  buttonText: string = 'Register';
+  buttonText: string = 'Login';
 
 
   constructor(private auth: AuthService) { }
 
-
+    registerOrLogin(){
+      if(this.auth.wantsToRegister === true){
+        this.buttonText = 'Register';
+      } else if(this.auth.wantsToRegister === false){
+        this.buttonText = 'Login';
+      }
+    }
 
     logIn(){
       //console.log('login');
@@ -35,7 +41,9 @@ export class LoginLogoutComponent implements OnInit {
 
     ngOnInit() {
       
-
+      setInterval(()=>{
+        this.registerOrLogin();
+      }, 500)
 
     }
 

@@ -8,8 +8,20 @@ import { Observable } from 'rxjs';
 export class AuthService {
 
   public loggedIn:boolean = false;
+  public wantsToRegister:boolean = false;
 
   constructor() { }
+
+
+  wantsToRegisterClicked(){
+    this.wantsToRegister = true;
+    let observable = new Observable<boolean>(
+      observer => {
+        observer.next(this.wantsToRegister);
+      }
+    );
+    return observable;
+  }
 
   status(){
     let observable = new Observable<boolean>(

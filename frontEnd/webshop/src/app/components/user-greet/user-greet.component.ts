@@ -10,14 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserGreetComponent implements OnInit {
 
-  currentUser: string = 'Balint';
-  userPrompt: string = 'Hello';
+  currentUser: string = 'stranger';
+  userPrompt: string = 'Please log in ';
+  wantsToRegister: boolean = false;
 
 
   constructor(private auth: AuthService) {
 
   }
-
 
   getGreeting() {
     this.auth.status().subscribe(result => {
@@ -29,6 +29,12 @@ export class UserGreetComponent implements OnInit {
     });
   }
 
+  register(){
+    this.auth.wantsToRegisterClicked()
+    .subscribe(result => {
+      this.wantsToRegister = result;
+    });
+  }
 
 
 
