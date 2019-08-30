@@ -25,10 +25,8 @@ export class LoginLogoutComponent implements OnInit {
     if (this.auth.wantsToRegister === true) { //call register service
       this.auth.register(this.userObject)
         .subscribe(endPointResponseObj => {
-          localStorage.setItem('accessToken', endPointResponseObj.accessToken);
-          /*this.router.navigate(['/member']);*/
-        },
-          (err:any) => console.log(err.message)
+          console.log(endPointResponseObj.test)
+        }
         );
     } else if (this.auth.wantsToRegister === false){ //call login service
       // implement login call to service

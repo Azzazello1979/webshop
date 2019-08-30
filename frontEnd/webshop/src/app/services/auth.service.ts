@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { HttpHeaders } from '@angular/common/http';
+
 
 
 @Injectable({
@@ -13,11 +13,7 @@ export class AuthService {
 
   public loggedIn:boolean = false;
   public wantsToRegister:boolean = false;
-  public HttpOptions:any = {
-    headers: new HttpHeaders({
-      'Content-Type':'application/json'
-    })
-  };
+  
 
   constructor(
     private http:HttpClient,
@@ -27,11 +23,7 @@ export class AuthService {
 
 
   register(userObject){
-    return this.http.post<any>(
-      `${environment.backURL}/register`, 
-      userObject, 
-      this.HttpOptions
-      )
+    return this.http.post<any>(`${environment.backURL}/register`, userObject);
   }
 
 

@@ -1,4 +1,4 @@
-import { GreetService } from './services/greet.service';
+
 import { AuthService } from './services/auth.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -37,7 +37,7 @@ import { UserGreetComponent } from './components/user-greet/user-greet.component
 
 
   ],
-  providers: [AuthService, GreetService],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
