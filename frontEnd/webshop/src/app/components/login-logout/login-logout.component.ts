@@ -1,6 +1,6 @@
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Router} from '@angular/router';
 
 
 @Component({
@@ -15,44 +15,58 @@ export class LoginLogoutComponent implements OnInit {
   userObject: any = {};
 
 
-  constructor(private auth: AuthService) { }
+  constructor(
+    private auth: AuthService,
+    private router: Router
+    ) { }
 
 
-    registerORlogin(){
-      console.log(this.userObject)
+  registerORlogin() {
+    if (this.auth.wantsToRegister === true) { //call register service
+      this.auth.register(this.userObject)
+        .subscribe(endPointResponseObj => {
+          localStorage.setItem('accessToken', endPointResponseObj.accessToken);
+          /*this.router.navigate(['/member']);*/
+        },
+          (err:any) => console.log(err.message)
+        );
+    } else if (this.auth.wantsToRegister === false){ //call login service
+      // implement login call to service
     }
 
-    wantsToRegisterOrLogin(){
-      if(this.auth.wantsToRegister === true){
-        this.buttonText = 'Register';
-      } else if(this.auth.wantsToRegister === false){
-        this.buttonText = 'Login';
-      }
+  }
+
+  wantsToRegisterOrLogin() {
+    if (this.auth.wantsToRegister === true) {
+      this.buttonText = 'Register';
+    } else if (this.auth.wantsToRegister === false) {
+      this.buttonText = 'Login';
     }
+  }
 
-    logIn(){
-      //console.log('login');
-      this.auth.logIn().subscribe(result => {
-        this.loggedIn = result;
-      });
-    }
+  logIn() {
+    //console.log('login');
+    this.auth.logIn().subscribe(result => {
+      this.loggedIn = result;
+    });
+  }
 
-    logOut(){
-      //console.log('logout');
-      this.auth.logout().subscribe(result => {
-        this.loggedIn = result;
-      });
-    }
+  logOut() {
+    //console.log('logout');
+    this.auth.logout().subscribe(result => {
+      this.loggedIn = result;
+    });
+  }
 
 
-    ngOnInit() {
-      
-      setInterval(()=>{
-        this.wantsToRegisterOrLogin();
-      }, 500)
+  ngOnInit() {
 
-    }
+    setInterval(() => {
+      this.wantsToRegisterOrLogin();
+    }, 500)
 
-  
+  }
+
+
 
 }
