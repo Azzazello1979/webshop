@@ -14,13 +14,13 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  
+  res.setHeader('Content-Type','application/json');
   db.query(`SELECT * FROM users WHERE email = '${req.body.email}';`, (err, rows) => {
     if (err){
       console.log(err);
-      return res.status(500).json({'message':'database error @ register > select'});
+      return res.status(500).json({'message': 'database error @ register > select'});
     } else if (rows.length > 0){
-      res.status(400).json({'message':'this email is already registered, please use a different email'});
+      res.status(400).json({'message': 'this email is already registered, please use a different email'});
     } else {
       db.query(`INSERT INTO users (email, password) VALUES ('${req.body.email}', '${hash(req.body.password + salt)}') ;`, (err, OKpacket) => {
         if (err){
