@@ -13,6 +13,7 @@ export class AuthService {
 
   public loggedIn:boolean = false;
   public wantsToRegister:boolean = false;
+  tryThis:string = 'Hola!';
   
 
   constructor(
