@@ -49,6 +49,7 @@ export class AuthService {
 
   logIn(userObject){
     this.loggedIn = true;
+    this.buttonText = 'Logout';
     return this.http.post<any>(`${environment.backURL}/login`, userObject);
   }
 
