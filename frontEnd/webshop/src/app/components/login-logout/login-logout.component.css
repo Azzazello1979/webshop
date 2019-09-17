@@ -13,3 +13,16 @@
   width:10vw;
   margin-right:1vw;
 }
+
+.registerLoginButton{
+  color:blue;
+  background-color: white;
+  padding: 3px;
+  border-radius: 5px;
+  outline: none;
+  width:100%;
+}
+
+.registerLoginButton:active{
+  background-color: #e4e7ed;
+}

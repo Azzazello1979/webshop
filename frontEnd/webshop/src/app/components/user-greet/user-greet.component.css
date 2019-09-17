@@ -1,5 +1,5 @@
 .user-greet{
-  margin-top:4vh;
+  margin-top:6vh;
   margin-left:0.6vw;
 }
 
@@ -8,7 +8,7 @@
 .signUp{
   color:blue;
   background-color: white;
-  padding: 5px;
+  padding: 3px;
   border-radius: 5px;
   outline: none;
 }
