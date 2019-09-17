@@ -43,6 +43,8 @@ export class AuthService {
 
 
   register(userObject){
+    this.loggedIn = true;
+    this.buttonText = 'Logout';
     return this.http.post<any>(`${environment.backURL}/register`, userObject);
   }
 
@@ -55,10 +57,10 @@ export class AuthService {
 
 
   logout(){
-    //console.log(`at service logout, this loggedIn: ${this.loggedIn}`);
     localStorage.removeItem('token');
     this.wantsToRegister = false;
     this.loggedIn = false;
+    this.buttonText = 'Login';
   }
 
 

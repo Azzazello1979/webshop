@@ -23,16 +23,19 @@ export class LoginLogoutComponent implements OnInit {
   registerORloginORlogout() {
     if (this.auth.hasToken()){
       this.auth.logout(); // call logout service
+      this.userObject = {};
     } else if (this.auth.wantsToRegister === true) { //call register service
       this.auth.register(this.userObject)
         .subscribe(endPointResponseObj => {
           localStorage.setItem('token', endPointResponseObj.token);
         });
+        this.userObject = {};
     } else if (this.auth.wantsToRegister === false){ //call login service
       this.auth.logIn(this.userObject)
       .subscribe(endPointResponseObj => {
         localStorage.setItem('token', endPointResponseObj.token);
-      })
+      });
+      this.userObject = {};
     }
   }
 
