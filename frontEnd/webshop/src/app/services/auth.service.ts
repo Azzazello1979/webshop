@@ -13,7 +13,8 @@ export class AuthService {
 
   loggedIn:boolean = false;
   wantsToRegister:boolean = false;
-  tryThis:string = 'Hola!';
+  buttonText:string = 'Login';
+  
   
 
   constructor(
@@ -21,7 +22,16 @@ export class AuthService {
     private router:Router
     ) { }
 
-
+  toggle(){
+    this.wantsToRegister = !this.wantsToRegister;
+    if(this.wantsToRegister === true){
+      this.buttonText = 'Register';
+    } else if(this.wantsToRegister === false){
+      this.buttonText = 'Login';
+    } else if(this.loggedIn === true){
+      this.buttonText = 'Logout';
+    }
+  }
 
   hasToken(){
     if(localStorage.getItem('token')){

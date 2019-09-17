@@ -38,15 +38,7 @@ export class LoginLogoutComponent implements OnInit {
 
 
 
-  wantsToRegisterOrLogin() {
-    if (this.auth.hasToken()){
-      this.buttonText = 'Logout';
-    } else if (this.auth.wantsToRegister === true) {
-      this.buttonText = 'Register';
-    } else if (this.auth.wantsToRegister === false) {
-      this.buttonText = 'Login';
-    }
-  }
+
 
 
 
