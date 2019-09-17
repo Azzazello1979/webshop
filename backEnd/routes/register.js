@@ -24,12 +24,14 @@ router.post('/', (req, res) => {
         let token = jwt.sign( { 'email': req.body.email }, secret, { 'expiresIn': '1d' } );
         res.status(200).json({ 'token': token });
       })
-      .catch(() => {
+      .catch((e) => {
+        console.log(e.message);
         return res.status(500).json({'message':'database error @ register > insert into'});
       })
     }
   })
-  .catch(() => {
+  .catch((e) => {
+    console.log(e.message);
     return res.status(500).json({'message':'database error @ register > select'});
   })
   
