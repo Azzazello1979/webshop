@@ -10,8 +10,7 @@ import { Router} from '@angular/router';
 })
 export class LoginLogoutComponent implements OnInit {
 
-  loggedIn: boolean = false;
-  buttonText: string = 'Login';
+  buttonText: string = 'Login'; //initial value
   userObject: any = {};
 
 
@@ -21,20 +20,23 @@ export class LoginLogoutComponent implements OnInit {
     ) { }
 
 
-  registerORlogin() {
+  registerORloginORlogout() {
     if (this.auth.hasToken()){
-      this.auth.logout();
+      this.auth.logout(); // call logout service
     } else if (this.auth.wantsToRegister === true) { //call register service
       this.auth.register(this.userObject)
         .subscribe(endPointResponseObj => {
           localStorage.setItem('token', endPointResponseObj.token);
-          
         });
     } else if (this.auth.wantsToRegister === false){ //call login service
-      // implement login call to service
+      this.auth.logIn(this.userObject)
+      .subscribe(endPointResponseObj => {
+        localStorage.setItem('token', endPointResponseObj.token);
+      })
     }
-
   }
+
+
 
   wantsToRegisterOrLogin() {
     if (this.auth.hasToken()){
@@ -46,29 +48,15 @@ export class LoginLogoutComponent implements OnInit {
     }
   }
 
-  logIn() {
-    //console.log('login');
-    this.auth.logIn().subscribe(result => {
-      this.loggedIn = result;
-    });
-  }
-
-  logOut() {
-    //console.log('logout');
-    this.auth.logout().subscribe(result => {
-      this.loggedIn = result;
-    });
-  }
 
 
-  ngOnInit() {
-
-    setInterval(() => {
-      this.wantsToRegisterOrLogin();
-    }, 500)
-
-  }
 
 
+
+
+
+
+
+  ngOnInit() {}
 
 }

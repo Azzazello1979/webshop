@@ -11,8 +11,8 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
 
-  public loggedIn:boolean = false;
-  public wantsToRegister:boolean = false;
+  loggedIn:boolean = false;
+  wantsToRegister:boolean = false;
   tryThis:string = 'Hola!';
   
 
@@ -31,53 +31,23 @@ export class AuthService {
     }
   }
 
+
   register(userObject){
     return this.http.post<any>(`${environment.backURL}/register`, userObject);
   }
 
 
-
-  wantsToRegisterClicked(){
-    this.wantsToRegister = true;
-    let observable = new Observable<boolean>(
-      observer => {
-        observer.next(this.wantsToRegister);
-      }
-    );
-    return observable;
-  }
-
-  status(){
-    let observable = new Observable<boolean>(
-      observer => {
-        observer.next(this.loggedIn);
-      }
-    );
-    return observable;
-  }
-
-  logIn(){
-    //console.log(`at service login, this loggedIn: ${this.loggedIn}`);
+  logIn(userObject){
     this.loggedIn = true;
-    let observable = new Observable<boolean>(
-      observer => {
-        observer.next(this.loggedIn);
-      }
-    );
-    return observable;
+    return this.http.post<any>(`${environment.backURL}/login`, userObject);
   }
+
 
   logout(){
     //console.log(`at service logout, this loggedIn: ${this.loggedIn}`);
     localStorage.removeItem('token');
     this.wantsToRegister = false;
     this.loggedIn = false;
-    let observable = new Observable<boolean>(
-      observer => {
-        observer.next(this.loggedIn);
-      }
-    );
-    return observable;
   }
 
 
