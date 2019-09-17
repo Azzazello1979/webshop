@@ -1,4 +1,4 @@
-const db = require('./../connection');
+const db = require('./../connection'); // This connection uses mysql-promise
 const express = require('express');
 const router = express.Router();
 
@@ -14,7 +14,7 @@ router.get('/', (req,res) => {
   )
   .catch(
     () => {
-      res.status(500).json({'message':'DB error @ query!'});
+      res.status(500).json({'message':'DB error @ select query!'});
     }
   )
 })

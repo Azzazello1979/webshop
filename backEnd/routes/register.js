@@ -1,6 +1,6 @@
 'use strict';
 
-const db = require('./../connection');
+const db = require('./../connection'); // This connection uses mysql-promise
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
@@ -9,11 +9,62 @@ require('dotenv').config();
 const salt = process.env.SALT;
 const secret = process.env.secret;
 
-router.get('/', (req, res) => {
-  res.status(200).send('register endpoint GET OK');
+router.post('/', (req, res) => {
+  res.setHeader('Content-Type','application/json');
+  db.query(`SELECT * FROM users WHERE email = '${req.body.email}';`)
+  .then((rows) => { // will return array with 2 elements, the first element is the array of records, the second element is an array off additional info due to using promises
+    if(rows[0].length > 0){
+      console.log('This email is already registered. Please choose another.');
+      return res.status(400).json({'message':'This email is already registered. Please choose another.'});
+    } else {
+      db.query(`INSERT INTO users (email, password) VALUES ('${req.body.email}', '${hash(req.body.password + salt)}') ;`)
+      .then((OKpacket) => {
+        console.log('OK, new user registerd');
+        console.table(OKpacket); // visualize OKpacket fields
+        let token = jwt.sign( { 'email': req.body.email }, secret, { 'expiresIn': '1d' } );
+        res.status(200).json({ 'token': token });
+      })
+      .catch(() => {
+        return res.status(500).json({'message':'database error @ register > insert into'});
+      })
+    }
+  })
+  .catch(() => {
+    return res.status(500).json({'message':'database error @ register > select'});
+  })
+  
 });
 
-router.post('/', (req, res) => {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* router.post('/', (req, res) => {
   res.setHeader('Content-Type','application/json');
   db.query(`SELECT * FROM users WHERE email = '${req.body.email}';`, (err, rows) => {
     if (err){
@@ -36,6 +87,6 @@ router.post('/', (req, res) => {
     }
   })
   
-});
+}); */
 
 module.exports = router;
