@@ -42,6 +42,11 @@ export class AuthService {
   }
 
 
+  getToken(){
+    return localStorage.getItem('token')
+  }
+
+
   register(userObject){
     this.loggedIn = true;
     this.buttonText = 'Logout';
