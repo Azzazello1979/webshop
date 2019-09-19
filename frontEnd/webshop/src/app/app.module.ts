@@ -16,6 +16,8 @@ import { RightComponent } from './components/right/right.component';
 import { MidComponent } from './components/mid/mid.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { UserGreetComponent } from './components/user-greet/user-greet.component';
+import { LandingpageComponent } from './components/landingpage/landingpage.component';
+
 
 
 @NgModule({
@@ -28,7 +30,9 @@ import { UserGreetComponent } from './components/user-greet/user-greet.component
     RightComponent,
     MidComponent,
     FooterComponent,
-    UserGreetComponent
+    UserGreetComponent,
+    LandingpageComponent,
+    
   ],
   imports: [
     BrowserModule,
