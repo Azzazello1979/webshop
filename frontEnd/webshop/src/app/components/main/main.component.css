@@ -2,8 +2,8 @@
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-top:1vh;
-  width:96vw;
+  margin:0;
+  padding:0;
   height:80vh;
   background-color:#f5f5dc;
   border:1px solid grey;

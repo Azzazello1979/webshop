@@ -2,10 +2,11 @@
 .navibar{
   display:flex;
   justify-content:space-between;
-  align-items:center;
+  align-items:flex-end;
   margin-top:0;
-  width:96vw;
-  height:11vh;
+  margin-bottom:1vh;
+  width:100vw;
+  height:12vh;
   background-color: bisque;
   border:1px solid grey;
 
