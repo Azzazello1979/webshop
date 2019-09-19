@@ -1,6 +1,4 @@
 import { MainComponent } from './components/main/main.component';
-import { MidComponent } from './components/mid/mid.component';
-import { AppComponent } from './app.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './auth.guard';
