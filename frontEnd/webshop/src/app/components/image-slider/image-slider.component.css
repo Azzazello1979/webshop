@@ -1,0 +1,22 @@
+#slider{
+  margin-top:30px;
+  margin-bottom:30px;
+  border: 2px solid blue;
+  width:100%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slide{
+  border:2px solid yellow;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
+.slide img{
+  width:100%;
+  border:2px solid orange;
+}
