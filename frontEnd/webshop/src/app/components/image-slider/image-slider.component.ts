@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+//import { Slide } from './../../interfaces/slide';
 
 @Component({
   selector: 'image-slider',
@@ -7,20 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ImageSliderComponent implements OnInit {
 
-  slides:any = [
-    { src: 'http://www.naughtypixiemedia.com/slider/Sultavia-1.jpg', txt: 'Slide 1' },
-    { src: 'http://www.naughtypixiemedia.com/slider/Sultavia-2.jpg', txt: 'Slide 2' },
-    { src: 'http://www.naughtypixiemedia.com/slider/Sultavia-3.jpg', txt: 'Slide 3' },
-  ];
+  slides:any[];
+  currSlideSRC:string;
+  currSlideTXT:string;
+  counter:number;
 
-  currSlideSRC:string = 'http://www.naughtypixiemedia.com/slider/Sultavia-1.jpg';
-  currSlideTXT:string = 'Slide 1';
-  counter:number = 0;
-
-  constructor() { }
+  constructor(slides:any[], currSlideSRC?:string, currSlideTXT?:string, counter:number = 0) { 
+    this.slides = slides,
+    this.currSlideSRC = currSlideSRC,
+    this.currSlideTXT = currSlideTXT,
+    this.counter = counter
+   }
 
   turnPage(){
-    
     if(this.counter === this.slides.length-1){
       this.counter = -1;
     }
@@ -29,10 +29,10 @@ export class ImageSliderComponent implements OnInit {
 
       this.currSlideSRC = this.slides[`${this.counter}`].src;
       this.currSlideTXT = this.slides[`${this.counter}`].txt;
-
   }
 
   ngOnInit() {
+
   }
 
 }
