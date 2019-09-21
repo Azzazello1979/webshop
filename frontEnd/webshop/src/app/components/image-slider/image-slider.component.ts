@@ -19,6 +19,7 @@ export class ImageSliderComponent implements OnInit {
   currSlideSRC:string;
   currSlideTXT:string;
   counter:number;
+  show:boolean;
 
   constructor(){}
 
@@ -27,6 +28,7 @@ export class ImageSliderComponent implements OnInit {
       this.counter = -1;
     }
       this.counter ++;
+      this.show = !this.show;
       this.currSlideSRC = this.slides[`${this.counter}`].src;
       this.currSlideTXT = this.slides[`${this.counter}`].txt;
   }
@@ -35,6 +37,7 @@ export class ImageSliderComponent implements OnInit {
     this.currSlideSRC = this.slides[0].src;
     this.currSlideTXT = this.slides[0].txt;
     this.counter = 0;
+    this.show = false;
 
     setInterval(() => {
       this.turnPage();

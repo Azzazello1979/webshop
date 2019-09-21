@@ -14,7 +14,10 @@
   flex-direction:column;
   justify-content:center;
   align-items:center;
+
 }
+
+
 
 .slide:hover{
   cursor:pointer;
