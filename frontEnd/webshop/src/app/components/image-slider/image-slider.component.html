@@ -1,7 +1,7 @@
 <div id="slider" >
   
-  <div class="slide">
-    <img [src]="currSlideSRC" (click)="turnPage()">
+  <div class="slide" (click)="turnPage()">
+    <img [src]="currSlideSRC">
     <p>{{ currSlideTXT }}</p>
   </div>
 

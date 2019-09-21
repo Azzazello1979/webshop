@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+
+
 //import { Slide } from './../../interfaces/slide';
 
 @Component({
@@ -6,32 +8,37 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './image-slider.component.html',
   styleUrls: ['./image-slider.component.css']
 })
+  
 export class ImageSliderComponent implements OnInit {
 
-  slides:any[];
+  slides:any[] = [
+      { src: 'http://www.naughtypixiemedia.com/slider/Sultavia-1.jpg', txt: 'Slide 1' },
+      { src: 'http://www.naughtypixiemedia.com/slider/Sultavia-2.jpg', txt: 'Slide 2' },
+      { src: 'http://www.naughtypixiemedia.com/slider/Sultavia-3.jpg', txt: 'Slide 3' },
+    ];
   currSlideSRC:string;
   currSlideTXT:string;
   counter:number;
 
-  constructor(slides:any[], currSlideSRC?:string, currSlideTXT?:string, counter:number = 0) { 
-    this.slides = slides,
-    this.currSlideSRC = currSlideSRC,
-    this.currSlideTXT = currSlideTXT,
-    this.counter = counter
-   }
+  constructor(){}
 
-  turnPage(){
+  turnPage():void {
     if(this.counter === this.slides.length-1){
       this.counter = -1;
     }
       this.counter ++;
-      //console.log(this.counter);
-
       this.currSlideSRC = this.slides[`${this.counter}`].src;
       this.currSlideTXT = this.slides[`${this.counter}`].txt;
   }
 
   ngOnInit() {
+    this.currSlideSRC = this.slides[0].src;
+    this.currSlideTXT = this.slides[0].txt;
+    this.counter = 0;
+
+    setInterval(() => {
+      this.turnPage();
+    },2000)
 
   }
 
