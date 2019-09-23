@@ -20,7 +20,7 @@ export class ImageSliderComponent implements OnInit {
   currSlideSRC:string = this.slides[0].src;
   currSlideTXT:string = this.slides[0].txt;
   counter:number = 0;
-  interval:number = 2000;
+  @Input() interval:number = 2000;
 
   constructor(){}
 
