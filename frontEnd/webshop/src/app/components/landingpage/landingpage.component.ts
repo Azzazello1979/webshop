@@ -18,6 +18,11 @@ export class LandingpageComponent implements OnInit {
       { src: './../../assets/images/slides/Rittis-1.jpg', txt: 'Rittis Slide 1' },
       { src: './../../assets/images/slides/Rittis-2.jpg', txt: 'Rittis Slide 2' },
       { src: './../../assets/images/slides/Rittis-3.jpg', txt: 'Rittis Slide 3' },
+      { src: './../../assets/images/slides/Rittis-4.jpg', txt: 'Rittis Slide 4' }
+    ],
+        [
+      { src: './../../assets/images/slides/Regale-1.jpg', txt: 'Regale Slide 1' },
+      { src: './../../assets/images/slides/Regale-2.jpg', txt: 'Regale Slide 2' }
     ]
   ]; 
   

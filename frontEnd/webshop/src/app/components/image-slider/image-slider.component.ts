@@ -11,7 +11,8 @@ import { Component, OnInit, Input } from '@angular/core';
   
 export class ImageSliderComponent implements OnInit {
 
-  @Input() slides:any[] = [ // the parent component will fill up this variable, thats why @Input
+  // the parent component will fill up this array (these are defaults only), thats why @Input
+  @Input() slides:any[] = [ 
       { src: './../../assets/images/slides/defaultSlide.jpg', txt: 'Slide 1' },
       { src: './../../assets/images/slides/defaultSlide.jpg', txt: 'Slide 2' },
       { src: './../../assets/images/slides/defaultSlide.jpg', txt: 'Slide 3' },
