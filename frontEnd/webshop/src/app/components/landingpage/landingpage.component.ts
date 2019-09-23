@@ -8,6 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingpageComponent implements OnInit {
 
+  slidersArray:any[] = [
+    [
+      { src: './../../assets/images/slides/Sultavia-1.jpg', txt: 'Sultavia Slide 1' },
+      { src: './../../assets/images/slides/Sultavia-2.jpg', txt: 'Sultavia Slide 2' },
+      { src: './../../assets/images/slides/Sultavia-3.jpg', txt: 'Sultavia Slide 3' },
+    ],
+    [
+      { src: './../../assets/images/slides/Rittis-1.jpg', txt: 'Rittis Slide 1' },
+      { src: './../../assets/images/slides/Rittis-2.jpg', txt: 'Rittis Slide 2' },
+      { src: './../../assets/images/slides/Rittis-3.jpg', txt: 'Rittis Slide 3' },
+    ]
+  ]; 
   
 
   constructor() { }
