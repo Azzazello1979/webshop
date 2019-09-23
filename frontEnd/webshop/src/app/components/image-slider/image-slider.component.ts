@@ -20,7 +20,7 @@ export class ImageSliderComponent implements OnInit {
   currSlideSRC:string = this.slides[0].src;
   currSlideTXT:string = this.slides[0].txt;
   counter:number = 0;
-  show:boolean;
+  interval:number = 2000;
 
   constructor(){}
 
@@ -37,7 +37,7 @@ export class ImageSliderComponent implements OnInit {
 
     setInterval(() => {
       this.turnPage();
-    },2000)
+    }, this.interval)
 
   }
 

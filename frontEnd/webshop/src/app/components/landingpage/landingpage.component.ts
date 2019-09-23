@@ -32,6 +32,7 @@ export class LandingpageComponent implements OnInit {
 
 
   ngOnInit() {}
-
+  // call a landingpage.service, that fetches info from database about the slides, fills up this.slidersArray,
+  // then the landingpage template can display the slides with *ngFor 
 
 }
