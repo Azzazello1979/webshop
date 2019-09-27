@@ -1,0 +1,111 @@
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { environment } from './../../environments/environment';
+import { Router } from '@angular/router';
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CartService {
+
+  products = [
+    {
+      id: 1, collection: 'Rittis', productName: 'Rittis-1',
+      price: 92.95, stone: 'sona', carat: 15, cut: 'NA',
+      img: './../../assets/images/collections/rittis/Rittis-1.jpg',
+      material: 'yellow gold 18k', description: 'blah blah blah',
+      amount: 1, sale: 0.85, show: 0.8, size: [9, 10, 11, 12, 13, 14, 15]
+    },
+    {
+      id: 2, collection: 'Rittis', productName: 'Rittis-2',
+      price: 73.95, stone: 'sona', carat: 15, cut: 'NA',
+      img: './../../assets/images/collections/rittis/Rittis-2.jpg',
+      material: 'yellow gold 18k', description: 'blah blah blah',
+      amount: 1, sale: 0.85, show: 0.8, size: [9, 10, 11, 12, 13, 14, 15]
+    },
+    {
+      id: 3, collection: 'Rittis', productName: 'Rittis-3',
+      price: 51.95, stone: 'moissanite', carat: 15, cut: 'NA',
+      img: './../../assets/images/collections/rittis/Rittis-3.jpg',
+      material: 'platinum 14k', description: 'blah blah blah',
+      amount: 1, sale: 0.85, show: 0.8, size: [9, 10, 11, 12, 13, 14, 15]
+    },
+    {
+      id: 4, collection: 'Biafin', productName: 'Biafin-1',
+      price: 23.95, stone: 'zircone', carat: 0, cut: 'NA',
+      img: './../../assets/images/collections/biafin/Biafin-1.jpg',
+      material: 'dipped rose gold', description: 'blah blah blah',
+      amount: 1, sale: 0.85, show: 0.8, size: [9, 10, 11, 12, 13, 14, 15]
+    },
+    {
+      id: 5, collection: 'Biafin', productName: 'Biafin-2',
+      price: 16.95, stone: 'zircone', carat: 0, cut: 'NA',
+      img: './../../assets/images/collections/biafin/Biafin-2.jpg',
+      material: 'dipped black gold', description: 'blah blah blah',
+      amount: 1, sale: 0.85, show: 0.8, size: [9, 10, 11, 12, 13, 14, 15]
+    },
+    {
+      id: 6, collection: 'Biafin', productName: 'Biafin-3',
+      price: 244.95, stone: 'real ruby', carat: 4, cut: 'NA',
+      img: './../../assets/images/collections/biafin/Biafin-3.jpg',
+      material: 'rose gold 18k', description: 'blah blah blah',
+      amount: 1, sale: 0.85, show: 0.8, size: [9, 10, 11, 12, 13, 14, 15]
+    },
+    {
+      id: 7, collection: 'Sultavia', productName: 'Sultavia-1',
+      price: 87.95, stone: 'cr sapphire', carat: 7, cut: 'NA',
+      img: './../../assets/images/collections/sultavia/Sultavia-1.jpg',
+      material: 'silver 15k', description: 'blah blah blah',
+      amount: 1, sale: 0.85, show: 0.8, size: [9, 10, 11, 12, 13, 14, 15]
+    },
+    {
+      id: 8, collection: 'Sultavia', productName: 'Sultavia-2',
+      price: 22.95, stone: 'rainbow zircone', carat: 5, cut: 'NA',
+      img: './../../assets/images/collections/sultavia/Sultavia-2.jpg',
+      material: 'platinum 15k', description: 'blah blah blah',
+      amount: 1, sale: 0.85, show: 0.8, size: [9, 10, 11, 12, 13, 14, 15]
+    },
+    {
+      id: 9, collection: 'Sultavia', productName: 'Sultavia-3',
+      price: 381.95, stone: 'real ruby', carat: 9, cut: 'NA',
+      img: './../../assets/images/collections/sultavia/Sultavia-3.jpg',
+      material: 'yellow gold 18k', description: 'blah blah blah',
+      amount: 1, sale: 0.85, show: 0.8, size: [9, 10, 11, 12, 13, 14, 15]
+    },
+    {
+      id: 10, collection: 'Prestias', productName: 'Prestias-1',
+      price: 95.95, stone: 'sona diamond', carat: 8, cut: 'NA',
+      img: './../../assets/images/collections/prestias/Prestias-1.jpg',
+      material: 'yellow gold 18k', description: 'blah blah blah',
+      amount: 1, sale: 0.85, show: 0.8, size: [9, 10, 11, 12, 13, 14, 15]
+    },
+    {
+      id: 11, collection: 'Prestias', productName: 'Prestias-2',
+      price: 143.95, stone: 'real diamond', carat: 1, cut: 'NA',
+      img: './../../assets/images/collections/prestias/Prestias-2.jpg',
+      material: 'rose gold 18k', description: 'blah blah blah',
+      amount: 1, sale: 0.85, show: 0.8, size: [9, 10, 11, 12, 13, 14, 15]
+    },
+    {
+      id: 12, collection: 'Prestias', productName: 'Prestias-3',
+      price: 18.95, stone: 'cr ruby', carat: 2, cut: 'heart',
+      img: './../../assets/images/collections/prestias/Prestias-3.jpg',
+      material: 'dipped rose gold', description: 'blah blah blah',
+      amount: 1, sale: 0.85, show: 0.8, size: [9, 10, 11, 12, 13, 14, 15]
+    },
+
+
+
+  ];
+
+  constructor() { }
+
+  getProducts() {
+    //call products end-point
+    return this.products;
+  }
+
+
+}
