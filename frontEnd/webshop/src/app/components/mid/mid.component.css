@@ -2,21 +2,24 @@
   width: 70vw;
   min-height: 80vh;
   background-color:white;
-  border:1px solid #dad3d3;
+  border:1px solid #f5f7fa;
   display:flex;
-  justify-content:space-around;
+  justify-content:space-between;
   flex-wrap:wrap;
 }
 
 .productCard{
   display:flex;
   justify-content:center;
-  border:1px solid #dad3d3;
+  border:1px solid #f5f7fa;
   border-radius:5px;  
   margin: 20px;
   padding: 5px;
+  box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.45);
+  -webkit-box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.45);
+  -moz-box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.45);
 }
 
 .catalogThumb{
-  height:40vh;
+  height:35vh;
 }

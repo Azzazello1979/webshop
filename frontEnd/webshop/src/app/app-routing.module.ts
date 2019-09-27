@@ -10,7 +10,8 @@ const routes: Routes = [
   { path: '', redirectTo: 'landingpage', pathMatch: 'full' },
   { path: 'landingpage', component: LandingpageComponent },
   { path: 'dashboard', component: MainComponent, canActivate: [AuthGuard] },
-  { path: 'cart', component: CartComponent, canActivate: [AuthGuard]  }
+  { path: 'cart', component: CartComponent, canActivate: [AuthGuard]  },
+  { path: 'products/:productID', component: ProductDetailComponent [AuthGuard] }
 ];
 
 @NgModule({

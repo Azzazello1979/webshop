@@ -1,5 +1,5 @@
 <div class="mid">
   <div class="productCard" *ngFor="let product of products; index as productID">
-    <img class="catalogThumb" [src]="product.img">
+    <img class="catalogThumb" [src]="product.img" [routerLink]="['/products', productID]">
   </div>
 </div>

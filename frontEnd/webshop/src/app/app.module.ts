@@ -19,6 +19,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { LandingpageComponent } from './components/landingpage/landingpage.component';
 import { ImageSliderComponent } from './components/image-slider/image-slider.component';
 import { CartComponent } from './components/cart/cart.component';
+import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 
 
 
@@ -35,6 +36,7 @@ import { CartComponent } from './components/cart/cart.component';
     LandingpageComponent,
     ImageSliderComponent,
     CartComponent,
+    ProductDetailComponent,
     
   ],
   imports: [
