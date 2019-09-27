@@ -1,3 +1,5 @@
-<div class="mid" *ngIf="hasToken">
-  <p>This is visible only to registered members! That is, if there is a token in local storage.</p>
+<div class="mid">
+  <div class="productCard" *ngFor="let product of products; index as productID">
+    <img class="catalogThumb" [src]="product.img">
+  </div>
 </div>

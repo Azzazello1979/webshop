@@ -1,6 +1,22 @@
 .mid{
   width: 70vw;
-  height: 80vh;
+  min-height: 80vh;
   background-color:white;
-  border:1px solid grey;
+  border:1px solid #dad3d3;
+  display:flex;
+  justify-content:space-around;
+  flex-wrap:wrap;
+}
+
+.productCard{
+  display:flex;
+  justify-content:center;
+  border:1px solid #dad3d3;
+  border-radius:5px;  
+  margin: 20px;
+  padding: 5px;
+}
+
+.catalogThumb{
+  height:40vh;
 }

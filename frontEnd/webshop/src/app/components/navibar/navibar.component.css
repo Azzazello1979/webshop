@@ -4,10 +4,18 @@
   justify-content:space-between;
   align-items:flex-end;
   margin-top:0;
-  margin-bottom:1vh;
+  margin-bottom:2vh;
   width:100vw;
-  height:12vh;
-  background-color: bisque;
-  border:1px solid grey;
+  height:20vh;
+  background-color: white;
+  border:1px solid #dad3d3;
+  border-radius:5px;
+  box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.45);
+  -webkit-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.45);
+  -moz-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.45); 
 
+}
+
+.headerLogo{
+  height: 100%;
 }

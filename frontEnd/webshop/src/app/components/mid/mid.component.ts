@@ -1,5 +1,6 @@
-import { AuthService } from './../../services/auth.service';
+import { CartService } from './../../services/cart.service';
 import { Component, OnInit } from '@angular/core';
+
 
 @Component({
   selector: 'mid',
@@ -8,20 +9,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MidComponent implements OnInit {
 
-  hasToken:boolean = false;
+  products = [];
 
-  constructor(private auth:AuthService) { }
+  constructor(
+    private cartService:CartService
+  ) { }
 
-  checkToken(){
-    this.hasToken = this.auth.hasToken();
+  showProducts(){
+    this.products = this.cartService.getProducts();
   }
+
+
+
+
+
+
 
   ngOnInit() {
-
-    setInterval(() => {
-      this.checkToken()
-    },500)
-    
+    this.showProducts();
   }
-
+  
 }
