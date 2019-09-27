@@ -1,27 +1,36 @@
 .login_logout{
+  width: 15vw;
   display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.registerLoginForm{
+  display:flex;
+  flex-direction:column;
   justify-content:center;
   align-items:center;
-  margin-bottom:5px;
+  width:100%;
+  margin-right:1vw;
 }
 
 .registerLoginInput{
   width:100%;
   outline:none;
+  margin-bottom:5px;
 }
 
-.registerLoginForm{
-  width:10vw;
-  margin-right:1vw;
-}
+
 
 .registerLoginButton{
+  font-size: 1.25vw;
   color:blue;
   background-color: white;
   padding: 3px;
   border-radius: 5px;
   outline: none;
   width:100%;
+  margin-bottom:5px;
 }
 
 .registerLoginButton:active{

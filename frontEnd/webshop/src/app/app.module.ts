@@ -15,7 +15,7 @@ import { LeftComponent } from './components/left/left.component';
 import { RightComponent } from './components/right/right.component';
 import { MidComponent } from './components/mid/mid.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { UserGreetComponent } from './components/user-greet/user-greet.component';
+
 import { LandingpageComponent } from './components/landingpage/landingpage.component';
 import { ImageSliderComponent } from './components/image-slider/image-slider.component';
 import { CartComponent } from './components/cart/cart.component';
@@ -32,7 +32,6 @@ import { CartComponent } from './components/cart/cart.component';
     RightComponent,
     MidComponent,
     FooterComponent,
-    UserGreetComponent,
     LandingpageComponent,
     ImageSliderComponent,
     CartComponent,

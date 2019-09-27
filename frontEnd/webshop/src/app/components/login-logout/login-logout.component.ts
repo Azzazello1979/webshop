@@ -20,6 +20,10 @@ export class LoginLogoutComponent implements OnInit {
     ) { }
 
 
+  wantsToRegister(){
+    this.auth.toggle();
+  }
+
   registerORloginORlogout() {
     if(this.auth.hasToken()){
       this.auth.logout(); // call logout service
