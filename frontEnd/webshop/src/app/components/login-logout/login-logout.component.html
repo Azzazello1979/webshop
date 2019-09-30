@@ -1,13 +1,23 @@
 <div class="login_logout">
+
+
+
+  <form class="registerLoginForm">
+
+    <button class="registerLoginButton" *ngIf="this.auth.loggedIn" [routerLink]="['/menu']">Menu</button>
+
+    <button class="registerLoginButton" *ngIf="this.auth.loggedIn" [routerLink]="['/cart']">Cart</button>
     
-<form class="registerLoginForm">
+    <button class="registerLoginButton" *ngIf="!this.auth.loggedIn" (click)="wantsToRegister()">Not registered?</button>
 
-  <button class="registerLoginButton" *ngIf="!this.auth.loggedIn" (click)="wantsToRegister()">Not registered?</button>
-  <input class="registerLoginInput" *ngIf="!this.auth.loggedIn" [(ngModel)]="userObject.email" type="email" name="email" required autofocus placeholder="email" />
-  <input class="registerLoginInput" *ngIf="!this.auth.loggedIn" [(ngModel)]="userObject.password" type="password" name="password" required placeholder="password" />
+    <input class="registerLoginInput" *ngIf="!this.auth.loggedIn" [(ngModel)]="userObject.email" type="email"
+      name="email" required autofocus placeholder="email" />
+    <input class="registerLoginInput" *ngIf="!this.auth.loggedIn" [(ngModel)]="userObject.password" type="password"
+      name="password" required placeholder="password" />
 
-  
-  <input class="registerLoginButton" type="submit" name="submit" value={{this.auth.buttonText}} (click)="registerORloginORlogout()" />
 
-</form>
+    <input class="registerLoginButton" type="submit" name="submit" value={{this.auth.buttonText}}
+      (click)="registerORloginORlogout()" />
+
+  </form>
 </div>

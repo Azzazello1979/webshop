@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,6 +21,7 @@ import { LandingpageComponent } from './components/landingpage/landingpage.compo
 import { ImageSliderComponent } from './components/image-slider/image-slider.component';
 import { CartComponent } from './components/cart/cart.component';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
+import { MenuComponent } from './components/menu/menu.component';
 
 
 
@@ -37,15 +39,15 @@ import { ProductDetailComponent } from './components/product-detail/product-deta
     ImageSliderComponent,
     CartComponent,
     ProductDetailComponent,
+    MenuComponent,
     
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule
-
-
   ],
   providers: [
     AuthService,

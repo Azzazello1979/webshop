@@ -1,6 +1,7 @@
 .login_logout{
   width: 15vw;
   display:flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -24,6 +25,7 @@
 
 .registerLoginButton{
   font-size: 1.25vw;
+  text-decoration:none;
   color:blue;
   background-color: white;
   padding: 3px;

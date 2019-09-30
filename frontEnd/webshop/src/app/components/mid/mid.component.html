@@ -1,5 +1,12 @@
 <div class="mid">
   <div class="productCard" *ngFor="let product of products; index as productID">
-    <img class="catalogThumb" [src]="product.img" [routerLink]="['/products', productID]">
+    
+    <table>
+      <tr><td><a [routerLink]="['/products', productID]"><img class="catalogThumb" [src]="product.img" ></a></td></tr>
+      <tr><td>{{ product.productName }}</td></tr>
+      <tr><td>{{ product.carat }} carat {{ product.cut }} cut {{ product.stone }} stone {{ product.material }} ring.</td></tr>
+      <tr><td>{{ product.price | currency }}</td></tr>
+    </table>
+
   </div>
 </div>

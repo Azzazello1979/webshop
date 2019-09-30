@@ -2,7 +2,7 @@
 .navibar{
   display:flex;
   justify-content:space-between;
-  align-items:flex-end;
+  align-items:center;
   margin-top:0;
   margin-bottom:2vh;
   width:100vw;
@@ -17,6 +17,7 @@
 }
 
 .headerLogo{
-  height:90%;
-  margin-bottom: 1%;
+  width: 28vw;
 }
+
+/* @media for nicely shringking headerLogo image */
