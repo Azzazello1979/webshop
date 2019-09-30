@@ -1,4 +1,6 @@
 import { AuthService } from './../../services/auth.service';
+import { CartService } from './../../services/cart.service';
+
 import { Component, OnInit } from '@angular/core';
 import { Router} from '@angular/router';
 
@@ -16,6 +18,7 @@ export class LoginLogoutComponent implements OnInit {
 
   constructor(
     private auth: AuthService,
+    private cartService:CartService,
     private router: Router
     ) { }
 
@@ -27,6 +30,7 @@ export class LoginLogoutComponent implements OnInit {
   registerORloginORlogout() {
     if(this.auth.hasToken()){
       this.auth.logout(); // call logout service
+      this.cartService.clearCart(); // empty cart on logout
       this.router.navigate(['/landingpage']);
       
     } else if(this.auth.wantsToRegister === true) { //call register service
