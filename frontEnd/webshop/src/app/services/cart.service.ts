@@ -98,7 +98,7 @@ export class CartService {
 
 
 
-  ];
+  ]; // all products pulled from db
   totalItems = 0; // total number of items in cart
   totalPrice = 0; // total price of rings, no shipping added yet
   allCollections = []; // array of unique collection names

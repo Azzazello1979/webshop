@@ -11,9 +11,12 @@
 .productCard{
   display:flex;
   flex-direction: column;
-  justify-content:center;
+  justify-content:flex-start;
   align-items:center;
-  width: 15vw;
+  width: 240px;
+  height: 330px;
+/*   width: 15vw;
+  max-height: 41vh; */
   border:1px solid #f5f7fa;
   border-radius:5px;  
   margin: 10px;
