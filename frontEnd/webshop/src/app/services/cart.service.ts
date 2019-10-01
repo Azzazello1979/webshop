@@ -107,7 +107,9 @@ export class CartService {
 
 
 
-  constructor() { }
+  constructor() { 
+    this.oneCollection = this.products;
+  }
 
   theClickedCollection(collectionName){
     if(collectionName === 'All collections'){

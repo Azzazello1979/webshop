@@ -25,8 +25,8 @@ export class ProductDetailComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(
       params => {
-        this.product = this.cartService.products[params.get('productID')];
-        //this.product = this.cartService.products[+params.get('productID')];
+        this.product = this.cartService.oneCollection[params.get('productID')];
+        //this.product = this.cartService.products[+params.get('productID')]; ( + is used to convert a string into a number )
       },
       err => {
         console.log(err);
