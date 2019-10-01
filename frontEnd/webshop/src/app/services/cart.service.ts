@@ -101,9 +101,32 @@ export class CartService {
   ];
   totalItems = 0; // total number of items in cart
   totalPrice = 0; // total price of rings, no shipping added yet
+  allCollections = []; // array of unique collection names
+  clickedCollection = '';
+  oneCollection = []; // the clickedCollection's objects
+
 
 
   constructor() { }
+
+  theClickedCollection(collectionName){
+    this.clickedCollection = collectionName;
+    //console.log(this.clickedCollection);
+    let result = [];
+    result = this.products.filter(e => e.collection === collectionName);
+    this.oneCollection = result;
+    console.log(this.oneCollection);
+  }
+
+  getAllCollections(){
+    let result = [];
+    for(let i=0 ; i<this.products.length ; i++){
+      if(!result.includes(this.products[i].collection))
+      result.push(this.products[i].collection)
+    }
+    this.allCollections = result;
+    //console.log(this.allCollections);
+  }
 
   getProducts() {
     //call products end-point (get available rings for sale)
@@ -117,7 +140,7 @@ export class CartService {
         this.products[i].totalPrice = this.products[i].totalPrice + this.products[i].price;
         this.totalItems++;
         this.totalPrice = this.totalPrice + this.products[i].price;
-        window.alert('Item added to cart!');
+        //window.alert('Item added to cart!');
         return;
       }
     }

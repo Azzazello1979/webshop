@@ -1,12 +1,28 @@
 <div class="mid">
-  <div class="productCard" *ngFor="let product of products; index as productID">
-    
+
+
+<div *ngIf="this.cartService.oneCollection.length === 0">
+  <div class="productCard" *ngFor="let product of this.cartService.products; index as productID">
     <table>
       <tr><td><a [routerLink]="['/products', productID]"><img class="catalogThumb" [src]="product.img" ></a></td></tr>
       <tr><td>{{ product.productName }}</td></tr>
       <tr><td>{{ product.carat }} carat {{ product.cut }} cut {{ product.stone }} stone {{ product.material }} ring.</td></tr>
       <tr><td>{{ product.price | currency }}</td></tr>
     </table>
-
   </div>
+</div>
+
+
+<div *ngIf="this.cartService.oneCollection.length > 0">
+  <div class="productCard" *ngFor="let product of this.cartService.oneCollection; index as productID">
+    <table>
+      <tr><td><a [routerLink]="['/products', productID]"><img class="catalogThumb" [src]="product.img" ></a></td></tr>
+      <tr><td>{{ product.productName }}</td></tr>
+      <tr><td>{{ product.carat }} carat {{ product.cut }} cut {{ product.stone }} stone {{ product.material }} ring.</td></tr>
+      <tr><td>{{ product.price | currency }}</td></tr>
+    </table>
+  </div>
+</div>
+
+
 </div>

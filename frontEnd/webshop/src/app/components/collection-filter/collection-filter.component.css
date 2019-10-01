@@ -1,0 +1,26 @@
+.collectionFilter{
+  display:flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.collectionButton{
+  width: 100%;
+  font-size: 1.25vw;
+  text-decoration:none;
+  color:blue;
+  background-color: white;
+  padding: 3px;
+  border-radius: 5px;
+  outline: none;
+  margin-bottom:5px;
+}
+
+.collectionButton:active{
+  background-color: #e4e7ed;
+}
+
+h3{
+  font-size: 1.5vw;
+  color: #a28625;
+}

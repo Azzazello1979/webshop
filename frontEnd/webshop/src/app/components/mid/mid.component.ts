@@ -9,15 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MidComponent implements OnInit {
 
-  products = [];
+
+  
 
   constructor(
     private cartService:CartService
   ) { }
 
-  showProducts(){
-    this.products = this.cartService.getProducts();
-  }
+
+
+
 
 
 
@@ -26,7 +27,7 @@ export class MidComponent implements OnInit {
 
 
   ngOnInit() {
-    this.showProducts();
+    this.cartService.getAllCollections();
   }
   
 }

@@ -22,6 +22,7 @@ import { ImageSliderComponent } from './components/image-slider/image-slider.com
 import { CartComponent } from './components/cart/cart.component';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { MenuComponent } from './components/menu/menu.component';
+import { CollectionFilterComponent } from './components/collection-filter/collection-filter.component';
 
 
 
@@ -40,6 +41,7 @@ import { MenuComponent } from './components/menu/menu.component';
     CartComponent,
     ProductDetailComponent,
     MenuComponent,
+    CollectionFilterComponent,
     
   ],
   imports: [
