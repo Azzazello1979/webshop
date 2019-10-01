@@ -1,0 +1,32 @@
+.productCard{
+  width: 40vw;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  border:1px solid #f5f7fa;
+  border-radius:5px;  
+  margin: 10px;
+  padding: 10px;
+  box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.45);
+  -webkit-box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.45);
+  -moz-box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.45);
+}
+
+.addToCart{
+  font-size: 1.25vw;
+  text-decoration:none;
+  color:#785919;
+  background-color: white;
+  padding: 3px;
+  border-radius: 5px;
+  outline: none;
+  width:50%;
+  margin-top:10px;
+  margin-bottom:5px;
+}
+
+.mainImage{
+  width:100%;
+  margin-bottom:10px;
+}
