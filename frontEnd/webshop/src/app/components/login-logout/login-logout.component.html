@@ -6,7 +6,7 @@
 
     <button class="registerLoginButton" *ngIf="this.auth.loggedIn" [routerLink]="['/menu']">Menu</button>
 
-    <button class="registerLoginButton" *ngIf="this.auth.loggedIn" [routerLink]="['/cart']">Cart</button>
+    <button class="registerLoginButton" *ngIf="this.auth.loggedIn" [routerLink]="['/cart']" [style.backgroundColor]="this.cartService.totalItems > 0 ? '#ffd47d' : 'white' " >Cart</button>
     
     <button class="registerLoginButton" *ngIf="!this.auth.loggedIn" (click)="wantsToRegister()">Not registered?</button>
 
