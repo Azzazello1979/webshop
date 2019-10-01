@@ -110,6 +110,9 @@ export class CartService {
   constructor() { }
 
   theClickedCollection(collectionName){
+    if(collectionName === 'All collections'){
+      return this.oneCollection = this.products;
+    }
     this.clickedCollection = collectionName;
     //console.log(this.clickedCollection);
     let result = [];
@@ -124,6 +127,7 @@ export class CartService {
       if(!result.includes(this.products[i].collection))
       result.push(this.products[i].collection)
     }
+    result.unshift('All collections');
     this.allCollections = result;
     //console.log(this.allCollections);
   }
