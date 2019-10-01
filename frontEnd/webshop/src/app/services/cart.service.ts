@@ -102,7 +102,7 @@ export class CartService {
   totalItems = 0; // total number of items in cart
   totalPrice = 0; // total price of rings, no shipping added yet
   allCollections = []; // array of unique collection names
-  clickedCollection = '';
+  clickedCollection = ''; // name of currently clicked collection
   oneCollection = []; // the clickedCollection's objects
 
 
