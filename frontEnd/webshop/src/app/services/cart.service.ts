@@ -104,6 +104,32 @@ export class CartService {
   allCollections = []; // array of unique collection names
   clickedCollection = ''; // name of currently clicked collection
   oneCollection = []; // the clickedCollection's objects
+  shippingAddress = {
+    Name: '',
+    Country: '',
+    County: '',
+    City: '',
+    ZIP: 1234,
+    POBox: 1234,
+    Address1: '',
+    Address2: ''
+  };
+  billingAddress = {
+    Name: '',
+    Country: '',
+    County: '',
+    City: '',
+    ZIP: 1234,
+    POBox: 1234,
+    Address1: '',
+    Address2: ''
+  };
+  shippingOptions = [
+    { name: 'free', cost: 0, minDays: 30, maxDays: 50 },
+    { name: 'ePacket', cost: 10, minDays: 7, maxDays: 14 }
+  ]; // get this arr from db
+  selectedShippingOption = { name: 'free', cost: 0, minDays: 30, maxDays: 50 };
+  billingAddressIsDifferentFromShippingAddress = false;
 
 
 

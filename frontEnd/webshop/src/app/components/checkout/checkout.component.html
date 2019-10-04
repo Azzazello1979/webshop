@@ -1,6 +1,65 @@
 <h3>Your Order details:</h3>
-<div class="theOrder">
+<div class="theOrder" *ngFor="let item of theOrder">
   <table>
-    <tr><td></td></tr>
+    <tr>
+      <td>{{ item.productName }}</td>
+      <td>{{ item.totalAmount}} pcs</td>
+      <td>{{ item.totalPrice }}</td>
+    </tr>
   </table>
 </div>
+
+<hr>
+
+<div class="summary">
+    <table>
+      <th>Totals:</th>
+      <tr><td>Total net price of items (no shipping): {{ this.cartService.totalPrice }} </td></tr>
+      <tr><td>Chosen shipping method: {{ this.cartService.selectedShippingOption }} </td></tr>
+      <tr><td>Total gross price of items (with shipping): {{ this.cartService.totalPrice + this.cartService.selectedShippingOption.cost }} </td></tr>
+    </table>
+</div>
+
+<hr>
+
+<div class="shippingAddress">
+  <table>
+    <th>Shipping Address:</th>
+    <tr><td>Name: </td></tr>
+    <tr><td>Country: </td></tr>
+    <tr><td>County: </td></tr>
+    <tr><td>City: </td></tr>
+    <tr><td>ZIP code: </td></tr>
+    <tr><td>POBox: </td></tr>
+    <tr><td>Address 1: </td></tr>
+    <tr><td>Address 2: </td></tr>
+  </table>
+</div>
+
+<hr>
+
+<div class="billingAddress" ngIf="billingAddressIsDifferentFromShippingAddress">
+  <table>
+    <th>Billing Address:</th>
+    <tr><td>Name: </td></tr>
+    <tr><td>Country: </td></tr>
+    <tr><td>County: </td></tr>
+    <tr><td>City: </td></tr>
+    <tr><td>ZIP code: </td></tr>
+    <tr><td>PO Box: </td></tr>
+    <tr><td>Address 1: </td></tr>
+    <tr><td>Address 2: </td></tr>
+  </table>
+</div>
+
+<hr>
+
+<div class="extraInfo">
+</div>
+
+<hr>
+
+<button class="proceedToPay" (click)="proceedToPay()">Proceed to pay</button>
+
+
+

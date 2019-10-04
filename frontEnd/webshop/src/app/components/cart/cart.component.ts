@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
 export class CartComponent {
 
 
+
   constructor(
     private cartService: CartService,
     private router:Router
@@ -31,6 +32,18 @@ export class CartComponent {
 
   clearCart(){
     this.cartService.clearCart();
+  }
+
+  captureBillingAddress(){
+
+  }
+
+  captureShippingAddress(){
+
+  }
+
+  captureShippingOption(){
+    
   }
 
 
