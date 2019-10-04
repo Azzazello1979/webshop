@@ -37,6 +37,10 @@ export class LoginLogoutComponent implements OnDestroy {
       this.router.navigate(['/landingpage']);
       
     } else if(this.auth.wantsToRegister === true) { //call register service
+      if(this.userObject.email === undefined || this.userObject.password === undefined || typeof this.userObject.email !== 'string' ){
+        console.log(' username and password is needed ');
+        return window.alert(' username and password is needed ');
+      }
       this.registerSubscription = this.auth.register(this.userObject)
         .subscribe(
           (endPointResponseObj) => {
@@ -49,6 +53,10 @@ export class LoginLogoutComponent implements OnDestroy {
         );
         
     } else if(this.auth.wantsToRegister === false){ //call login service
+    if(this.userObject.email === undefined || this.userObject.password === undefined || typeof this.userObject.email !== 'string' ){
+        console.log(' username and password is needed ');
+        return window.alert(' username and password is needed ');
+      }
       this.loginSubscription = this.auth.logIn(this.userObject)
       .subscribe(
         (endPointResponseObj) => {
