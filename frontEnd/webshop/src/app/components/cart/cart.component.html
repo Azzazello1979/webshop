@@ -15,6 +15,22 @@
 
 <p>Items total price ( without shipping ): {{ this.cartService.totalPrice | currency }}</p>
 
+<p>Check shipping options:</p>
+
+<div>
+  <table>
+    <tr *ngFor="let option of this.cartService.shippingOptions">
+      <td></td>
+      <td>{{ option.name }}</td>
+      <td>{{ option.cost | currency }}</td>
+      <td>Delivery time is between {{ option.minDays }} and {{ option.maxDays }}. </td>
+    </tr>
+  </table>
+</div>
+
+<p>Select a shipping option:</p>
+
+
 <button *ngIf="this.cartService.getCartProducts() !== []" class="MYbutton" (click)="proceedToCheckout()">Proceed to Checkout</button>
 <br>
 

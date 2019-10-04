@@ -25,7 +25,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   proceedToPay(){
-
+    
   }
 
   ngOnInit() {

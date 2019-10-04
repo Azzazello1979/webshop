@@ -4,7 +4,7 @@
     <tr>
       <td>{{ item.productName }}</td>
       <td>{{ item.totalAmount}} pcs</td>
-      <td>{{ item.totalPrice }}</td>
+      <td>{{ item.totalPrice | currency }}</td>
     </tr>
   </table>
 </div>
@@ -14,9 +14,9 @@
 <div class="summary">
     <table>
       <th>Totals:</th>
-      <tr><td>Total net price of items (no shipping): {{ this.cartService.totalPrice }} </td></tr>
+      <tr><td>Total net price of items (no shipping): {{ this.cartService.totalPrice | currency }} </td></tr>
       <tr><td>Chosen shipping method: {{ this.cartService.selectedShippingOption }} </td></tr>
-      <tr><td>Total gross price of items (with shipping): {{ this.cartService.totalPrice + this.cartService.selectedShippingOption.cost }} </td></tr>
+      <tr><td>Total gross price of items (with shipping): {{ this.cartService.totalPrice + this.cartService.selectedShippingOption.cost | currency }} </td></tr>
     </table>
 </div>
 

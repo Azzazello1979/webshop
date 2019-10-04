@@ -98,7 +98,8 @@ export class CartService {
 
 
 
-  ]; // all products pulled from db
+  ]; // ALL products pulled from db
+  cartProducts = []; // products in the cart 
   totalItems = 0; // total number of items in cart
   totalPrice = 0; // total price of rings, no shipping added yet
   allCollections = []; // array of unique collection names
@@ -124,7 +125,7 @@ export class CartService {
     Address1: '',
     Address2: ''
   };
-  shippingOptions = [
+  shippingOptions = [ // to be initialized by cart component
     { name: 'free', cost: 0, minDays: 30, maxDays: 50 },
     { name: 'ePacket', cost: 10, minDays: 7, maxDays: 14 }
   ]; // get this arr from db
@@ -171,7 +172,7 @@ export class CartService {
     result = this.products.filter(e => {
       e.amount > 0
     });
-    return result;
+    return this.cartProducts = result;
   }
 
   addItem(product) { // product identified by productName, unique
