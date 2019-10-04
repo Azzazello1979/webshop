@@ -127,7 +127,9 @@ export class CartService {
   };
   shippingOptions = [ // to be initialized by cart component
     { name: 'free', cost: 0, minDays: 30, maxDays: 50 },
-    { name: 'ePacket', cost: 10, minDays: 7, maxDays: 14 }
+    { name: 'ePacket', cost: 10, minDays: 7, maxDays: 14 },
+    { name: 'FedEx', cost: 22, minDays: 5, maxDays: 12 },
+    { name: 'DHL', cost: 29, minDays: 3, maxDays: 9 }
   ]; // get this arr from db
   selectedShippingOption = { name: 'free', cost: 0, minDays: 30, maxDays: 50 };
   billingAddressIsDifferentFromShippingAddress = false;
@@ -168,11 +170,8 @@ export class CartService {
 
   getCartProducts(){
     // get products added to the cart
-    let result = [];
-    result = this.products.filter(e => {
-      e.amount > 0
-    });
-    return this.cartProducts = result;
+    this.cartProducts = this.products.filter(e => e.amount > 0);
+    //console.log(this.cartProducts.length);
   }
 
   addItem(product) { // product identified by productName, unique
@@ -182,7 +181,7 @@ export class CartService {
         this.products[i].totalPrice = this.products[i].totalPrice + this.products[i].price;
         this.totalItems++;
         this.totalPrice = this.totalPrice + this.products[i].price;
-        //window.alert('Item added to cart!');
+        this.getCartProducts(); // update cartProducts
         return;
       }
     }
@@ -195,6 +194,7 @@ export class CartService {
         this.products[i].totalPrice = this.products[i].totalPrice + this.products[i].price;
         this.totalItems++;
         this.totalPrice = this.totalPrice + this.products[i].price;
+        this.getCartProducts(); // update cartProducts
       }
     }
   }
@@ -209,6 +209,7 @@ export class CartService {
         this.products[i].totalPrice = this.products[i].totalPrice - this.products[i].price;
         this.totalItems--;
         this.totalPrice = this.totalPrice - this.products[i].price;
+        this.getCartProducts(); // update cartProducts
       }
     }
   }
@@ -219,6 +220,7 @@ export class CartService {
     });
     this.totalItems = 0;
     this.totalPrice = 0;
+    this.getCartProducts(); // update cartProducts
   }
 
 

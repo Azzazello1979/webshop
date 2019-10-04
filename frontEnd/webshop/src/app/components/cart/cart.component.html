@@ -23,17 +23,19 @@
       <td></td>
       <td>{{ option.name }}</td>
       <td>{{ option.cost | currency }}</td>
-      <td>Delivery time is between {{ option.minDays }} and {{ option.maxDays }}. </td>
+      <td>Delivery time is between {{ option.minDays }} and {{ option.maxDays }} days. </td>
     </tr>
   </table>
 </div>
 
 <p>Select a shipping option:</p>
 
+<table>
+  <tr>
+    <td><button *ngIf="this.cartService.totalItems > 0" class="MYbutton" (click)="clearCart()">Clear Cart</button></td>
+    <td><button *ngIf="this.cartService.totalItems > 0" class="MYbutton" (click)="proceedToCheckout()">Proceed to Checkout</button></td>
+  </tr>
+</table>
 
-<button *ngIf="this.cartService.getCartProducts() !== []" class="MYbutton" (click)="proceedToCheckout()">Proceed to Checkout</button>
-<br>
-
-<button *ngIf="this.cartService.getCartProducts() !== []" class="MYbutton" (click)="clearCart()">Clear Cart</button>
 
 </div>

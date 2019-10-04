@@ -1,6 +1,8 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { CartService } from './../../services/cart.service';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+
 
 
 @Component({
@@ -8,9 +10,9 @@ import { Component } from '@angular/core';
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css']
 })
-export class CartComponent {
+export class CartComponent implements OnInit {
 
-
+  cartProducts = [];
 
   constructor(
     private cartService: CartService,
@@ -43,13 +45,13 @@ export class CartComponent {
   }
 
   captureShippingOption(){
-    
+
   }
 
 
-
-
-
+  ngOnInit(){
+    
+  }
 
 
 }
