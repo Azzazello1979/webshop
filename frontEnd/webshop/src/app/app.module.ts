@@ -23,6 +23,8 @@ import { CartComponent } from './components/cart/cart.component';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { CollectionFilterComponent } from './components/collection-filter/collection-filter.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
+
 
 
 
@@ -42,6 +44,8 @@ import { CollectionFilterComponent } from './components/collection-filter/collec
     ProductDetailComponent,
     MenuComponent,
     CollectionFilterComponent,
+    CheckoutComponent,
+    
     
   ],
   imports: [

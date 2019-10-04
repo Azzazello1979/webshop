@@ -15,13 +15,9 @@
 
 <p>Items total price ( without shipping ): {{ this.cartService.totalPrice | currency }}</p>
 
-<form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
-  <input type="text" formControllerName="username" placeholder="username"><br>
-  <input type="text" formControllerName="useraddress" placeholder="address"><br>
-  <button class="MYbutton" type="submit">Purchase</button>
-</form>
+<button *ngIf="this.cartService.getCartProducts() !== []" class="MYbutton" (click)="proceedToCheckout()">Proceed to Checkout</button>
 <br>
 
-<button class="MYbutton" (click)="this.cartService.clearCart()">Clear Cart</button>
+<button *ngIf="this.cartService.getCartProducts() !== []" class="MYbutton" (click)="clearCart()">Clear Cart</button>
 
 </div>

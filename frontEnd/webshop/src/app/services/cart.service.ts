@@ -139,6 +139,15 @@ export class CartService {
     return this.products;
   }
 
+  getCartProducts(){
+    // get products added to the cart
+    let result = [];
+    result = this.products.filter(e => {
+      e.amount > 0
+    });
+    return result;
+  }
+
   addItem(product) { // product identified by productName, unique
     for (let i = 0; i < this.products.length; i++) {
       if (this.products.length > 0 && this.products[i].productName === product.productName) {
