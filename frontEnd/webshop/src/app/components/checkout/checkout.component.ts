@@ -1,4 +1,4 @@
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { CartService } from './../../services/cart.service';
 import { Component, OnInit } from '@angular/core';
@@ -12,24 +12,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CheckoutComponent implements OnInit {
   
-  theOrder = [];
 
   constructor(
     private cartService:CartService,
-    private auth:AuthService
+    private auth:AuthService,
+    private router:Router
   ) { }
 
-  fillTheOrder(){
-    this.theOrder = this.cartService.getCartProducts();
-    console.table(this.theOrder);
-  }
+
 
   proceedToPay(){
-    
+    console.log('later...')
   }
 
   ngOnInit() {
-    this.fillTheOrder();
+    
   }
 
 }

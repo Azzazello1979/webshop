@@ -1,4 +1,4 @@
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { CartService } from './../../services/cart.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -16,7 +16,7 @@ export class CartComponent implements OnInit {
 
   constructor(
     private cartService: CartService,
-    private router:Router
+    private router: Router
   ) {}
 
 
@@ -37,20 +37,20 @@ export class CartComponent implements OnInit {
   }
 
   captureBillingAddress(){
-
+    console.log('later...')
   }
 
   captureShippingAddress(){
-
+    console.log('later...')
   }
 
   captureShippingOption(){
-
+    console.log('later...')
   }
 
 
   ngOnInit(){
-    
+
   }
 
 
