@@ -7,6 +7,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
+
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavibarComponent } from './components/navibar/navibar.component';
@@ -24,6 +26,9 @@ import { ProductDetailComponent } from './components/product-detail/product-deta
 import { MenuComponent } from './components/menu/menu.component';
 import { CollectionFilterComponent } from './components/collection-filter/collection-filter.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
+import { AddressComponent } from './components/address/address.component';
+import { PaymentComponent } from './components/payment/payment.component';
+import { SuccessComponent } from './components/success/success.component';
 
 
 
@@ -45,6 +50,9 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
     MenuComponent,
     CollectionFilterComponent,
     CheckoutComponent,
+    AddressComponent,
+    PaymentComponent,
+    SuccessComponent,
     
     
   ],
@@ -53,7 +61,8 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+
   ],
   providers: [
     AuthService,
