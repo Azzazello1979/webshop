@@ -1,21 +1,19 @@
 <div class="wrapper">
 
-  <h3>Your Order details:</h3>
-  <div class="theOrder" *ngFor="let product of this.cartService.cartProducts">
-    <table>
-      <tr>
-        <td>{{ product.productName }}</td>
-        <td>{{ product.amount}} pcs</td>
-        <td>{{ product.totalPrice | currency }}</td>
+  <h2>Your Order details:</h2>
+  <div class="theOrder" >
+    <table class="orderTable">
+      <tr *ngFor="let product of this.cartService.cartProducts">
+        <td>{{ product.productName }} {{ product.amount}} pcs {{ product.totalPrice | currency }}</td>
       </tr>
     </table>
   </div>
 
-  <hr>
+  
 
   <div class="summary">
     <table>
-      <th>Totals:</th>
+      <h3>Totals:</h3>
       <tr>
         <td>Total net price of items (no shipping): {{ this.cartService.totalPrice | currency }} </td>
       </tr>
@@ -29,11 +27,11 @@
     </table>
   </div>
 
-  <hr>
+  
 
   <div class="shippingAddress">
     <table>
-      <th>Shipping Address:</th>
+      <h3>Shipping Address:</h3>
       <tr>
         <td>Name: </td>
       </tr>
@@ -61,11 +59,11 @@
     </table>
   </div>
 
-  <hr>
+  
 
   <div class="billingAddress" *ngIf="billingAddressIsDifferentFromShippingAddress">
     <table>
-      <th>Billing Address:</th>
+      <h3>Billing Address:</h3>
       <tr>
         <td>Name: </td>
       </tr>
@@ -93,12 +91,12 @@
     </table>
   </div>
 
-  <hr>
+  
 
   <div class="extraInfo">
   </div>
 
-  <hr>
+  
 
   <button class="proceedToPay" (click)="proceedToPay()">Proceed to pay</button>
 

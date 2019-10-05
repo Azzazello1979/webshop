@@ -1,0 +1,24 @@
+.wrapper, .theOrder, .summary, .shippingAddress, .billingAddress{
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    margin:10px;
+    padding:10px;
+    background-color: white;
+    border:1px solid #f5f7fa;
+    border-radius:5px;
+    box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.45);
+    -webkit-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.45);
+    -moz-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.45);
+}
+
+.proceedToPay{
+    width: 33%;
+    margin-left:33%;
+    margin-right:33%;
+}
+
+
+
+
+
