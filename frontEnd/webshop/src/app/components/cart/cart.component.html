@@ -1,6 +1,7 @@
 <div class="cartWrapper">
 
   <p>Total items in cart: {{ this.cartService.totalItems }}</p>
+  <hr>
 
   <div class="cartProduct" *ngFor="let product of this.cartService.products">
     <table class="productTable" *ngIf="product.amount > 0">
@@ -13,9 +14,11 @@
     </table>
   </div>
 
+  <hr>
   <p>Items total price ( without shipping ): {{ this.cartService.totalPrice | currency }}</p>
 
-  <p>Check shipping options:</p>
+  <hr>
+  <p>Select a shipping option:</p>
 
 
   <div>
@@ -23,7 +26,7 @@
 
       <div *ngFor="let option of this.cartService.shippingOptions">
         <input type="radio" formControlName="shipping" name="shipping" value="{{option.name}}" id="{{option.name}}">
-        <label for="{{option.name}}">{{option.name}}</label>
+        <label for="{{option.name}}">{{option.name}} {{option.cost | currency}} Delivery time is between {{option.minDays}} and {{option.maxDays}} days.</label>
       </div>
 
       <div *ngIf="isSubmitted && myForm.invalid">
@@ -36,19 +39,10 @@
   </div>
 
 
-  <!-- <div>
-  <table>
-    <tr *ngFor="let option of this.cartService.shippingOptions">
-      <td></td>
-      <td>{{ option.name }}</td>
-      <td>{{ option.cost | currency }}</td>
-      <td>Delivery time is between {{ option.minDays }} and {{ option.maxDays }} days. </td>
-    </tr>
-  </table>
-</div> -->
+  <p>Items total price ( with shipping ): {{ this.cartService.totalPrice + this.cartService.selectedShippingOption.cost | currency }}</p>
 
-  <p>Select a shipping option:</p>
-
+  
+  <hr>
   <table>
     <tr>
       <td><button *ngIf="this.cartService.totalItems > 0" class="MYbutton" (click)="clearCart()">Clear Cart</button>

@@ -18,6 +18,7 @@ export class CartComponent implements OnInit {
   shippingOptionsForm = this.fb.group({
     shipping: ['shipping', [Validators.required]]
   });
+  
 
 
   constructor(
@@ -42,9 +43,11 @@ export class CartComponent implements OnInit {
     if(!this.shippingOptionsForm.valid){
       return false;
     }else{
-      this.cartService.selectedShippingOptionName = this.shippingOptionsForm.value.shipping;
-      console.log(this.cartService.selectedShippingOptionName);
-      alert(JSON.stringify(this.shippingOptionsForm.value)); // this.shippingOptionsForm.value is an object
+      
+      window.alert('Your selected shipping method: ' + this.shippingOptionsForm.value.shipping); // this.shippingOptionsForm.value is an object
+      this.cartService.setSelectedShippingOption(this.shippingOptionsForm.value.shipping);
+
+
     }
   }
 

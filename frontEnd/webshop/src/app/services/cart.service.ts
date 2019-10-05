@@ -122,21 +122,33 @@ export class CartService {
     Address1: '',
     Address2: ''
   };
-  shippingOptions = [ // to be initialized by cart component
+  shippingOptions:any = [ 
     { name: 'free', cost: 0, minDays: 30, maxDays: 50 },
     { name: 'ePacket', cost: 10, minDays: 7, maxDays: 14 },
     { name: 'FedEx', cost: 22, minDays: 5, maxDays: 12 },
     { name: 'DHL', cost: 29, minDays: 3, maxDays: 9 }
   ]; // get this arr from db
   selectedShippingOption = { name: 'free', cost: 0, minDays: 30, maxDays: 50 };
-  selectedShippingOptionName = 'free';
   billingAddressIsDifferentFromShippingAddress = false;
+  
 
 
 
   constructor() { 
     this.oneCollection = this.products;
   }
+
+
+  setSelectedShippingOption(chosenShippingName){
+  
+    for(let i=0 ; i<this.shippingOptions.length ; i++){
+      if(chosenShippingName === this.shippingOptions[i].name){
+        this.selectedShippingOption = this.shippingOptions[i]
+      }
+    }
+
+  }
+
 
   theClickedCollection(collectionName){
     if(collectionName === 'All collections'){
