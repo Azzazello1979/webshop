@@ -129,6 +129,7 @@ export class CartService {
     { name: 'DHL', cost: 29, minDays: 3, maxDays: 9 }
   ]; // get this arr from db
   selectedShippingOption = { name: 'free', cost: 0, minDays: 30, maxDays: 50 };
+  selectedShippingOptionName = 'free';
   billingAddressIsDifferentFromShippingAddress = false;
 
 

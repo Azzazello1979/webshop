@@ -3,9 +3,9 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
 import { AuthService } from './services/auth.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+
 
 
 
@@ -30,6 +30,8 @@ import { AddressComponent } from './components/address/address.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { SuccessComponent } from './components/success/success.component';
 
+
+ 
 
 
 
@@ -62,6 +64,9 @@ import { SuccessComponent } from './components/success/success.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+
+    
+
 
   ],
   providers: [
