@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { environment } from './../../environments/environment';
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -11,30 +10,30 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
 
-  loggedIn:boolean = false;
-  wantsToRegister:boolean = false;
-  buttonText:string = 'Login';
-  
-  
+  loggedIn: boolean = false;
+  wantsToRegister: boolean = false;
+  buttonText: string = 'Login';
+
+
 
   constructor(
-    private http:HttpClient,
-    private router:Router
-    ) { }
+    private http: HttpClient,
+    private router: Router
+  ) { }
 
-  toggle(){
+  toggle() {
     this.wantsToRegister = !this.wantsToRegister;
-    if(this.wantsToRegister === true){
+    if (this.wantsToRegister === true) {
       this.buttonText = 'Register';
-    } else if(this.wantsToRegister === false){
+    } else if (this.wantsToRegister === false) {
       this.buttonText = 'Login';
-    } else if(this.loggedIn === true){
+    } else if (this.loggedIn === true) {
       this.buttonText = 'Logout';
     }
   }
 
-  hasToken(){
-    if(localStorage.getItem('token')){
+  hasToken() {
+    if (localStorage.getItem('token')) {
       return true;
     } else {
       return false;
@@ -42,26 +41,22 @@ export class AuthService {
   }
 
 
-  getToken(){
+  getToken() {
     return localStorage.getItem('token')
   }
 
 
-  register(userObject){
-    this.loggedIn = true;
-    this.buttonText = 'Logout';
+  register(userObject) {
     return this.http.post<any>(`${environment.backURL}/register`, userObject);
   }
 
 
-  logIn(userObject){
-    this.loggedIn = true;
-    this.buttonText = 'Logout';
+  logIn(userObject) {
     return this.http.post<any>(`${environment.backURL}/login`, userObject);
   }
 
 
-  logout(){
+  logout() {
     localStorage.removeItem('token');
     this.wantsToRegister = false;
     this.loggedIn = false;

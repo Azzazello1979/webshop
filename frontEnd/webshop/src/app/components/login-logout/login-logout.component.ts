@@ -2,8 +2,11 @@ import { AuthService } from './../../services/auth.service';
 import { CartService } from './../../services/cart.service';
 
 import { Component, OnDestroy } from '@angular/core';
-import { Router} from '@angular/router';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+
+
+
 
 
 @Component({
@@ -13,68 +16,89 @@ import { Subscription } from 'rxjs';
 })
 export class LoginLogoutComponent implements OnDestroy {
 
-  buttonText: string = 'Login'; //initial value
+  
   userObject: any = {};
-  registerSubscription:Subscription = new Subscription();
-  loginSubscription:Subscription = new Subscription();
+  registerSubscription: Subscription = new Subscription();
+  loginSubscription: Subscription = new Subscription();
 
 
   constructor(
     private auth: AuthService,
-    private cartService:CartService,
+    private cartService: CartService,
     private router: Router
-    ) { }
+  ) { }
 
 
-  wantsToRegister(){
+  wantsToRegister() {
     this.auth.toggle();
   }
 
-  userIntent() { // register? login? logout?
-    if(this.auth.hasToken()){
+
+  // register? login? logout?
+  userIntent() { 
+    if (this.auth.hasToken()) {
       this.auth.logout(); // call logout service
       this.cartService.clearCart(); // empty cart on logout
       this.router.navigate(['/landingpage']);
-      
-    } else if(this.auth.wantsToRegister === true) { //call register service
-      if(this.userObject.email === undefined || this.userObject.password === undefined || typeof this.userObject.email !== 'string' ){
+
+
+  //call register service    
+    } else if (this.auth.wantsToRegister === true) { 
+      if (this.userObject.email === undefined || this.userObject.password === undefined || typeof this.userObject.email !== 'string') {
         console.log(' email and password is needed ');
         return window.alert(' email and password is needed ');
       }
       this.registerSubscription = this.auth.register(this.userObject)
         .subscribe(
           (endPointResponseObj) => {
-          localStorage.setItem('token', endPointResponseObj.token);
-          this.router.navigate(['/dashboard']);
-        },
+            localStorage.setItem('token', endPointResponseObj.token);
+            this.auth.loggedIn = true;
+            this.auth.buttonText = 'Logout';
+            this.router.navigate(['/dashboard']);
+          },
           (error) => {
+            console.log('error @ login-logout.component.ts register service observer: ');
             console.log(error);
+            this.auth.loggedIn = false;
+            this.auth.buttonText = 'Login';
+            window.alert('That email is taken, please choose a different one!');
+            return this.router.navigate(['/landingpage']);
           }
         );
-        
-    } else if(this.auth.wantsToRegister === false){ //call login service
-    if(this.userObject.email === undefined || this.userObject.password === undefined || typeof this.userObject.email !== 'string' ){
+
+
+  //call login service
+    } else if (this.auth.wantsToRegister === false) { 
+      if (this.userObject.email === undefined || this.userObject.password === undefined || typeof this.userObject.email !== 'string') {
         console.log(' email and password is needed ');
         return window.alert(' email and password is needed ');
       }
       this.loginSubscription = this.auth.logIn(this.userObject)
-      .subscribe(
-        (endPointResponseObj) => {
-        localStorage.setItem('token', endPointResponseObj.token);
-        this.router.navigate(['/dashboard']);
-      },
-        (error) => {
-          console.log(error);
-        }
-      );
+        .subscribe(
+          (endPointResponseObj) => {
+            localStorage.setItem('token', endPointResponseObj.token);
+            this.auth.loggedIn = true;
+            this.auth.buttonText = 'Logout';
+            this.router.navigate(['/dashboard']);
+          },
+          (error) => {
+            console.log('error @ login-logout.component.ts login service observer: ');
+            console.log(error);
+            this.auth.loggedIn = false;
+            this.auth.buttonText = 'Login';
+            window.alert('The supplied email or password is wrong!');
+            return this.router.navigate(['/landingpage']);
+          }
+        );
     }
 
     this.userObject = {};
   }
 
+
   // prevent mem. leaks, without this, component is destroyed on navigating away but the
   // observable<-->observer lives on ... ---> use async pipe !!! 
-  ngOnDestroy(){  
+  ngOnDestroy() {
     this.registerSubscription.unsubscribe();
     this.loginSubscription.unsubscribe();
   }
