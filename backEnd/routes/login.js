@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const hash = require('sha256');
 const salt = process.env.SALT;
-const secret = process.env.secret;
+const secret = process.env.SECRET;
 
 router.post('/', (req,res) => {
 
