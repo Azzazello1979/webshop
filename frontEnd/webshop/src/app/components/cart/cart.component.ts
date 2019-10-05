@@ -43,11 +43,8 @@ export class CartComponent implements OnInit {
     if(!this.shippingOptionsForm.valid){
       return false;
     }else{
-      
-      window.alert('Your selected shipping method: ' + this.shippingOptionsForm.value.shipping); // this.shippingOptionsForm.value is an object
       this.cartService.setSelectedShippingOption(this.shippingOptionsForm.value.shipping);
-
-
+      //window.alert('Your selected shipping method: ' + this.shippingOptionsForm.value.shipping); // this.shippingOptionsForm.value is an object
     }
   }
 
