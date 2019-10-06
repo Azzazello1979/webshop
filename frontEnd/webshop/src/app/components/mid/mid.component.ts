@@ -31,7 +31,8 @@ export class MidComponent implements OnInit {
 
   ngOnInit() {
     this.listingService.fillAllProducts();
-    this.cartService.getAllCollections();
+    this.listingService.getAllCollections();
+    this.listingService.getAllStones();
   }
   
 }

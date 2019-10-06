@@ -1,0 +1,6 @@
+<h3>Stones: {{ this.listingService.allStones.length - 1 }}</h3>
+<div class="stonesFilter" *ngFor="let stone of this.listingService.allStones">
+  
+  <button class="stoneButton" (click)="this.listingService.selectedStone = stone">{{stone}}</button>
+
+</div>

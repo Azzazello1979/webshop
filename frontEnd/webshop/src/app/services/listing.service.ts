@@ -6,15 +6,14 @@ import { CartService } from './cart.service';
 })
 export class ListingService {
 
-  selectedPriceRange:string = '';
-  selectedCollection:string = '';
-  selectedStone:string = '';
+  selectedPriceRange:string = ''; // ... yet to be done ...
+  selectedCollection:string = ''; // set from collection-filter.component
+  selectedStone:string = ''; // set from stone-filter.component
 
   allProducts:any = [];
   filteredProducts:any = []; // fills up after running setFilteredProducts()
 
-  priceRanges:any = [];
-
+  allPriceRanges:any = []; // ... yet to be done ...
   allCollections:any = []; // the array of existing collection names
   allStones:any = []; // the array of existing stone types
 
@@ -23,11 +22,16 @@ export class ListingService {
     private cartService:CartService
   ) { }
 
+
+
+
+
     // initialized by mid component (that is the product listing component)
     fillAllProducts(){ 
       this.allProducts = this.cartService.getProducts();
     }
 
+    
     setFilteredProducts(){
       if(this.selectedCollection !== '' && this.selectedStone !== ''){
         this.filteredProducts = this.allProducts.filter( e => { e.collection === this.selectedCollection && e.stone === this.selectedStone } );
@@ -35,6 +39,10 @@ export class ListingService {
         this.filteredProducts = this.allProducts;
       }
     }
+
+
+
+
 
     getAllCollections(){
       let result = [];

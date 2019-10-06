@@ -1,6 +1,6 @@
-<h3>Collections: {{ this.cartService.allCollections.length - 1 }}</h3>
-<div class="collectionFilter" *ngFor="let collection of this.cartService.allCollections; index as i">
+<h3>Collections: {{ this.listingService.allCollections.length - 1 }}</h3>
+<div class="collectionFilter" *ngFor="let collection of this.listingService.allCollections">
   
-  <button class="collectionButton" (click)="this.cartService.theClickedCollection(collection)">{{collection}}</button>
+  <button class="collectionButton" (click)="this.listingService.selectedCollection = collection">{{collection}}</button>
 
 </div>

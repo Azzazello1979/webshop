@@ -30,6 +30,7 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
 import { AddressComponent } from './components/address/address.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { SuccessComponent } from './components/success/success.component';
+import { StoneFilterComponent } from './components/stone-filter/stone-filter.component';
 
 
  
@@ -56,6 +57,7 @@ import { SuccessComponent } from './components/success/success.component';
     AddressComponent,
     PaymentComponent,
     SuccessComponent,
+    StoneFilterComponent,
     
     
   ],
