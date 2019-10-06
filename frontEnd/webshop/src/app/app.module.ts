@@ -1,4 +1,5 @@
 import { CartService } from './services/cart.service';
+import { ListingService } from './services/listing.service';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { AuthService } from './services/auth.service';
 import { BrowserModule } from '@angular/platform-browser';
@@ -71,6 +72,7 @@ import { SuccessComponent } from './components/success/success.component';
   ],
   providers: [
     AuthService,
+    ListingService,
     CartService,
     {
       provide: HTTP_INTERCEPTORS,

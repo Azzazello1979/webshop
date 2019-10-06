@@ -1,5 +1,7 @@
 import { CartService } from './../../services/cart.service';
+import { ListingService } from 'src/app/services/listing.service';
 import { Component, OnInit } from '@angular/core';
+
 
 
 @Component({
@@ -13,7 +15,8 @@ export class MidComponent implements OnInit {
   
 
   constructor(
-    private cartService:CartService
+    private cartService:CartService,
+    private listingService:ListingService
   ) { }
 
 
@@ -27,6 +30,7 @@ export class MidComponent implements OnInit {
 
 
   ngOnInit() {
+    this.listingService.fillAllProducts();
     this.cartService.getAllCollections();
   }
   
