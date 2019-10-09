@@ -6,7 +6,7 @@ import { CartService } from './cart.service';
 })
 export class ListingService {
 
-  selectedPriceRange:string = ''; // ... yet to be done ...
+  selectedPriceRange:string = 'no filter'; // ... yet to be done ...
   selectedCollection:string = 'no filter'; // set from collection-filter.component
   selectedStone:string = 'no filter'; // set from stone-filter.component
 
@@ -44,7 +44,13 @@ export class ListingService {
     }
   }
 
-
+  
+    removeAllFilters(){
+      this.filteredProducts = this.allProducts;
+      this.selectedPriceRange = 'no filter';
+      this.selectedCollection = 'no filter';
+      this.selectedStone = 'no filter';
+    }
 
 
 
