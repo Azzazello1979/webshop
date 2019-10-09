@@ -1,0 +1,26 @@
+.stonesFilter{
+    display:flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  
+  .stonesButton{
+    width: 100%;
+    font-size: 1.25vw;
+    text-decoration:none;
+    color:#785919;
+    background-color: white;
+    padding: 3px;
+    border-radius: 5px;
+    outline: none;
+    margin-bottom:5px;
+  }
+  
+  .stonesButton:active{
+    background-color: #e4e7ed;
+  }
+  
+  h3,p{
+    font-size: 1.5vw;
+    color: #a28625;
+  }

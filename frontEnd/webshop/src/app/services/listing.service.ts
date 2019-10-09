@@ -7,8 +7,8 @@ import { CartService } from './cart.service';
 export class ListingService {
 
   selectedPriceRange:string = ''; // ... yet to be done ...
-  selectedCollection:string = ''; // set from collection-filter.component
-  selectedStone:string = ''; // set from stone-filter.component
+  selectedCollection:string = 'no filter'; // set from collection-filter.component
+  selectedStone:string = 'no filter'; // set from stone-filter.component
 
   allProducts:any = [];
   filteredProducts:any = []; // fills up after running setFilteredProducts()
@@ -33,12 +33,16 @@ export class ListingService {
 
     
     setFilteredProducts(){
-      if(this.selectedCollection !== '' && this.selectedStone !== ''){
-        this.filteredProducts = this.allProducts.filter( e => { e.collection === this.selectedCollection && e.stone === this.selectedStone } );
-      } else {
+      if(this.selectedCollection === 'no filter' && this.selectedStone === 'no filter'){
         this.filteredProducts = this.allProducts;
-      }
+      } else if(this.selectedCollection === 'no filter' && this.selectedStone !== 'no filter'){
+        this.filteredProducts = this.allProducts.filter( e => e.stone === this.selectedStone );
+      } else if(this.selectedCollection !== 'no filter' && this.selectedStone === 'no filter'){
+        this.filteredProducts = this.allProducts.filter( e => e.collection === this.selectedCollection );
+      } else if(this.selectedCollection !== 'no filter' && this.selectedStone !== 'no filter'){
+        this.filteredProducts = this.allProducts.filter( e => e.collection === this.selectedCollection && e.stone === this.selectedStone );
     }
+  }
 
 
 
@@ -50,7 +54,7 @@ export class ListingService {
         if(!result.includes(this.allProducts[i].collection))
         result.push(this.allProducts[i].collection)
       }
-      result.unshift('All collections');
+      result.unshift('no filter');
       this.allCollections = result;
     }
 
@@ -61,7 +65,7 @@ export class ListingService {
         if(!result.includes(this.allProducts[i].stone))
         result.push(this.allProducts[i].stone)
       }
-      result.unshift('All stones');
+      result.unshift('no filter');
       this.allStones = result;
     }
 

@@ -3,7 +3,7 @@
 
 
 
-  <div class="productCard" *ngFor="let product of this.cartService.oneCollection; index as productID">
+  <div class="productCard" *ngFor="let product of this.listingService.filteredProducts; index as productID">
     <table>
       <tr><td><a [routerLink]="['/products', productID]"><img class="catalogThumb" [src]="product.img" ></a></td></tr>
       <tr><td>{{ product.productName }}</td></tr>

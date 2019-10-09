@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ListingService } from './../../services/listing.service';
 
 @Component({
   selector: 'right',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RightComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private listingService:ListingService
+  ) { }
 
   ngOnInit() {
   }
