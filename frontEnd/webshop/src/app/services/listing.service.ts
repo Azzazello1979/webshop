@@ -17,6 +17,9 @@ export class ListingService {
   allCollections:any = []; // the array of existing collection names
   allStones:any = []; // the array of existing stone types
 
+  minPriceSet:number = 10;
+  maxPriceSet:number = 1000;
+
 
   constructor(
     private cartService:CartService
@@ -33,14 +36,14 @@ export class ListingService {
 
     
     setFilteredProducts(){
-      if(this.selectedCollection === 'no filter' && this.selectedStone === 'no filter'){
-        this.filteredProducts = this.allProducts;
+      if(this.selectedCollection === 'no filter' && this.selectedStone === 'no filter' ){
+        this.filteredProducts = this.allProducts.filter(e => e.price >= this.minPriceSet && e.price <= this.maxPriceSet );
       } else if(this.selectedCollection === 'no filter' && this.selectedStone !== 'no filter'){
-        this.filteredProducts = this.allProducts.filter( e => e.stone === this.selectedStone );
+        this.filteredProducts = this.allProducts.filter( e => e.stone === this.selectedStone && e.price >= this.minPriceSet && e.price <= this.maxPriceSet );
       } else if(this.selectedCollection !== 'no filter' && this.selectedStone === 'no filter'){
-        this.filteredProducts = this.allProducts.filter( e => e.collection === this.selectedCollection );
+        this.filteredProducts = this.allProducts.filter( e => e.collection === this.selectedCollection && e.price >= this.minPriceSet && e.price <= this.maxPriceSet );
       } else if(this.selectedCollection !== 'no filter' && this.selectedStone !== 'no filter'){
-        this.filteredProducts = this.allProducts.filter( e => e.collection === this.selectedCollection && e.stone === this.selectedStone );
+        this.filteredProducts = this.allProducts.filter( e => e.collection === this.selectedCollection && e.stone === this.selectedStone && e.price >= this.minPriceSet && e.price <= this.maxPriceSet );
     }
   }
 
