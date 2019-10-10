@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { CartService } from './../../services/cart.service';
 
 @Component({
@@ -9,9 +8,13 @@ import { CartService } from './../../services/cart.service';
 })
 export class AddressComponent implements OnInit {
 
+  
+
   constructor(
     private cartService:CartService
   ) { }
+
+
 
   ngOnInit() {
   }

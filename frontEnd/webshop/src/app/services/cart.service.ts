@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -102,28 +101,8 @@ export class CartService {
   allCollections = []; // array of unique collection names
   clickedCollection = ''; // name of currently clicked collection
   oneCollection = []; // the clickedCollection's objects
-  shippingAddress = {
-    Name: '',
-    Country: '',
-    County: '',
-    City: '',
-    ZIP: 1234,
-    POBOX: 1234,
-    Address1: '',
-    Address2: '',
-    extra: ''
-  };
-  billingAddress = {
-    Name: '',
-    Country: '',
-    County: '',
-    City: '',
-    ZIP: 1234,
-    POBOX: 1234,
-    Address1: '',
-    Address2: '',
-    extra: ''
-  };
+  shippingAddress = {};
+  billingAddress = {};
   shippingOptions:any = [ 
     { name: 'free', cost: 0, minDays: 30, maxDays: 50 },
     { name: 'ePacket', cost: 10, minDays: 7, maxDays: 14 },
@@ -138,6 +117,20 @@ export class CartService {
 
   constructor() { 
     this.oneCollection = this.products;
+  }
+
+
+  shippingAddressSubmit(){
+    console.log('from cart service: ');
+    console.log(this.shippingAddress);
+    window.alert('Your shipping address is recorded');
+    
+  }
+  billingAddressSubmit(){
+    console.log('from cart service: ');
+    console.log(this.billingAddress);
+    window.alert('Your shipping address is recorded');
+    
   }
 
   toggleShippingBillingAddress(){
