@@ -1,23 +1,19 @@
 <div>
     <h3>Please enter shipping address</h3>
+    <p>Touched? {{ shippingAddressForm.touched }}</p>
+    <p>Dirty? {{ shippingAddressForm.dirty }}</p>
 
-    <form id="shippingAddress" #shippingAddressForm="ngForm" (ngSubmit)="this.cartService.shippingAddressSubmit()">
-        <input type="text" name="Name" [(ngModel)]="this.cartService.shippingAddress.Name" placeholder="Name" required
-            autofocus>
-        <input type="text" name="Country" [(ngModel)]="this.cartService.shippingAddress.Country" placeholder="Country"
-            required>
-        <input type="text" name="County" [(ngModel)]="this.cartService.shippingAddress.County" placeholder="County"
-            required>
-        <input type="text" name="City" [(ngModel)]="this.cartService.shippingAddress.City" placeholder="City" required>
-        <input type="number" name="ZIP" [(ngModel)]="this.cartService.shippingAddress.ZIP" placeholder="ZIP Code"
-            required>
-        <input type="number" name="POBOX" [(ngModel)]="this.cartService.shippingAddress.POBOX" placeholder="PO Box">
-        <input type="text" name="Address1" [(ngModel)]="this.cartService.shippingAddress.Address1"
-            placeholder="Address1" required>
-        <input type="text" name="Address2" [(ngModel)]="this.cartService.shippingAddress.Address2"
-            placeholder="Address2">
-        <textarea form="shippingAddress" name="Extra"
-            [(ngModel)]="this.cartService.shippingAddress.Extra">Enter extra info ...</textarea>
+    <form id="shippingAddress" #shippingAddressForm="ngForm"
+        (ngSubmit)="shippingAddressSubmit(shippingAddressForm.value)">
+        <input type="text" ngModel name="Name" placeholder="Name" required autofocus>
+        <input type="text" ngModel name="Country" placeholder="Country" required>
+        <input type="text" ngModel name="County" placeholder="County" required>
+        <input type="text" ngModel name="City" placeholder="City" required>
+        <input type="number" ngModel name="ZIP" placeholder="ZIP Code" required>
+        <input type="number" ngModel name="POBOX" placeholder="PO Box">
+        <input type="text" ngModel name="Address1" placeholder="Address1" required>
+        <input type="text" ngModel name="Address2" placeholder="Address2">
+        <textarea form="shippingAddress" ngModel name="Extra">Enter extra info ...</textarea>
         <input type="submit" value="Submit" [disabled]="!shippingAddressForm.valid">
     </form>
 
@@ -33,24 +29,18 @@
 <div *ngIf="this.cartService.billingAddressIsDifferentFromShippingAddress">
     <h3>Please enter billing address</h3>
 
-    <form id="billingAddress" #billingAddressForm="ngForm" (ngSubmit)="this.cartService.billingAddressSubmit()">
-        <input type="text" name="Name" [(ngModel)]="this.cartService.billingAddress.Name" placeholder="Name" required
-            autofocus>
-        <input type="text" name="Country" [(ngModel)]="this.cartService.billingAddress.Country" placeholder="Country"
-            required>
-        <input type="text" name="County" [(ngModel)]="this.cartService.billingAddress.County" placeholder="County"
-            required>
-        <input type="text" name="City" [(ngModel)]="this.cartService.billingAddress.City" placeholder="City" required>
-        <input type="number" name="ZIP" [(ngModel)]="this.cartService.billingAddress.ZIP" placeholder="ZIP Code"
-            required>
-        <input type="number" name="POBOX" [(ngModel)]="this.cartService.billingAddress.POBOX" placeholder="PO Box">
-        <input type="text" name="Address1" [(ngModel)]="this.cartService.billingAddress.Address1" placeholder="Address1"
-            required>
-        <input type="text" name="Address2" [(ngModel)]="this.cartService.billingAddress.Address2"
-            placeholder="Address2">
-        <textarea form="billingAddress" name="Extra"
-            [(ngModel)]="this.cartService.billingAddress.Extra">Enter extra info ...</textarea>
-        <input type="submit" value="Submit" [disabled]="!billingAddressForm.valid">
-    </form>
+    <form id="billingAddress" #billingAddressForm="ngForm"
+    (ngSubmit)="billingAddressSubmit(billingAddressForm.value)">
+    <input type="text" ngModel name="Name" placeholder="Name" required autofocus>
+    <input type="text" ngModel name="Country" placeholder="Country" required>
+    <input type="text" ngModel name="County" placeholder="County" required>
+    <input type="text" ngModel name="City" placeholder="City" required>
+    <input type="number" ngModel name="ZIP" placeholder="ZIP Code" required>
+    <input type="number" ngModel name="POBOX" placeholder="PO Box">
+    <input type="text" ngModel name="Address1" placeholder="Address1" required>
+    <input type="text" ngModel name="Address2" placeholder="Address2">
+    <textarea form="billingAddress" ngModel name="Extra">Enter extra info ...</textarea>
+    <input type="submit" value="Submit" [disabled]="!billingAddressForm.valid">
+</form>
 
 </div>

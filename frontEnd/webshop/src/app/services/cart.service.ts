@@ -119,18 +119,14 @@ export class CartService {
     this.oneCollection = this.products;
   }
 
-
-  shippingAddressSubmit(){
-    console.log('from cart service: ');
-    console.log(this.shippingAddress);
+  shippingAddressSubmit(formValue){
+    this.shippingAddress = formValue;
     window.alert('Your shipping address is recorded');
-    
   }
-  billingAddressSubmit(){
-    console.log('from cart service: ');
-    console.log(this.billingAddress);
-    window.alert('Your shipping address is recorded');
-    
+
+  billingAddressSubmit(formValue){
+    this.billingAddress = formValue;
+    window.alert('Your billing address is recorded');
   }
 
   toggleShippingBillingAddress(){

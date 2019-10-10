@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CartService } from './../../services/cart.service';
 
 @Component({
@@ -8,12 +8,22 @@ import { CartService } from './../../services/cart.service';
 })
 export class AddressComponent implements OnInit {
 
-  
+  @ViewChild('shippingAddressForm', { static:false }) shippingAddressFormValue;
+  @ViewChild('billingAddressForm', { static:false }) billingAddressFormValue;
 
   constructor(
     private cartService:CartService
   ) { }
 
+  shippingAddressSubmit(formValue){
+    this.cartService.shippingAddressSubmit(formValue);
+    this.shippingAddressFormValue.resetForm();
+  }
+
+  billingAddressSubmit(formValue){
+    this.cartService.billingAddressSubmit(formValue);
+    this.billingAddressFormValue.resetForm();
+  }
 
 
   ngOnInit() {
