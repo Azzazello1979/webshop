@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CartService } from './../../services/cart.service';
 
 @Component({
   selector: 'address',
@@ -7,7 +9,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddressComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private cartService:CartService
+  ) { }
 
   ngOnInit() {
   }

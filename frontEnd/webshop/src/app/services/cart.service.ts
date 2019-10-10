@@ -108,9 +108,10 @@ export class CartService {
     County: '',
     City: '',
     ZIP: 1234,
-    POBox: 1234,
+    POBOX: 1234,
     Address1: '',
-    Address2: ''
+    Address2: '',
+    extra: ''
   };
   billingAddress = {
     Name: '',
@@ -118,9 +119,10 @@ export class CartService {
     County: '',
     City: '',
     ZIP: 1234,
-    POBox: 1234,
+    POBOX: 1234,
     Address1: '',
-    Address2: ''
+    Address2: '',
+    extra: ''
   };
   shippingOptions:any = [ 
     { name: 'free', cost: 0, minDays: 30, maxDays: 50 },
@@ -138,17 +140,9 @@ export class CartService {
     this.oneCollection = this.products;
   }
 
-
-  setSelectedShippingOption(chosenShippingName){
-  
-    for(let i=0 ; i<this.shippingOptions.length ; i++){
-      if(chosenShippingName === this.shippingOptions[i].name){
-        this.selectedShippingOption = this.shippingOptions[i]
-      }
-    }
-
+  toggleShippingBillingAddress(){
+    this.billingAddressIsDifferentFromShippingAddress = !this.billingAddressIsDifferentFromShippingAddress ;
   }
-
 
   theClickedCollection(collectionName){
     if(collectionName === 'All collections'){

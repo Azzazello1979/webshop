@@ -1,1 +1,42 @@
-<p>address works!</p>
+<div>
+    <h3>Please enter shipping address</h3>
+
+    <form id="shippingAddress">
+        <input type="text" name="Name" placeholder="Name" required autofocus>
+        <input type="text" name="Country" placeholder="Country" required>
+        <input type="text" name="County" placeholder="County" required>
+        <input type="text" name="City" placeholder="City" required>
+        <input type="number" name="ZIP" placeholder="ZIP Code" required>
+        <input type="number" name="POBOX" placeholder="PO Box">
+        <input type="text" name="Address1" placeholder="Address1" required>
+        <input type="text" name="Address2" placeholder="Address2">
+        <textarea form="shippingAddress" name="extra">Enter extra info ...</textarea>
+        <input type="submit" value="Submit">
+    </form>
+    
+</div>
+
+
+<div>
+    <button (click)="this.cartService.toggleShippingBillingAddress()">My billing address is different from my shipping
+        address</button>
+</div>
+
+
+<div *ngIf="this.cartService.billingAddressIsDifferentFromShippingAddress">
+    <h3>Please enter billing address</h3>
+
+    <form id="billingAddress">
+        <input type="text" name="Name" placeholder="Name" required autofocus>
+        <input type="text" name="Country" placeholder="Country" required>
+        <input type="text" name="County" placeholder="County" required>
+        <input type="text" name="City" placeholder="City" required>
+        <input type="number" name="ZIP" placeholder="ZIP Code" required>
+        <input type="number" name="POBOX" placeholder="PO Box">
+        <input type="text" name="Address1" placeholder="Address1" required>
+        <input type="text" name="Address2" placeholder="Address2">
+        <textarea form="billingAddress" name="extra">Enter extra info ...</textarea>
+        <input type="submit" value="Submit">
+    </form>
+    
+</div>

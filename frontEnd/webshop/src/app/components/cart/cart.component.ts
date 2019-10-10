@@ -1,8 +1,6 @@
 import { Router } from '@angular/router';
 import { CartService } from './../../services/cart.service';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms'; // REACTIVE forms with validation!
-
 
 
 
@@ -13,40 +11,12 @@ import { FormBuilder, Validators } from '@angular/forms'; // REACTIVE forms with
 })
 export class CartComponent implements OnInit {
 
-  cartProducts = [];
-  isSubmitted = false;
-  shippingOptionsForm = this.fb.group({
-    shipping: ['shipping', [Validators.required]]
-  });
   
-
 
   constructor(
     private cartService: CartService,
-    private router: Router,
-    public fb:FormBuilder
+    private router: Router
   ) {}
-
-
-
-
-
-
-
-
-  get myForm(){
-    return this.shippingOptionsForm.get('shipping');
-  }
-
-  onSubmit(){
-    this.isSubmitted = true;
-    if(!this.shippingOptionsForm.valid){
-      return false;
-    }else{
-      this.cartService.setSelectedShippingOption(this.shippingOptionsForm.value.shipping);
-      //window.alert('Your selected shipping method: ' + this.shippingOptionsForm.value.shipping); // this.shippingOptionsForm.value is an object
-    }
-  }
 
 
   add(productName){
@@ -57,8 +27,8 @@ export class CartComponent implements OnInit {
     this.cartService.minus(productName);
   }
 
-  proceedToCheckout(){
-    this.router.navigate(['/checkout']);
+  collectAddress(){
+    this.router.navigate(['/address']);
   }
 
   clearCart(){
@@ -67,7 +37,7 @@ export class CartComponent implements OnInit {
 
   
   ngOnInit(){
-
+    this.cartService.getCartProducts();
   }
 
 

@@ -8,3 +8,13 @@
   min-height:80vh;
   background-color:white;
 }
+
+.interactive{
+  cursor:pointer;
+}
+.interactive:hover{
+  background-color: #403f3e;
+}
+.interactive:active{
+  background-color:yellow;
+}
