@@ -1,11 +1,19 @@
 <div>
     <h3>Please enter shipping address</h3>
-    <p>Touched? {{ shippingAddressForm.touched }}</p>
-    <p>Dirty? {{ shippingAddressForm.dirty }}</p>
+
+    <!-- LOTS of educational stuff here about visualizing ngForm & ngModel properties ... -->
+
+<!-- <p>shippingAddressForm Touched? {{ shippingAddressForm.touched }}</p>
+     <p>shippingAddressForm Valid? {{ shippingAddressForm.valid }}</p>
+
+     <p>shippingAddressForm City Status? {{ shippingAddressForm.controls.City.status }}</p>
+     <p>shippingAddressForm City Valid? {{ shippingAddressForm.controls.City.valid }}</p> -->
+
+    
 
     <form id="shippingAddress" #shippingAddressForm="ngForm"
-        (ngSubmit)="shippingAddressSubmit(shippingAddressForm.value)">
-        <input type="text" ngModel name="Name" placeholder="Name" required autofocus>
+        (ngSubmit)="shippingAddressSubmit(shippingAddressForm.value)" (change)="printNgForm(shippingAddressForm)">
+        <input type="text" ngModel name="Name" #Name="ngModel" (change)="printNgModel(Name)" placeholder="Name" required autofocus>
         <input type="text" ngModel name="Country" placeholder="Country" required>
         <input type="text" ngModel name="County" placeholder="County" required>
         <input type="text" ngModel name="City" placeholder="City" required>

@@ -15,6 +15,17 @@ export class AddressComponent implements OnInit {
     private cartService:CartService
   ) { }
 
+
+  // check out the NgForm obj ...
+  printNgForm(y){
+    console.log(y);
+  }
+
+  // check out the NgModel obj ...  
+  printNgModel(x){
+    console.log(x);
+  }
+
   shippingAddressSubmit(formValue){
     this.cartService.shippingAddressSubmit(formValue);
     this.shippingAddressFormValue.resetForm();
