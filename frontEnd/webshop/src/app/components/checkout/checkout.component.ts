@@ -22,7 +22,7 @@ export class CheckoutComponent implements OnInit {
 
 
   proceedToPay(){
-    console.log('later...')
+    this.router.navigate(['/payment']);
   }
 
   ngOnInit() {

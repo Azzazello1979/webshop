@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CartService } from './../../services/cart.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'address',
@@ -12,7 +13,8 @@ export class AddressComponent implements OnInit {
   @ViewChild('billingAddressForm', { static:false }) billingAddressForm;
 
   constructor(
-    private cartService:CartService
+    private cartService:CartService,
+    private router:Router
   ) { }
 
 
@@ -41,6 +43,9 @@ export class AddressComponent implements OnInit {
     this.billingAddressForm.resetForm();
   }
 
+  goToCheckout(){
+    this.router.navigate(['/checkout']);
+  }
 
   ngOnInit() {
   }

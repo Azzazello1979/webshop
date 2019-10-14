@@ -11,84 +11,69 @@
 
   
 
-  <div class="summary">
-    <table>
-      <h3>Totals:</h3>
-      <tr>
-        <td>Total net price of items (no shipping): {{ this.cartService.totalPrice | currency }} </td>
-      </tr>
-      <tr>
-        <td>Chosen shipping method: {{ this.cartService.selectedShippingOption.name }} </td>
-      </tr>
-      <tr>
-        <td>Total gross price of items (with shipping):
-          {{ this.cartService.totalPrice + this.cartService.selectedShippingOption.cost | currency }} </td>
-      </tr>
-    </table>
-  </div>
-
-  
-
   <div class="shippingAddress">
     <table>
       <h3>Shipping Address:</h3>
       <tr>
-        <td>Name: </td>
+        <td>Name: {{this.cartService.shippingAddress.Name}}</td>
       </tr>
       <tr>
-        <td>Country: </td>
+        <td>Country: {{this.cartService.shippingAddress.Country}}</td>
       </tr>
       <tr>
-        <td>County: </td>
+        <td>County: {{this.cartService.shippingAddress.County}}</td>
       </tr>
       <tr>
-        <td>City: </td>
+        <td>City: {{this.cartService.shippingAddress.City}}</td>
       </tr>
       <tr>
-        <td>ZIP code: </td>
+        <td>ZIP code: {{this.cartService.shippingAddress.ZIP}}</td>
       </tr>
       <tr>
-        <td>POBox: </td>
+        <td>POBox: {{this.cartService.shippingAddress.POBOX}}</td>
       </tr>
       <tr>
-        <td>Address 1: </td>
+        <td>Address 1: {{this.cartService.shippingAddress.Address1}}</td>
       </tr>
       <tr>
-        <td>Address 2: </td>
+        <td>Address 2: {{this.cartService.shippingAddress.Address2}}</td>
+      </tr>
+      <tr>
+        <td> Extra info: {{this.cartService.shippingAddress.Extra}}</td>
       </tr>
     </table>
   </div>
 
   
 
-  <div class="billingAddress" *ngIf="billingAddressIsDifferentFromShippingAddress">
-    <table>
-      <h3>Billing Address:</h3>
-      <tr>
-        <td>Name: </td>
-      </tr>
-      <tr>
-        <td>Country: </td>
-      </tr>
-      <tr>
-        <td>County: </td>
-      </tr>
-      <tr>
-        <td>City: </td>
-      </tr>
-      <tr>
-        <td>ZIP code: </td>
-      </tr>
-      <tr>
-        <td>PO Box: </td>
-      </tr>
-      <tr>
-        <td>Address 1: </td>
-      </tr>
-      <tr>
-        <td>Address 2: </td>
-      </tr>
-    </table>
+  <div class="billingAddress" *ngIf="this.cartService.billingAddressIsDifferentFromShippingAddress">
+      <table>
+          <h3>Billing Address:</h3>
+          <tr>
+            <td>Name: {{this.cartService.billingAddress.Name}}</td>
+          </tr>
+          <tr>
+            <td>Country: {{this.cartService.billingAddress.Country}}</td>
+          </tr>
+          <tr>
+            <td>County: {{this.cartService.billingAddress.County}}</td>
+          </tr>
+          <tr>
+            <td>City: {{this.cartService.billingAddress.City}}</td>
+          </tr>
+          <tr>
+            <td>ZIP code: {{this.cartService.billingAddress.ZIP}}</td>
+          </tr>
+          <tr>
+            <td>POBox: {{this.cartService.billingAddress.POBOX}}</td>
+          </tr>
+          <tr>
+            <td>Address 1: {{this.cartService.billingAddress.Address1}}</td>
+          </tr>
+          <tr>
+            <td>Address 2: {{this.cartService.billingAddress.Address2}}</td>
+          </tr>
+        </table>
   </div>
 
   
@@ -96,7 +81,22 @@
   <div class="extraInfo">
   </div>
 
-  
+
+  <div class="summary">
+      <table>
+        <h3>Totals:</h3>
+        <tr>
+          <td>Total net price of items (no shipping): {{ this.cartService.totalPrice | currency }} </td>
+        </tr>
+        <tr>
+          <td>Chosen shipping method: {{ this.cartService.selectedShippingOption.name }} </td>
+        </tr>
+        <tr>
+          <td>Total gross price of items (with shipping):
+            {{ this.cartService.totalPrice + this.cartService.selectedShippingOption.cost | currency }} </td>
+        </tr>
+      </table>
+    </div>
 
   <button class="proceedToPay" (click)="proceedToPay()">Proceed to pay</button>
 

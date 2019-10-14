@@ -36,8 +36,9 @@
         <input type="number" ngModel name="POBOX" placeholder="PO Box">
         <input type="text" ngModel name="Address1" placeholder="Address1" required>
         <input type="text" ngModel name="Address2" placeholder="Address2">
-        <textarea form="shippingAddress" ngModel name="Extra">Enter extra info ...</textarea>
+        <textarea form="shippingAddress" ngModel name="Extra" placeholder="Enter extra info ...">Enter extra info ...</textarea>
         <input type="submit" value="Submit" [disabled]="!shippingAddressForm.valid">
+        
     </form>
 
 </div>
@@ -62,8 +63,11 @@
     <input type="number" ngModel name="POBOX" placeholder="PO Box">
     <input type="text" ngModel name="Address1" placeholder="Address1" required>
     <input type="text" ngModel name="Address2" placeholder="Address2">
-    <textarea form="billingAddress" ngModel name="Extra">Enter extra info ...</textarea>
     <input type="submit" value="Submit" [disabled]="!billingAddressForm.valid">
 </form>
 
 </div>
+
+<button *ngIf="this.cartService.addressSubmitted" class="goToCheckoutButton" (click)="goToCheckout()">Proceed to checkout</button>
+
+

@@ -111,6 +111,7 @@ export class CartService {
   ]; // get this arr from db
   selectedShippingOption = { name: 'free', cost: 0, minDays: 30, maxDays: 50 };
   billingAddressIsDifferentFromShippingAddress = false;
+  addressSubmitted = false;
   
 
 
@@ -119,8 +120,11 @@ export class CartService {
     this.oneCollection = this.products;
   }
 
+
+
   shippingAddressSubmit(formValue){
     this.shippingAddress = formValue;
+    this.addressSubmitted = true;
     console.log('shippingAddress from cartService: ', this.shippingAddress);
     window.alert('Your shipping address is recorded');
   }

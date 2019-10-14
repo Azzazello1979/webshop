@@ -34,6 +34,7 @@ import { StoneFilterComponent } from './components/stone-filter/stone-filter.com
 import { PriceFilterComponent } from './components/price-filter/price-filter.component';
 
 
+
  
 
 
@@ -60,6 +61,7 @@ import { PriceFilterComponent } from './components/price-filter/price-filter.com
     SuccessComponent,
     StoneFilterComponent,
     PriceFilterComponent,
+    
     
     
   ],
