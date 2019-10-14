@@ -1,7 +1,22 @@
 <div>
+    <h3>Your items: {{ this.cartService.totalItems }}</h3>
+    <table *ngIf="this.cartService.totalItems > 0">
+        <tr *ngFor="let product of this.cartService.cartProducts">
+            <td>{{ product.productName }} {{ product.amount }} pcs {{ product.totalPrice | currency }}</td>
+        </tr>
+    </table>
+
+    <p *ngIf="this.cartService.totalItems > 0">Selected shipping option: {{ this.cartService.selectedShippingOption.name }}</p>
+    <p *ngIf="this.cartService.totalItems > 0">Items price ( without shipping ): {{ this.cartService.totalPrice | currency }}</p>
+    <p *ngIf="this.cartService.totalItems > 0">Items total price ( with shipping ): {{ this.cartService.totalPrice + this.cartService.selectedShippingOption.cost | currency }}</p>
+
+</div>
+
+<div>
+
     <h3>Please enter shipping address</h3>
 
-    <!-- LOTS of educational stuff here about visualizing ngForm & ngModel properties ... -->
+<!-- LOTS of educational stuff here about visualizing ngForm & ngModel properties ... -->
 
 <!-- <p>shippingAddressForm Touched? {{ shippingAddressForm.touched }}</p>
      <p>shippingAddressForm Valid? {{ shippingAddressForm.valid }}</p>

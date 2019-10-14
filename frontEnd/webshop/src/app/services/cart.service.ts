@@ -121,11 +121,13 @@ export class CartService {
 
   shippingAddressSubmit(formValue){
     this.shippingAddress = formValue;
+    console.log('shippingAddress from cartService: ', this.shippingAddress);
     window.alert('Your shipping address is recorded');
   }
 
   billingAddressSubmit(formValue){
     this.billingAddress = formValue;
+    console.log('billingAddress from cartService: ', this.billingAddress);
     window.alert('Your billing address is recorded');
   }
 
