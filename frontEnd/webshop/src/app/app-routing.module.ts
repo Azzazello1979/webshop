@@ -17,14 +17,14 @@ import { LandingpageComponent } from './components/landingpage/landingpage.compo
 const routes: Routes = [
   { path: '', redirectTo: 'landingpage', pathMatch: 'full' },
   { path: 'landingpage', component: LandingpageComponent },
-  { path: 'dashboard', component: MainComponent  },
-  { path: 'cart', component: CartComponent },
-  { path: 'address', component: AddressComponent },
-  { path: 'checkout', component: CheckoutComponent },
-  { path: 'payment', component: PaymentComponent },
-  { path: 'success', component: SuccessComponent },
-  { path: 'menu', component: MenuComponent },
-  { path: 'products/:productID', component: ProductDetailComponent }
+  { path: 'dashboard', component: MainComponent, canActivate: [AuthGuard] },
+  { path: 'cart', component: CartComponent, canActivate: [AuthGuard] },
+  { path: 'address', component: AddressComponent, canActivate: [AuthGuard] },
+  { path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard] },
+  { path: 'payment', component: PaymentComponent, canActivate: [AuthGuard] },
+  { path: 'success', component: SuccessComponent, canActivate: [AuthGuard] },
+  { path: 'menu', component: MenuComponent, canActivate: [AuthGuard] },
+  { path: 'products/:productID', component: ProductDetailComponent, canActivate: [AuthGuard] }
 ];
 
 /* 

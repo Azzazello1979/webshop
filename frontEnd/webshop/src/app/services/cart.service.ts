@@ -9,14 +9,14 @@ export class CartService {
   products = [
     {
       id: 1, collection: 'Rittis', productName: 'Rittis-1',
-      price: 92.95, totalPrice: 0, stone: 'sona', carat: 15, cut: 'cushion',
+      price: 92.95, totalPrice: 0, stone: 'sona diamond', carat: 15, cut: 'cushion',
       img: './../../assets/images/collections/rittis/Rittis-1.jpg',
       material: 'yellow gold 18k', description: 'blah blah blah',
       amount: 0, sale: 0.85, show: 0.8, size: [9, 10, 11, 12, 13, 14, 15]
     },
     {
       id: 2, collection: 'Rittis', productName: 'Rittis-2',
-      price: 73.95, totalPrice: 0, stone: 'sona', carat: 15, cut: 'princess',
+      price: 73.95, totalPrice: 0, stone: 'sona diamond', carat: 15, cut: 'princess',
       img: './../../assets/images/collections/rittis/Rittis-2.jpg',
       material: 'yellow gold 18k', description: 'blah blah blah',
       amount: 0, sale: 0.85, show: 0.8, size: [9, 10, 11, 12, 13, 14, 15]

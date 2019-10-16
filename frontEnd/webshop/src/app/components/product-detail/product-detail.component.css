@@ -1,3 +1,16 @@
+.fav{
+  width: 100%;
+  display:flex;
+  justify-content:flex-start;
+}
+
+.fav img{
+  padding: 5px;
+  width:10%;
+}
+
+
+
 .productCard{
   width: 40vw;
   display:flex;
