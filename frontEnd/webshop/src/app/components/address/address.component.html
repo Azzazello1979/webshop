@@ -1,20 +1,7 @@
-<div>
-    <h3>Your items: {{ this.cartService.totalItems }}</h3>
-    <table *ngIf="this.cartService.totalItems > 0">
-        <tr *ngFor="let product of this.cartService.cartProducts">
-            <td>{{ product.productName }} {{ product.amount }} pcs {{ product.totalPrice | currency }}</td>
-        </tr>
-    </table>
+<h3>Please enter shipping address:</h3>
+<div class="formContainer">
 
-    <p *ngIf="this.cartService.totalItems > 0">Selected shipping option: {{ this.cartService.selectedShippingOption.name }}</p>
-    <p *ngIf="this.cartService.totalItems > 0">Items price ( without shipping ): {{ this.cartService.totalPrice | currency }}</p>
-    <p *ngIf="this.cartService.totalItems > 0">Items total price ( with shipping ): {{ this.cartService.totalPrice + this.cartService.selectedShippingOption.cost | currency }}</p>
 
-</div>
-
-<div>
-
-    <h3>Please enter shipping address</h3>
 
 <!-- LOTS of educational stuff here about visualizing ngForm & ngModel properties ... -->
 
@@ -26,7 +13,7 @@
 
     
 
-    <form id="shippingAddress" #shippingAddressForm="ngForm"
+    <form #shippingAddressForm="ngForm"
         (ngSubmit)="shippingAddressSubmit(shippingAddressForm.value)" (change)="printNgForm(shippingAddressForm)">
         <input type="text" ngModel name="Name" #Name="ngModel" (change)="printNgModel(Name)" placeholder="Name" required autofocus>
         <input type="text" ngModel name="Country" placeholder="Country" required>
@@ -38,21 +25,15 @@
         <input type="text" ngModel name="Address2" placeholder="Address2">
         <textarea form="shippingAddress" ngModel name="Extra" placeholder="Enter extra info ...">Enter extra info ...</textarea>
         <input type="submit" value="Submit" [disabled]="!shippingAddressForm.valid">
-        
     </form>
-
 </div>
 
 
-<div>
-    <button (click)="this.cartService.toggleShippingBillingAddress()">My billing address is different from my shipping
-        address</button>
-</div>
+<button (click)="this.cartService.toggleShippingBillingAddress()">My billing address is different from my shipping address</button>
 
 
-<div *ngIf="this.cartService.billingAddressIsDifferentFromShippingAddress">
-    <h3>Please enter billing address</h3>
-
+<h3>Please enter billing address:</h3>
+<div class="formContainer" *ngIf="this.cartService.billingAddressIsDifferentFromShippingAddress">
     <form id="billingAddress" #billingAddressForm="ngForm"
     (ngSubmit)="billingAddressSubmit(billingAddressForm.value)">
     <input type="text" ngModel name="Name" placeholder="Name" required autofocus>
@@ -65,9 +46,12 @@
     <input type="text" ngModel name="Address2" placeholder="Address2">
     <input type="submit" value="Submit" [disabled]="!billingAddressForm.valid">
 </form>
-
 </div>
 
+
 <button *ngIf="this.cartService.addressSubmitted" class="goToCheckoutButton" (click)="goToCheckout()">Proceed to checkout</button>
+
+
+
 
 

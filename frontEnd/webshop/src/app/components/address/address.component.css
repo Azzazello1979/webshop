@@ -1,3 +1,24 @@
+.h3{
+    font-size: 1.5vw;
+    margin-left: 10px;
+}
+
+
+.formContainer{
+    display:flex;
+    justify-content: flex-start;
+    padding:10px;
+
+}
+
+
+button{
+    width: 50%;
+    margin-left: 20px;
+    margin-top:20px;
+    margin-bottom:50px;
+}
+
 form {
     width:50%;
     display:flex;
@@ -5,5 +26,6 @@ form {
     justify-content: flex-start;
     padding:10px;
     margin:10px;
+    
 
 }
