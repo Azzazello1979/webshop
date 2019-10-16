@@ -1,7 +1,20 @@
-.right{
-  margin-right:0.5vw;
-  width: 12.3vw;
-  min-height: 78vh;
-  background-color:white;
-  border:1px solid #f5f7fa;
+.filterButtons{
+  margin-top:10px;
+  width:100%;
+}
+
+button{
+    font-size: 1.25vw;
+    text-decoration:none;
+    color:#785919;
+    background-color: white;
+    padding: 3px;
+    border-radius: 5px;
+    outline: none;
+    width:100%;
+    margin-bottom:5px;
+}
+
+button:active{
+  background-color: #e4e7ed;
 }

@@ -13,9 +13,9 @@ export class ImageSliderComponent implements OnInit {
 
   // the parent component will fill up this array (these are defaults only), thats why @Input
   @Input() slides:any[] = [ 
-      { src: './../../assets/images/slides/defaultSlide.jpg', txt: 'Slide 1' },
-      { src: './../../assets/images/slides/defaultSlide.jpg', txt: 'Slide 2' },
-      { src: './../../assets/images/slides/defaultSlide.jpg', txt: 'Slide 3' },
+      { src: '', txt: 'Slide 1' },
+      { src: '', txt: 'Slide 2' },
+      { src: '', txt: 'Slide 3' },
     ];
   currSlideSRC:string = this.slides[0].src;
   currSlideTXT:string = this.slides[0].txt;

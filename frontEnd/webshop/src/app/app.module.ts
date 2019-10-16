@@ -18,6 +18,7 @@ import { CartService } from './services/cart.service';
 import { ListingService } from './services/listing.service';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { AuthService } from './services/auth.service';
+import { PaymentService } from './services/payment.service';
 
 
 
@@ -90,6 +91,7 @@ import { FavComponent } from './components/fav/fav.component';
   ],
   providers: [
     AuthService,
+    PaymentService,
     ListingService,
     CartService,
     {

@@ -1,1 +1,15 @@
-<p>payment works!</p>
+<h3>Choose a payment method:</h3>
+<p class="sub">All payment methods are SSL secured.</p>
+<div class="main">
+
+
+    <div class="payments">
+
+        <div class="paymentCard" *ngFor="let payment of this.paymentService.paymentOptions">
+            <a href="{{ payment.url }}" target="_blank"><img src="{{ payment.img }}"></a>
+            <p class="paymentName">{{ payment.name }}</p>
+        </div>
+
+    </div>
+
+</div>
