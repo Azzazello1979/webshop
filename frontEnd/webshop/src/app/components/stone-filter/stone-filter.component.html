@@ -1,7 +1,7 @@
-<h3>Stones: {{ this.listingService.allStones.length - 1 }}</h3>
-<p> filter by: {{this.listingService.selectedStone}}</p>
-<div class="stonesFilter" *ngFor="let stone of this.listingService.allStones">
-  
-  <button class="stonesButton" (click)="this.listingService.selectedStone = stone">{{stone}}</button>
-
+<div class="main">
+    <h3>Stones: {{ this.listingService.allStones.length - 1 }}</h3>
+    <p> filter by: {{this.listingService.selectedStone}}</p>
+    <div class="stonesFilter" *ngFor="let stone of this.listingService.allStones">
+      <button class="stonesButton" (click)="this.listingService.selectedStone = stone">{{stone}}</button>
+    </div>
 </div>

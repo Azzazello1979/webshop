@@ -2,8 +2,10 @@
 
     <table>
         <tr><td>Price between {{this.listingService.minPriceSet | currency}} and {{this.listingService.maxPriceSet | currency}}.</td></tr>
-        <tr><td>min.price: </td><td><input type="range" min="10" max="1000" name="minPrice" [(ngModel)]="this.listingService.minPriceSet" ></td></tr>
-        <tr><td>max.price: </td><td><input type="range" min="10" max="1000" name="maxPrice" [(ngModel)]="this.listingService.maxPriceSet" ></td></tr>
+        <tr><td>min.price:</td></tr> 
+        <tr><td><input type="range" min="10" max="500" name="minPrice" [(ngModel)]="this.listingService.minPriceSet" ></td></tr>
+        <tr><td>max.price:</td></tr>
+        <tr><td><input type="range" min="10" max="500" name="maxPrice" [(ngModel)]="this.listingService.maxPriceSet" ></td></tr>
     </table>
     
 </div>

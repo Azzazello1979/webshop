@@ -1,29 +1,33 @@
 <div class="cartWrapper">
 
-  <p>Total items in cart: {{ this.cartService.totalItems }}</p>
 
+  <div class="items">
+    <p>Total items in cart: {{ this.cartService.totalItems }}</p>
 
-  <div class="cartProduct" *ngFor="let product of this.cartService.cartProducts">
+    <div class="cartProduct" *ngFor="let product of this.cartService.cartProducts">
+      <div class="prodName">{{ product.productName }}</div>
+      <div class="arrow"><img src="./../../../assets/icons/Shoppingcart-03-arrow-down-icon.png"
+          (click)="deduct(product.productName)"></div>
+      <div class="prodAmount">{{ product.amount }} pcs </div>
+      <div class="arrow"><img src="./../../../assets/icons/Shoppingcart-04-arrow-up-icon.png"
+          (click)="add(product.productName)"></div>
+      <div class="prodPrice">{{ product.totalPrice | currency }}</div>
+    </div>
 
-    <div class="prodName">{{ product.productName }}</div>
-    <div class="arrow"><img src="./../../../assets/icons/Shoppingcart-03-arrow-down-icon.png" (click)="deduct(product.productName)"></div>
-    <div class="prodAmount">{{ product.amount }} pcs </div>
-    <div class="arrow"><img src="./../../../assets/icons/Shoppingcart-04-arrow-up-icon.png" (click)="add(product.productName)"></div>
-    <div class="prodPrice">{{ product.totalPrice | currency }}</div>
-
+    <p *ngIf="this.cartService.totalItems > 0">Items price ( without shipping ):
+      {{ this.cartService.totalPrice | currency }}</p>
   </div>
 
 
-  <p *ngIf="this.cartService.totalItems > 0">Items price ( without shipping ): {{ this.cartService.totalPrice | currency }}</p>
-  <p *ngIf="this.cartService.totalItems > 0">Selected shipping option: {{ this.cartService.selectedShippingOption.name }}</p>
 
 
-
-
+  <h3 *ngIf="this.cartService.totalItems > 0">Choose a shipping method:
+    {{ this.cartService.selectedShippingOption.name }}</h3>
   <div class="shippings" *ngIf="this.cartService.totalItems > 0">
 
-    <div class="shippingOptions" *ngFor="let option of this.cartService.shippingOptions">
-      <img src="{{ option.imgSrc }}" (click)="this.cartService.selectedShippingOption = option">
+    <div class="shippingOptions" *ngFor="let option of this.cartService.shippingOptions"
+      (click)="this.cartService.selectedShippingOption = option">
+      <img src="{{ option.imgSrc }}">
       <p>{{ option.name }}</p>
       <p>{{ option.cost | currency }}</p>
       <p>Delivery time is between {{ option.minDays }} and {{ option.maxDays }} days.</p>
@@ -31,19 +35,26 @@
 
   </div>
 
+</div> <!-- end of cartWrapper Div -->
 
-
-  <p *ngIf="this.cartService.totalItems > 0">Items total price ( with shipping ):
-    {{ this.cartService.totalPrice + this.cartService.selectedShippingOption.cost | currency }}</p>
-
-
-  <table>
+<div class="continue">
+  <table *ngIf="this.cartService.totalItems > 0">
     <tr>
-      <td><button *ngIf="this.cartService.totalItems > 0" class="MYbutton" (click)="clearCart()">Clear Cart</button>
+      <td>Selected shipping option:
+        {{ this.cartService.selectedShippingOption.name }}
       </td>
-      <td><button *ngIf="this.cartService.totalItems > 0" class="MYbutton" (click)="collectAddress()">Enter Shipping Information</button></td>
+    </tr>
+    <tr>
+      <td>Items total price ( with shipping ):
+        {{ this.cartService.totalPrice + this.cartService.selectedShippingOption.cost | currency }}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <button *ngIf="this.cartService.totalItems > 0" class="MYbutton" (click)="clearCart()">Clear Cart</button> |
+        <button *ngIf="this.cartService.totalItems > 0" class="MYbutton" (click)="collectAddress()">Enter Shipping
+          Information</button>
+      </td>
     </tr>
   </table>
-
-
 </div>

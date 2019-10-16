@@ -18,7 +18,7 @@ export class ListingService {
   allStones:any = []; // the array of existing stone types
 
   minPriceSet:number = 10;
-  maxPriceSet:number = 1000;
+  maxPriceSet:number = 500;
 
 
   constructor(

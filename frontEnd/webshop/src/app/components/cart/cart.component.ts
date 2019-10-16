@@ -38,7 +38,7 @@ export class CartComponent implements OnInit {
   
   ngOnInit(){
     this.cartService.getCartProducts();
-    this.cartService.selectedShippingOption = this.cartService.shippingOptions[0]; // always start component with default shipping (free)
+    
   }
 
 

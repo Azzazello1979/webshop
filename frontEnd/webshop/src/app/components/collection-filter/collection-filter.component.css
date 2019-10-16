@@ -1,7 +1,12 @@
+.main{
+  margin-bottom:30px;
+}
+
 .collectionFilter{
   display:flex;
   justify-content: center;
   align-items: flex-start;
+  
 }
 
 .collectionButton{
@@ -20,7 +25,11 @@
   background-color: #e4e7ed;
 }
 
-h3,p{
+h3{
   font-size: 1.5vw;
-  color: #a28625;
+  color: #785919;
+}
+p{
+  font-size: 1.25vw;
+  color: #785919;
 }

@@ -1,0 +1,16 @@
+.priceFilter{
+    
+    font-size: 1.25vw;
+    text-decoration:none;
+    color:#785919;
+    background-color: white;
+    padding: 3px;
+    outline: none;
+    margin-bottom:30px;
+    width: 100%;
+      
+}
+
+.priceFilter input{
+    width:80%;
+}
