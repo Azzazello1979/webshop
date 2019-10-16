@@ -1,16 +1,18 @@
-import { CartService } from './services/cart.service';
-import { ListingService } from './services/listing.service';
-import { TokenInterceptorService } from './services/token-interceptor.service';
-import { AuthService } from './services/auth.service';
+import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 
 
+import { CartService } from './services/cart.service';
+import { ListingService } from './services/listing.service';
+import { TokenInterceptorService } from './services/token-interceptor.service';
+import { AuthService } from './services/auth.service';
 
-import { AppRoutingModule } from './app-routing.module';
+
+
 import { AppComponent } from './app.component';
 import { NavibarComponent } from './components/navibar/navibar.component';
 import { LoginLogoutComponent } from './components/login-logout/login-logout.component';
@@ -19,7 +21,6 @@ import { LeftComponent } from './components/left/left.component';
 import { RightComponent } from './components/right/right.component';
 import { MidComponent } from './components/mid/mid.component';
 import { FooterComponent } from './components/footer/footer.component';
-
 import { LandingpageComponent } from './components/landingpage/landingpage.component';
 import { ImageSliderComponent } from './components/image-slider/image-slider.component';
 import { CartComponent } from './components/cart/cart.component';
@@ -32,6 +33,7 @@ import { PaymentComponent } from './components/payment/payment.component';
 import { SuccessComponent } from './components/success/success.component';
 import { StoneFilterComponent } from './components/stone-filter/stone-filter.component';
 import { PriceFilterComponent } from './components/price-filter/price-filter.component';
+import { FavComponent } from './components/fav/fav.component';
 
 
 
@@ -61,6 +63,7 @@ import { PriceFilterComponent } from './components/price-filter/price-filter.com
     SuccessComponent,
     StoneFilterComponent,
     PriceFilterComponent,
+    FavComponent,
     
     
     
@@ -69,7 +72,6 @@ import { PriceFilterComponent } from './components/price-filter/price-filter.com
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule,
     HttpClientModule,
 
     
