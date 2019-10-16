@@ -4,32 +4,30 @@
 
 
   <div class="cartProduct" *ngFor="let product of this.cartService.cartProducts">
-    <table class="productTable">
-      <tr>
-        <td>{{ product.productName }} {{ product.amount }} pcs</td>
-        <td>{{ product.totalPrice | currency }}</td>
-        <td><i class="material-icons md-18 interactive" (click)="deduct(product.productName)">remove_circle</i></td>
-        <td><i class="material-icons md-18 interactive" (click)="add(product.productName)">add_circle</i></td>
-      </tr>
-    </table>
+
+    <div class="prodName">{{ product.productName }}</div>
+    <div class="arrow"><img src="./../../../assets/icons/Shoppingcart-03-arrow-down-icon.png" (click)="deduct(product.productName)"></div>
+    <div class="prodAmount">{{ product.amount }} pcs </div>
+    <div class="arrow"><img src="./../../../assets/icons/Shoppingcart-04-arrow-up-icon.png" (click)="add(product.productName)"></div>
+    <div class="prodPrice">{{ product.totalPrice | currency }}</div>
+
   </div>
 
 
   <p *ngIf="this.cartService.totalItems > 0">Items price ( without shipping ): {{ this.cartService.totalPrice | currency }}</p>
-
-
   <p *ngIf="this.cartService.totalItems > 0">Selected shipping option: {{ this.cartService.selectedShippingOption.name }}</p>
 
-  <div>
 
-    <table *ngIf="this.cartService.totalItems > 0">
-      <tr *ngFor="let option of this.cartService.shippingOptions">
-        <td><i class="material-icons md-18 interactive" (click)="this.cartService.selectedShippingOption = option">face</i></td>
-        <td>{{ option.name }}</td>
-        <td>{{ option.cost | currency }}</td>
-        <td>Delivery time is between {{ option.minDays }} and {{ option.maxDays }} days.</td>
-      </tr>
-    </table>
+
+
+  <div class="shippings" *ngIf="this.cartService.totalItems > 0">
+
+    <div class="shippingOptions" *ngFor="let option of this.cartService.shippingOptions">
+      <img src="{{ option.imgSrc }}" (click)="this.cartService.selectedShippingOption = option">
+      <p>{{ option.name }}</p>
+      <p>{{ option.cost | currency }}</p>
+      <p>Delivery time is between {{ option.minDays }} and {{ option.maxDays }} days.</p>
+    </div>
 
   </div>
 

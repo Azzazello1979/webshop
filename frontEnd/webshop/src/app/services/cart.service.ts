@@ -104,10 +104,12 @@ export class CartService {
   shippingAddress = {};
   billingAddress = {};
   shippingOptions:any = [ 
-    { name: 'free', cost: 0, minDays: 30, maxDays: 50 },
-    { name: 'ePacket', cost: 10, minDays: 7, maxDays: 14 },
-    { name: 'FedEx', cost: 22, minDays: 5, maxDays: 12 },
-    { name: 'DHL', cost: 29, minDays: 3, maxDays: 9 }
+    { name: 'free', cost: 0, minDays: 30, maxDays: 50, imgSrc: './../../assets/icons/shipping-icon.png' },
+    { name: 'ePacket', cost: 10, minDays: 7, maxDays: 14, imgSrc: './../../assets/icons/Shipping-3-icon.png' },
+    { name: 'FedEx', cost: 22, minDays: 5, maxDays: 12, imgSrc: './../../assets/icons/Shipping-4-icon.png' },
+    { name: 'UPS', cost: 15, minDays: 6, maxDays: 11, imgSrc: './../../assets/icons/Shipping-5-icon.png' },
+    { name: 'TnT', cost: 33, minDays: 5, maxDays: 7, imgSrc: './../../assets/icons/Shipping-7-icon.png' },
+    { name: 'DHL', cost: 29, minDays: 3, maxDays: 9, imgSrc: './../../assets/icons/Shipping-8-icon.png' }
   ]; // get this arr from db
   selectedShippingOption = { name: 'free', cost: 0, minDays: 30, maxDays: 50 };
   billingAddressIsDifferentFromShippingAddress = false;
