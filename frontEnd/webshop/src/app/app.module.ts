@@ -42,7 +42,7 @@ import { PaymentComponent } from './components/payment/payment.component';
 import { SuccessComponent } from './components/success/success.component';
 import { StoneFilterComponent } from './components/stone-filter/stone-filter.component';
 import { PriceFilterComponent } from './components/price-filter/price-filter.component';
-import { FavComponent } from './components/fav/fav.component';
+
 
 
 
@@ -72,7 +72,7 @@ import { FavComponent } from './components/fav/fav.component';
     SuccessComponent,
     StoneFilterComponent,
     PriceFilterComponent,
-    FavComponent,
+    
     
     
     

@@ -1,11 +1,9 @@
 .fav{
-  width: 100%;
+  width:100%;
   display:flex;
-  justify-content:flex-start;
+  justify-content:flex-end;
 }
-
 .fav img{
-  padding: 5px;
   width:10%;
 }
 
@@ -40,6 +38,7 @@
 }
 
 .mainImage{
-  width:100%;
+  width:90%;
   margin-bottom:10px;
+  margin-top:10px;
 }

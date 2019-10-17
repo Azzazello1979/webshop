@@ -11,6 +11,7 @@ import { ListingService } from './../../services/listing.service';
 export class ProductDetailComponent implements OnInit {
 
   product;
+  isWished:boolean = false;
 
   constructor(
     private cartService:CartService,

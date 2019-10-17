@@ -2,15 +2,24 @@
 
 
   <div class="productCard">
-    <div class="fav">
-      <img src="./../../../assets/icons/add-to-favorites-icon.png" >
-    </div>
+
+      <div class="fav">
+          <img (click)="this.isWished = !this.isWished" [src]="this.isWished === false ? './../../../assets/icons/add-to-favorites-icon.png' : './../../../assets/icons/remove-from-favorites-icon.png'">
+      </div>
+
     <div class="mainImage"><img class="mainImage" src="{{ product.img }}"></div>
     <div class="productDetails">
       <table>
-      <tr><td>{{ product.productName }}</td></tr>
-      <tr><td>{{ product.carat }} carat {{ product.cut }} cut {{ product.stone }} stone {{ product.material }} ring.</td></tr>
-      <tr><td>{{ product.price | currency }}</td></tr>
+        <tr>
+          <td>{{ product.productName }}</td>
+        </tr>
+        <tr>
+          <td>{{ product.carat }} carat {{ product.cut }} cut {{ product.stone }} stone {{ product.material }} ring.
+          </td>
+        </tr>
+        <tr>
+          <td>{{ product.price | currency }}</td>
+        </tr>
       </table>
     </div>
     <div class="productDescription">{{ product.description }}</div>
