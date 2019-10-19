@@ -4,6 +4,7 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { SuccessComponent } from './components/success/success.component';
 import { MenuComponent } from './components/menu/menu.component';
+import { WishListComponent } from './components/wish-list/wish-list.component';
 
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { MainComponent } from './components/main/main.component';
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'payment', component: PaymentComponent, canActivate: [AuthGuard] },
   { path: 'success', component: SuccessComponent, canActivate: [AuthGuard] },
   { path: 'menu', component: MenuComponent, canActivate: [AuthGuard] },
+  { path: 'wishlist', component: WishListComponent, canActivate: [AuthGuard] },
   { path: 'products/:productID', component: ProductDetailComponent, canActivate: [AuthGuard] }
 ];
 

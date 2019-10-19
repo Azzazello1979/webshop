@@ -4,7 +4,7 @@
   <div class="productCard">
 
       <div class="fav">
-          <img (click)="this.isWished = !this.isWished" [src]="this.isWished === false ? './../../../assets/icons/add-to-favorites-icon.png' : './../../../assets/icons/remove-from-favorites-icon.png'">
+          <img (click)="wish(product)" [src]="this.product.isWished === false ? './../../../assets/icons/add-to-favorites-icon.png' : './../../../assets/icons/remove-from-favorites-icon.png'">
       </div>
 
     <div class="mainImage"><img class="mainImage" src="{{ product.img }}"></div>

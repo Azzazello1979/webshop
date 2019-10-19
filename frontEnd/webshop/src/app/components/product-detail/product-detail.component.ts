@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CartService } from './../../services/cart.service';
 import { ListingService } from './../../services/listing.service';
+import { WishlistService } from './../../services/wishlist.service';
 
 @Component({
   selector: 'product-detail',
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.css']
 })
-export class ProductDetailComponent implements OnInit {
+export class ProductDetailComponent implements OnInit, OnDestroy{
 
   product;
   isWished:boolean = false;
@@ -16,9 +17,17 @@ export class ProductDetailComponent implements OnInit {
   constructor(
     private cartService:CartService,
     private listingService:ListingService,
-    private route:ActivatedRoute
+    private route:ActivatedRoute,
+    private wishListService:WishlistService
   ) { }
 
+  wish(product){
+    if(product.isWished === false){
+      this.cartService.addToWish(product);
+    }else{
+      this.cartService.removeFromWish(product);
+    }
+  }
 
   addToCart(){
     this.cartService.addItem(this.product);
@@ -35,6 +44,10 @@ export class ProductDetailComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  ngOnDestroy(){
+    // save the state of isWished in wishlistService
   }
 
 }
