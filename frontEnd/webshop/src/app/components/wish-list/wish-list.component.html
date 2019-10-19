@@ -1,1 +1,8 @@
-<button (click)="showWishList()">Show My Wish List</button>
+<div class="wrapper">
+    <h3>Saved items in your wish list:</h3>
+    <div *ngFor="let wishedProduct of this.cartService.wishListProducts">
+        <p>{{wishedProduct.productName}}</p>
+    </div>
+</div>
+
+

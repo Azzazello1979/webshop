@@ -1,24 +1,24 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CartService } from './../../services/cart.service';
 import { ListingService } from './../../services/listing.service';
-import { WishlistService } from './../../services/wishlist.service';
+
 
 @Component({
   selector: 'product-detail',
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.css']
 })
-export class ProductDetailComponent implements OnInit, OnDestroy{
+export class ProductDetailComponent implements OnInit{
 
-  product;
+  product; // filleld up from listingService OnInit 
   isWished:boolean = false;
 
   constructor(
     private cartService:CartService,
     private listingService:ListingService,
-    private route:ActivatedRoute,
-    private wishListService:WishlistService
+    private route:ActivatedRoute
+    
   ) { }
 
   wish(product){
@@ -37,8 +37,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy{
   ngOnInit() {
     this.route.paramMap.subscribe(
       params => {
-        this.product = this.listingService.filteredProducts[params.get('productID')]; //this.product = this.cartService.oneCollection[params.get('productID')];
-        //this.product = this.cartService.products[+params.get('productID')]; ( + is used to convert a string into a number )
+        this.product = this.listingService.filteredProducts[params.get('productID')];
+        //this.product = this.listingService.products[+params.get('productID')]; ( + is used to convert a string into a number )
       },
       err => {
         console.log(err);
@@ -46,8 +46,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy{
     );
   }
 
-  ngOnDestroy(){
-    // save the state of isWished in wishlistService
-  }
+
 
 }

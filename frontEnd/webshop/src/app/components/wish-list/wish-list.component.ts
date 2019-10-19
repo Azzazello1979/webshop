@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { WishlistService } from './../../services/wishlist.service';
+import { CartService } from './../../services/cart.service';
 
 @Component({
   selector: 'wish-list',
@@ -11,12 +11,10 @@ export class WishListComponent implements OnInit {
   
 
   constructor(
-    private wishListService:WishlistService
+    private cartService:CartService
   ) { }
 
-  showWishList(){
-    this.wishListService.show();
-  }
+
 
   ngOnInit() {
   }

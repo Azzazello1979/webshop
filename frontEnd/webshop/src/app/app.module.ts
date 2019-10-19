@@ -19,7 +19,7 @@ import { ListingService } from './services/listing.service';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { AuthService } from './services/auth.service';
 import { PaymentService } from './services/payment.service';
-import { WishlistService } from './services/wishlist.service';
+
 
 
 
@@ -94,7 +94,6 @@ import { WishListComponent } from './components/wish-list/wish-list.component';
   ],
   providers: [
     AuthService,
-    WishlistService,
     PaymentService,
     ListingService,
     CartService,
