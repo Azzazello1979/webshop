@@ -1,8 +1,10 @@
 <div class="wrapper">
-    <h3>Saved items in your wish list:</h3>
+
+<h3 *ngIf="this.cartService.wishListProducts.length !== 0">Your Wish List:</h3>
+<h3 *ngIf="this.cartService.wishListProducts.length === 0">Your Wish List is empty.</h3>
+
     <div *ngFor="let wishedProduct of this.cartService.wishListProducts">
         <p>{{wishedProduct.productName}}</p>
     </div>
+
 </div>
-
-
