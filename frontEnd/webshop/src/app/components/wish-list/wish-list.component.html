@@ -1,8 +1,8 @@
+
+
 <div class="wrapper">
-
-<h3 *ngIf="this.cartService.wishListProducts.length !== 0">Your Wish List:</h3>
-<h3 *ngIf="this.cartService.wishListProducts.length === 0">Your Wish List is empty.</h3>
-
+        <h3 *ngIf="this.cartService.wishListProducts.length !== 0">Your Wish List:</h3>
+        <h3 *ngIf="this.cartService.wishListProducts.length === 0">Your Wish List is empty.</h3>
     <div class="wishedCard" *ngFor="let wishedProduct of this.cartService.wishListProducts">
         <div><a [routerLink]="['/products', (wishedProduct.id-1)]"><img class="wi" src="{{wishedProduct.img}}"></a></div>
         <div>{{wishedProduct.productName}}</div>
