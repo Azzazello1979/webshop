@@ -14,7 +14,9 @@ export class WishListComponent implements OnInit {
     private cartService:CartService
   ) { }
 
-
+  removeFromWishList(product){
+    this.cartService.removeFromWish(product);
+  }
 
   ngOnInit() {
   }
