@@ -15,15 +15,15 @@
 
     <form #shippingAddressForm="ngForm"
         (ngSubmit)="shippingAddressSubmit(shippingAddressForm.value)" (change)="printNgForm(shippingAddressForm)">
-        <input type="text" ngModel name="Name" #Name="ngModel" (change)="printNgModel(Name)" placeholder="Name" required autofocus>
-        <input type="text" ngModel name="Country" placeholder="Country" required>
-        <input type="text" ngModel name="County" placeholder="County" required>
-        <input type="text" ngModel name="City" placeholder="City" required>
+        <input type="text" ngModel name="name" #Name="ngModel" (change)="printNgModel(Name)" placeholder="Name" required autofocus>
+        <input type="text" ngModel name="country" placeholder="Country" required>
+        <input type="text" ngModel name="county" placeholder="County" required>
+        <input type="text" ngModel name="city" placeholder="City" required>
         <input type="number" ngModel name="ZIP" placeholder="ZIP Code" required>
         <input type="number" ngModel name="POBOX" placeholder="PO Box">
-        <input type="text" ngModel name="Address1" placeholder="Address1" required>
-        <input type="text" ngModel name="Address2" placeholder="Address2">
-        <textarea form="shippingAddress" ngModel name="Extra" placeholder="Enter extra info ...">Enter extra info ...</textarea>
+        <input type="text" ngModel name="address1" placeholder="Address1" required>
+        <input type="text" ngModel name="address2" placeholder="Address2">
+        <textarea form="shippingAddress" ngModel name="extra" placeholder="Enter extra info ...">Enter extra info ...</textarea>
         <input type="submit" value="Submit" [disabled]="!shippingAddressForm.valid">
     </form>
 </div>
@@ -36,14 +36,14 @@
 <div class="formContainer" *ngIf="this.cartService.billingAddressIsDifferentFromShippingAddress">
     <form id="billingAddress" #billingAddressForm="ngForm"
     (ngSubmit)="billingAddressSubmit(billingAddressForm.value)">
-    <input type="text" ngModel name="Name" placeholder="Name" required autofocus>
-    <input type="text" ngModel name="Country" placeholder="Country" required>
-    <input type="text" ngModel name="County" placeholder="County" required>
-    <input type="text" ngModel name="City" placeholder="City" required>
+    <input type="text" ngModel name="name" placeholder="Name" required autofocus>
+    <input type="text" ngModel name="nountry" placeholder="Country" required>
+    <input type="text" ngModel name="nounty" placeholder="County" required>
+    <input type="text" ngModel name="nity" placeholder="City" required>
     <input type="number" ngModel name="ZIP" placeholder="ZIP Code" required>
     <input type="number" ngModel name="POBOX" placeholder="PO Box">
-    <input type="text" ngModel name="Address1" placeholder="Address1" required>
-    <input type="text" ngModel name="Address2" placeholder="Address2">
+    <input type="text" ngModel name="address1" placeholder="Address1" required>
+    <input type="text" ngModel name="address2" placeholder="Address2">
     <input type="submit" value="Submit" [disabled]="!billingAddressForm.valid">
 </form>
 </div>

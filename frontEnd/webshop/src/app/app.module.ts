@@ -44,6 +44,8 @@ import { SuccessComponent } from './components/success/success.component';
 import { StoneFilterComponent } from './components/stone-filter/stone-filter.component';
 import { PriceFilterComponent } from './components/price-filter/price-filter.component';
 import { WishListComponent } from './components/wish-list/wish-list.component';
+import { OrdersComponent } from './components/orders/orders.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 
 
@@ -75,6 +77,8 @@ import { WishListComponent } from './components/wish-list/wish-list.component';
     StoneFilterComponent,
     PriceFilterComponent,
     WishListComponent,
+    OrdersComponent,
+    ProfileComponent,
     
     
     
