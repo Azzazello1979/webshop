@@ -10,13 +10,14 @@
 // 3. expiration of token
 
 const jwt = require('jsonwebtoken');
-const secret = process.env.secret;
+const secret = process.env.SECRET;
 
 function tokenControl(req, res, next){
-  if(!req.headers['Authorization']){
-    return res.status(401).json({'message':'Authorization header missing!'}) // exists in header?
+  if(!req.headers['authorization']){
+    console.log(req.headers);
+    return res.status(401).json({'message':'authorization header missing!'}) // exists in header?
   } else {
-    let theToken = req.headers['Authorization'].split(' ')[1]; // Bearer word removed
+    let theToken = req.headers['authorization'].split(' ')[1]; // Bearer word removed
     jwt.verify(theToken, secret, (err, verified) => {
       if(err){
         console.log(err);
@@ -27,7 +28,9 @@ function tokenControl(req, res, next){
           return res.status(401).json({'message':'Expired token!'});
           // implement sending new accessToken to frontEnd if expiry is close to current time say within 5 minutes!
         } else {
+          console.log('token control passed...');
           next(); // exists, valid, not expired ... can continue
+
         }
       }
     });
