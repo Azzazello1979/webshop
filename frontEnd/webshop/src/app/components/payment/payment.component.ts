@@ -16,15 +16,15 @@ export class PaymentComponent implements OnInit {
     private cartService:CartService
   ) { }
 
-  selectPayment(paymentName){
-    this.paymentService.selectPayment(paymentName);
+  selectPayment(paymentObj){
+    this.paymentService.selectPayment(paymentObj);
   }
 
 
 
 
   ngOnInit() {
-    this.paymentService.selectPayment('No payment selected yet.');
+    
   }
 
 }

@@ -101,17 +101,36 @@ export class CartService {
   allCollections = []; // array of unique collection names
   clickedCollection = ''; // name of currently clicked collection
   oneCollection = []; // the clickedCollection's objects
-  shippingAddress = {};
-  billingAddress = {};
+  shippingAddress = {
+    country: 'USA',
+    state: 'Texas',
+    county: 'Archer',
+    city: 'Archer city',
+    ZIP: 1234,
+    POBOX: 1234,
+    address1: 'some',
+    address2: 'some',
+    extra: 'extra info'
+  };
+  billingAddress = {
+    country: 'USA',
+    state: 'Texas',
+    county: 'Archer',
+    city: 'Archer city',
+    ZIP: 1234,
+    POBOX: 1234,
+    address1: 'some',
+    address2: 'some'
+  };
   shippingOptions: any = [
-    { name: 'free', cost: 0, minDays: 30, maxDays: 50, imgSrc: './../../assets/icons/shipping-icon.png' },
-    { name: 'ePacket', cost: 10, minDays: 7, maxDays: 14, imgSrc: './../../assets/icons/Shipping-3-icon.png' },
-    { name: 'FedEx', cost: 22, minDays: 5, maxDays: 12, imgSrc: './../../assets/icons/Shipping-4-icon.png' },
-    { name: 'UPS', cost: 15, minDays: 6, maxDays: 11, imgSrc: './../../assets/icons/Shipping-5-icon.png' },
-    { name: 'TnT', cost: 33, minDays: 5, maxDays: 7, imgSrc: './../../assets/icons/Shipping-7-icon.png' },
-    { name: 'DHL', cost: 29, minDays: 3, maxDays: 9, imgSrc: './../../assets/icons/Shipping-8-icon.png' }
+    { id:1, name: 'free', cost: 0, minDays: 30, maxDays: 50, imgSrc: './../../assets/icons/shipping-icon.png' },
+    { id:2, name: 'ePacket', cost: 10, minDays: 7, maxDays: 14, imgSrc: './../../assets/icons/Shipping-3-icon.png' },
+    { id:3, name: 'FedEx', cost: 22, minDays: 5, maxDays: 12, imgSrc: './../../assets/icons/Shipping-4-icon.png' },
+    { id:4, name: 'UPS', cost: 15, minDays: 6, maxDays: 11, imgSrc: './../../assets/icons/Shipping-5-icon.png' },
+    { id:5, name: 'TnT', cost: 33, minDays: 5, maxDays: 7, imgSrc: './../../assets/icons/Shipping-7-icon.png' },
+    { id:6, name: 'DHL', cost: 29, minDays: 3, maxDays: 9, imgSrc: './../../assets/icons/Shipping-8-icon.png' }
   ]; // get this arr from db
-  selectedShippingOption = { name: 'free', cost: 0, minDays: 30, maxDays: 50 };
+  selectedShippingOption = { id:1, name: 'free', cost: 0, minDays: 30, maxDays: 50 };
   billingAddressIsDifferentFromShippingAddress = false;
   addressSubmitted = false;
   wishListProducts = [];

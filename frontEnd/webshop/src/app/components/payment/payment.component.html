@@ -1,4 +1,4 @@
-<h3>Choose a payment method: {{ this.paymentService.selectedPayment }}</h3>
+<h3>Choose a payment method: {{ this.paymentService.selectedPayment.name }}</h3>
 <p class="sub">All payment methods are SSL secured.</p>
 <div class="main">
 
@@ -6,7 +6,7 @@
     <div class="payments">
 
         <div class="paymentCard" *ngFor="let payment of this.paymentService.paymentOptions">
-            <img (click)="selectPayment(payment.name)" src="{{ payment.img }}">
+            <img (click)="selectPayment(payment)" src="{{ payment.img }}">
             <p class="paymentName">{{ payment.name }}</p>
         </div>
 

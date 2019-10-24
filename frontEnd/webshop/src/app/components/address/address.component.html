@@ -17,6 +17,7 @@
         (ngSubmit)="shippingAddressSubmit(shippingAddressForm.value)" (change)="printNgForm(shippingAddressForm)">
         <input type="text" ngModel name="name" #Name="ngModel" (change)="printNgModel(Name)" placeholder="Name" required autofocus>
         <input type="text" ngModel name="country" placeholder="Country" required>
+        <input type="text" ngModel name="state" placeholder="State (for USA addresses)">
         <input type="text" ngModel name="county" placeholder="County" required>
         <input type="text" ngModel name="city" placeholder="City" required>
         <input type="number" ngModel name="ZIP" placeholder="ZIP Code" required>
@@ -37,9 +38,10 @@
     <form id="billingAddress" #billingAddressForm="ngForm"
     (ngSubmit)="billingAddressSubmit(billingAddressForm.value)">
     <input type="text" ngModel name="name" placeholder="Name" required autofocus>
-    <input type="text" ngModel name="nountry" placeholder="Country" required>
-    <input type="text" ngModel name="nounty" placeholder="County" required>
-    <input type="text" ngModel name="nity" placeholder="City" required>
+    <input type="text" ngModel name="country" placeholder="Country" required>
+    <input type="text" ngModel name="state" placeholder="State (for USA addresses)">
+    <input type="text" ngModel name="county" placeholder="County" required>
+    <input type="text" ngModel name="city" placeholder="City" required>
     <input type="number" ngModel name="ZIP" placeholder="ZIP Code" required>
     <input type="number" ngModel name="POBOX" placeholder="PO Box">
     <input type="text" ngModel name="address1" placeholder="Address1" required>
