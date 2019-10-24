@@ -23,7 +23,7 @@ function tokenControl(req, res, next){
         console.log(err);
         return res.status(401).send(err); // token is not valid
       } else {
-        console.log(verified);
+        //console.log(verified);
         if( verified.exp < (Date.now()/1000) ){ // token expired
           return res.status(401).json({'message':'Expired token!'});
           // implement sending new accessToken to frontEnd if expiry is close to current time say within 5 minutes!
