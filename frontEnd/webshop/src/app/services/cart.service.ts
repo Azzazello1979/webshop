@@ -113,14 +113,14 @@ export class CartService {
     extra: 'extra info'
   };
   billingAddress = {
-    country: 'USA',
-    state: 'Texas',
-    county: 'Archer',
-    city: 'Archer city',
-    ZIP: 1234,
-    POBOX: 1234,
-    address1: 'some',
-    address2: 'some'
+    country: '',
+    state: '',
+    county: '',
+    city: '',
+    ZIP: 0,
+    POBOX: 0,
+    address1: '',
+    address2: ''
   };
   shippingOptions: any = [
     { id:1, name: 'free', cost: 0, minDays: 30, maxDays: 50, imgSrc: './../../assets/icons/shipping-icon.png' },

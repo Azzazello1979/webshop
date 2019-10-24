@@ -31,6 +31,16 @@ export class PaymentService {
   }
 
   fillOrder() {
+
+    // take only 'id' and 'amount' from product object
+    let products = [];
+    this.cartService.cartProducts.forEach(e => {
+      let obj = {};
+      obj['id'] = e.id;
+      obj['amount'] = e.amount;
+      products.push(obj);
+    });
+
     this.order = {
       token: this.auth.getToken(),
       shippingOption: this.cartService.selectedShippingOption.id,
@@ -38,18 +48,17 @@ export class PaymentService {
       // shipping address
       shippingAddress: this.cartService.shippingAddress, // this is an object
       // to suborder table
-      products: this.cartService.cartProducts // this is an array of objects 
+      products: products // this is an array of objects, objects containinig only 'id' and 'amount' ... FIX LATER TO CONTAIN 'size' as well
     };
 
     // If billing address was given by user, append billing address object to order too
-    Object.keys(this.cartService.billingAddress).length > 0 ? 
+    this.cartService.billingAddress.country !== '' ? 
       this.order['billingAddress'] = this.cartService.billingAddress : 
       null;
     
   }
 
   saveOrder() {
-    //save order to database, assoc. with current email, subscribe to reply
     return this.http.post<any>(`${environment.backURL}/orders`, this.order);
   }
 

@@ -18,12 +18,14 @@ app.use(express.urlencoded({extended: true}));
 const registerRoute = require('./routes/register');
 const usersRoute = require('./routes/users');
 const loginRoute = require('./routes/login');
+const ordersRoute = require('./routes/orders');
 
 
 // use routes...
 app.use('/register', registerRoute);
 app.use('/users', usersRoute);
 app.use('/login', loginRoute);
+app.use('/orders', ordersRoute);
 
 
 // TEST connection

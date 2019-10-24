@@ -21,8 +21,12 @@ export class PaymentComponent implements OnInit, OnDestroy {
   initPayment(paymentOption){
     this.saveOrderSubscription = this.paymentService.initPayment(paymentOption).
       subscribe(
-        success => console.log(success),
-        error => console.log(error)
+        (success) => {
+          console.log(success)
+        },
+        (error) => {
+          console.log(error)
+        }
     );
   }
 
