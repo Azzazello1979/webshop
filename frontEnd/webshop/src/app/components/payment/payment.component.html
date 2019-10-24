@@ -5,8 +5,8 @@
 
     <div class="payments">
 
-        <div class="paymentCard" *ngFor="let payment of this.paymentService.paymentOptions">
-            <img (click)="selectPayment(payment)" src="{{ payment.img }}">
+        <div class="paymentCard" *ngFor="let paymentOption of this.paymentService.paymentOptions">
+            <img (click)="initPayment(paymentOption)" src="{{ payment.img }}">
             <p class="paymentName">{{ payment.name }}</p>
         </div>
 

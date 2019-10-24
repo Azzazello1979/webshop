@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
+import { environment } from './../../environments/environment';
 import { CartService } from './cart.service';
 import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
+
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,6 @@ export class PaymentService {
 
   selectedPayment = { id: 1, name: 'PayPal', img: './../../assets/icons/paypal-icon.png', url: 'https://paypal.com' }; // default selected payment obj
   order = {};
-
   paymentOptions: any = [
     { id: 1, name: 'PayPal', img: './../../assets/icons/paypal-icon.png', url: 'https://paypal.com' },
     { id: 2, name: 'MasterCard', img: './../../assets/icons/mastercard-icon.png', url: 'https://paypal.com' },
@@ -23,10 +24,10 @@ export class PaymentService {
     private http:HttpClient
   ) { }
 
-  selectPayment(paymentObj) {
-    this.selectedPayment = paymentObj;
+  initPayment(paymentOption) {
+    this.selectedPayment = paymentOption;
     this.fillOrder();
-    this.saveOrder();
+    return this.saveOrder();
   }
 
   fillOrder() {
@@ -38,19 +39,18 @@ export class PaymentService {
       shippingAddress: this.cartService.shippingAddress, // this is an object
       // to suborder table
       products: this.cartService.cartProducts // this is an array of objects 
-    }
+    };
 
-    if (Object.keys(this.cartService.billingAddress).length === 0) { // if billing address is not set
-      return;
-    } else { // billing address is set, lets append billingAddress object to order
-      this.order['billingAddress'] = this.cartService.billingAddress; // this is an object
-    }
-
+    // If billing address was given by user, append billing address object to order too
+    Object.keys(this.cartService.billingAddress).length > 0 ? 
+      this.order['billingAddress'] = this.cartService.billingAddress : 
+      null;
+    
   }
 
   saveOrder() {
     //save order to database, assoc. with current email, subscribe to reply
-
+    return this.http.post<any>(`${environment.backURL}/orders`, this.order);
   }
 
 
