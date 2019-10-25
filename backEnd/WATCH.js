@@ -39,3 +39,15 @@ db.query(`SELECT id FROM users WHERE email = '${decodedToken.email}';`)
       address2: '',
       extra: '' },
    products: [ { id: 12, amount: 1 } ] }
+
+   // INSERT INTO OK Packet
+   [ OkPacket {
+      fieldCount: 0,
+      affectedRows: 1,
+      insertId: 3,
+      serverStatus: 2,
+      warningCount: 0,
+      message: '',
+      protocol41: true,
+      changedRows: 0 },
+    undefined ]

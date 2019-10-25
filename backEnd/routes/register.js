@@ -20,7 +20,7 @@ router.post('/', (req, res) => {
       db.query(`INSERT INTO users (email, password) VALUES ('${req.body.email}', '${hash(req.body.password + salt)}') ;`)
       .then((OKpacket) => {
         console.log('OK, new user registerd');
-        console.table(OKpacket); // visualize OKpacket fields
+        console.log(OKpacket); // visualize OKpacket fields
         let token = jwt.sign( { 'email': req.body.email }, secret, { 'expiresIn': '1d' } );
         res.status(200).json({ 'token': token });
       })

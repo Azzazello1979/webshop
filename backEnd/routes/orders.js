@@ -20,39 +20,45 @@ router.post('/', tokenControl, (req,res) => {
 
     // FIND CURRENT USER user id based on email inside decoded token
     db.query(`SELECT id FROM users WHERE email = '${decodedToken.email}';`).
-    then( response => {
-        console.log('response after SELECT from users: ', response);
-        currentUserID = response[0][0].id;
+    then( (response1) => {
+        console.log('response after SELECT from users: ', response1)
+        currentUserID = response1[0][0].id;
     }).
-    // insert a record into ORDERS table
-    then( response => {
-        console.log('response after setting currentUserID: ', response);
-        db.query(`INSERT INTO orders (user_id, payment_id, shipping_id, orderCreated) VALUES
-        ( ${currentUserID}, ${req.body.paymentOption}, ${req.body.shippingOption}, now() );`);
-    }
-        
-    ).
-    // insert record into SUBORDER table, the response here will contain the insert_id from previous operation,
-    // use that to set 'user_id' here
-    then( response => {
-        console.log('response after INSERT INTO order: ', response);
-        db.query(`INSERT INTO suborder (order_id, product_id, amount) VALUES 
-        ( orders.last_insert_id, ${req.body.products[0].id}, ${req.body.products[0].amount} );`);
+
+
+    // insert a record into ORDERS table, callback parameter empty because previous op. in chain is not async
+    then(() => {
+        db.query(
+            `INSERT INTO orders (user_id, payment_id, shipping_id, orderCreated) VALUES
+            ( ${currentUserID}, ${req.body.paymentOption}, ${req.body.shippingOption}, now() );`
+            )
     }).
+
+
+    // insert record into suborder table    
+    then( (response2) => {
+        console.log('response after INSERT INTO order: ', response2)
+        db.query(
+            `INSERT INTO suborder (order_id, product_id, amount) VALUES 
+        ( ${response2[0].insertId}, ${req.body.products[0].id}, ${req.body.products[0].amount} );`
+        )
+    }).
+
+
     // insert record into ADDRESS table
-    then( response => {
-        console.log('response after INSERT INTO suborder: ', response);
+    then( (response3) => {
+        console.log('response after INSERT INTO suborder: ', response3)
         db.query(`INSERT INTO address (user_id, country, state, county, city, ZIP, POBOX, address1, address2, extra) VALUES 
         ( ${currentUserID}, '${req.body.shippingAddress.country}', '${req.body.shippingAddress.state}', 
         '${req.body.shippingAddress.county}', '${req.body.shippingAddress.city}', ${validatedZIP}, 
         ${validatedPOBOX}, '${req.body.shippingAddress.address1}', '${req.body.shippingAddress.address2}', 
-        '${req.body.shippingAddress.extra}' );`);
-    }
-        
-    ).
+        '${req.body.shippingAddress.extra}' );`)
+    }).
+
+
     // if req.body.billingAddress is truthy, add billingAddress info to BILLING_ADDRESS
-    then( response => {
-        console.log('response after INSERT INTO address: ', response);
+    then( (response4) => {
+        console.log('response after INSERT INTO address: ', response4)
         req.body.billingAddress ? 
 
         db.query(`INSERT INTO billing_address (user_id, country, state, county, city, ZIP, POBOX, address1, address2) VALUES 
@@ -62,10 +68,14 @@ router.post('/', tokenControl, (req,res) => {
 
         : null ;
     }).
-    then( response => {
-        console.log('response after INSERT INTO billing_address (or null if billing address was not provided): ', response);
-        return res.status(200).json({message: `OK, order saved to database for email ${decodedToken.email}`});
+
+
+    then( (response5) => {
+        console.log('response after INSERT INTO billing_address (or null if billing address was not provided): ', response5)
+        return res.status(200).json({message: `OK, order saved to database for email ${decodedToken.email}`})
     }).
+
+
     catch(error => {
         console.log(error);
     })
