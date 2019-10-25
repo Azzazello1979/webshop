@@ -45,13 +45,15 @@ router.post('/', tokenControl, (req, res) => {
         }).
 
 
-        // insert record into suborder table    
+        // insert record(s) into suborder table, order_id === orders.id    
         then((response2) => {
             console.log('response after INSERT INTO orders: ', response2)
-            return db.query(
-                `INSERT INTO suborder (order_id, product_id, amount) VALUES 
-        ( ${response2[0].insertId}, ${req.body.products[0].id}, ${req.body.products[0].amount} );`
-            )
+
+            req.body.products.forEach(e => {
+                return db.query(`INSERT INTO suborder (order_id, product_id, amount) VALUES 
+            ( ${response2[0].insertId}, ${e.id}, ${e.amount} );`)
+            });
+
         }).
 
 
