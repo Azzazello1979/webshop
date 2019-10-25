@@ -13,8 +13,8 @@ router.post('/', tokenControl, (req,res) => {
     let validatedZIP;
     let validatedPOBOX;
 
-    req.body.shippingAddress.ZIP === '' ? validatedZIP = 0 : null ;
-    req.body.shippingAddress.POBOX === '' ? validatedPOBOX = 0 : null ;
+    req.body.shippingAddress.ZIP === '' || req.body.shippingAddress.ZIP === undefined ? validatedZIP = 0 : validatedZIP = req.body.shippingAddress.ZIP ;
+    req.body.shippingAddress.POBOX === '' || req.body.shippingAddress.POBOX === undefined ? validatedPOBOX = 0 : validatedPOBOX = req.body.shippingAddress.POBOX ;
 
     let decodedToken = jwt.decode(req.headers.authorization.split(' ')[1]);
 
@@ -28,7 +28,7 @@ router.post('/', tokenControl, (req,res) => {
 
     // insert a record into ORDERS table, callback parameter empty because previous op. in chain is not async
     then(() => {
-        db.query(
+        return db.query(
             `INSERT INTO orders (user_id, payment_id, shipping_id, orderCreated) VALUES
             ( ${currentUserID}, ${req.body.paymentOption}, ${req.body.shippingOption}, now() );`
             )
@@ -38,7 +38,7 @@ router.post('/', tokenControl, (req,res) => {
     // insert record into suborder table    
     then( (response2) => {
         console.log('response after INSERT INTO order: ', response2)
-        db.query(
+        return db.query(
             `INSERT INTO suborder (order_id, product_id, amount) VALUES 
         ( ${response2[0].insertId}, ${req.body.products[0].id}, ${req.body.products[0].amount} );`
         )
@@ -48,7 +48,7 @@ router.post('/', tokenControl, (req,res) => {
     // insert record into ADDRESS table
     then( (response3) => {
         console.log('response after INSERT INTO suborder: ', response3)
-        db.query(`INSERT INTO address (user_id, country, state, county, city, ZIP, POBOX, address1, address2, extra) VALUES 
+        return db.query(`INSERT INTO address (user_id, country, state, county, city, ZIP, POBOX, address1, address2, extra) VALUES 
         ( ${currentUserID}, '${req.body.shippingAddress.country}', '${req.body.shippingAddress.state}', 
         '${req.body.shippingAddress.county}', '${req.body.shippingAddress.city}', ${validatedZIP}, 
         ${validatedPOBOX}, '${req.body.shippingAddress.address1}', '${req.body.shippingAddress.address2}', 
@@ -59,14 +59,15 @@ router.post('/', tokenControl, (req,res) => {
     // if req.body.billingAddress is truthy, add billingAddress info to BILLING_ADDRESS
     then( (response4) => {
         console.log('response after INSERT INTO address: ', response4)
-        req.body.billingAddress ? 
+        if(req.body.billingAddress)
 
-        db.query(`INSERT INTO billing_address (user_id, country, state, county, city, ZIP, POBOX, address1, address2) VALUES 
+        return db.query(`INSERT INTO billing_address (user_id, country, state, county, city, ZIP, POBOX, address1, address2) VALUES 
         ( ${currentUserID}, '${req.body.billingAddress.country}', '${req.body.billingAddress.state}', 
         '${req.body.billingAddress.county}', '${req.body.billingAddress.city}', ${validatedZIP}, 
         ${validatedPOBOX}, '${req.body.billingAddress.address1}', '${req.body.billingAddress.address2}' );`)
+        
 
-        : null ;
+        
     }).
 
 
