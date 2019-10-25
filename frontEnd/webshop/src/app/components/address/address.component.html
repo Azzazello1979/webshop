@@ -33,7 +33,7 @@
 <button (click)="this.cartService.toggleShippingBillingAddress()">My billing address is different from my shipping address</button>
 
 
-<h3>Please enter billing address:</h3>
+<h3 *ngIf="this.cartService.billingAddressIsDifferentFromShippingAddress">Please enter billing address:</h3>
 <div class="formContainer" *ngIf="this.cartService.billingAddressIsDifferentFromShippingAddress">
     <form id="billingAddress" #billingAddressForm="ngForm"
     (ngSubmit)="billingAddressSubmit(billingAddressForm.value)">
