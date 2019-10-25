@@ -7,13 +7,15 @@ import { MenuComponent } from './components/menu/menu.component';
 import { WishListComponent } from './components/wish-list/wish-list.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { AdminProductComponent } from './components/admin-product/admin-product.component';
 
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { MainComponent } from './components/main/main.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from './auth.guard';
 import { LandingpageComponent } from './components/landingpage/landingpage.component';
+import { AuthGuard } from './auth.guard';
+import { AdminGuard } from './admin.guard';
 
 
 
@@ -30,13 +32,12 @@ const routes: Routes = [
   { path: 'wishlist', component: WishListComponent, canActivate: [AuthGuard] },
   { path: 'orders', component: OrdersComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'add-product', component: AdminProductComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'products/:productID', component: ProductDetailComponent, canActivate: [AuthGuard] }
 
 ];
 
-/* 
-canActivate: [AuthGuard]
-*/
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

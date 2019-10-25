@@ -34,10 +34,12 @@ export class LoginLogoutComponent implements OnDestroy {
   }
 
 
-  // register? login? logout?
+  // register? login? logout? are you the admin?
   userIntent() { 
+
+  // call logout service  
     if (this.auth.hasToken()) {
-      this.auth.logout(); // call logout service
+      this.auth.logout(); 
       this.cartService.clearCart(); // empty cart on logout
       this.router.navigate(['/landingpage']);
 
@@ -79,7 +81,10 @@ export class LoginLogoutComponent implements OnDestroy {
             localStorage.setItem('token', endPointResponseObj.token);
             this.auth.loggedIn = true;
             this.auth.buttonText = 'Logout';
-            this.router.navigate(['/dashboard']);
+
+            // regular user or admin?
+            this.auth.adminLoggedIn ? this.router.navigate(['/add-product']) : this.router.navigate(['/dashboard']);
+            
           },
           (error) => {
             console.log('error @ login-logout.component.ts login service observer: ');

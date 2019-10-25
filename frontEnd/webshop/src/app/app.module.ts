@@ -46,6 +46,7 @@ import { PriceFilterComponent } from './components/price-filter/price-filter.com
 import { WishListComponent } from './components/wish-list/wish-list.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { AdminProductComponent } from './components/admin-product/admin-product.component';
 
 
 
@@ -79,6 +80,7 @@ import { ProfileComponent } from './components/profile/profile.component';
     WishListComponent,
     OrdersComponent,
     ProfileComponent,
+    AdminProductComponent,
     
     
     

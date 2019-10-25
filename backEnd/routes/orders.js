@@ -31,6 +31,8 @@ router.post('/', tokenControl, (req, res) => {
 
     // FIND CURRENT USER user id based on email inside decoded token
     db.query(`SELECT id FROM users WHERE email = '${decodedToken.email}';`).
+
+
         then((response1) => {
             console.log('response after SELECT from users: ', response1)
             currentUserID = response1[0][0].id;
@@ -74,15 +76,13 @@ router.post('/', tokenControl, (req, res) => {
         // if req.body.billingAddress is truthy, add billingAddress info to BILLING_ADDRESS
         then((response4) => {
             console.log('response after INSERT INTO address: ', response4)
-            if (req.body.billingAddress)
+            if (req.body.billingAddress){
 
                 return db.query(`INSERT INTO billing_address (order_id, name, country, state, county, city, ZIP, POBOX, address1, address2) VALUES 
         ( ${orderID}, '${req.body.billingAddress.name}', '${req.body.billingAddress.country}', '${req.body.billingAddress.state}', 
         '${req.body.billingAddress.county}', '${req.body.billingAddress.city}', ${validated_b_ZIP}, 
         ${validated_b_POBOX}, '${req.body.billingAddress.address1}', '${req.body.billingAddress.address2}' );`)
-
-
-
+            }
         }).
 
 

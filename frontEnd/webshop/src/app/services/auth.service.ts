@@ -14,7 +14,8 @@ export class AuthService {
   wantsToRegister: boolean = false;
   buttonText: string = 'Login';
 
-
+  adminEmail = 'balint.haui@gmail.com'; //get from database
+  adminLoggedIn = false;
 
   constructor(
     private http: HttpClient,
@@ -52,6 +53,7 @@ export class AuthService {
 
 
   logIn(userObject) {
+    userObject.email === this.adminEmail ? this.adminLoggedIn = true : null; // upgrade later to have password check too
     return this.http.post<any>(`${environment.backURL}/login`, userObject);
   }
 
