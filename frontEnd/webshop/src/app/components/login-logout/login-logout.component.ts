@@ -40,7 +40,8 @@ export class LoginLogoutComponent implements OnDestroy {
   // call logout service  
     if (this.auth.hasToken()) {
       this.auth.logout(); 
-      this.cartService.clearCart(); // empty cart on logout
+      this.cartService.saveCart();
+      this.cartService.saveWish();
       this.router.navigate(['/landingpage']);
 
 
