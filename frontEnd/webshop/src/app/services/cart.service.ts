@@ -3,10 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
+
+
 
   products = [
     {
@@ -242,17 +245,18 @@ export class CartService {
     this.getCartProducts(); // update cartProducts
   }
 
-
+  // because this method is called on logout, there is no need to unsubscribe
   saveCart(){
-    return this.http.post<any>(`${environment.backURL}/cart`, this.cartProducts).
+    this.http.post<any>(`${environment.backURL}/cart`, this.cartProducts).
     subscribe( 
       response => console.log('OK, cart items saved to databse', response),
       err => console.log('Error when saving cart to database', err)
     )
   }
 
+  // because this method is called on logout, there is no need to unsubscribe
   saveWish(){
-    return this.http.post<any>(`${environment.backURL}/wish`, this.wishListProducts).
+    this.http.post<any>(`${environment.backURL}/wish`, this.wishListProducts).
     subscribe(
       response => console.log('OK, wishlist items saved to database', response),
       err => console.log('Error when saving wishlist items to database', err)

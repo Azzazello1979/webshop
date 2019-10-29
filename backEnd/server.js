@@ -19,6 +19,8 @@ const registerRoute = require('./routes/register');
 const usersRoute = require('./routes/users');
 const loginRoute = require('./routes/login');
 const ordersRoute = require('./routes/orders');
+const cartRoute = require('./routes/cart');
+const wishRoute = require('./routes/wish');
 
 
 // use routes...
@@ -26,6 +28,8 @@ app.use('/register', registerRoute);
 app.use('/users', usersRoute);
 app.use('/login', loginRoute);
 app.use('/orders', ordersRoute);
+app.use('/cart', cartRoute);
+app.use('/wish', wishRoute);
 
 
 // TEST connection

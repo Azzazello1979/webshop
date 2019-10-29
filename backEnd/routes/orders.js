@@ -7,7 +7,7 @@ const tokenControl = require('./../middlewares/token_control'); // tokenControl 
 const jwt = require('jsonwebtoken');
 
 router.post('/', tokenControl, (req, res) => {
-    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Content-Type','application/json');
 
     let currentUserID;
     let orderID;
@@ -88,13 +88,13 @@ router.post('/', tokenControl, (req, res) => {
 
         then((response5) => {
             console.log('response after INSERT INTO billing_address (undefined means: billing address was not provided): ', response5)
-            return res.status(200).json({ message: `OK, order saved to database for email ${decodedToken.email}` })
+            return res.status(200).json({ 'message':`OK, order saved to database for email ${decodedToken.email}` })
         }).
 
 
         catch(error => {
             console.log(error)
-            res.status(500).json({ message: 'Something went wrong at /order endpoint, check console message!' })
+            res.status(500).json({ 'message':'Something went wrong at /order endpoint, check console message!' })
         })
 });
 
