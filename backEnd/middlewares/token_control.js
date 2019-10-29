@@ -18,7 +18,7 @@ function tokenControl(req, res, next){
     return res.status(401).json({'message':'authorization header missing!'}) // exists in header?
   } else {
     let theToken = req.headers['authorization'].split(' ')[1]; // Bearer word removed
-    jwt.verify(theToken, secret, (err, verified) => {
+    jwt.verify(theToken, secret, (err, verified) => { // jwt malformed - if frontend does not attach token to outgoing request
       if(err){
         console.log(err);
         return res.status(401).send(err); // token is not valid

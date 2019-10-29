@@ -3,32 +3,35 @@
 const db = require('./../connection'); // This connection uses mysql-promise
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
 const tokenControl = require('./../middlewares/token_control'); // tokenControl middleware
 
 router.post('/', tokenControl, (req,res) => {
     res.setHeader('Content-Type','application/json');
-
-    let currentUserID;
     let decodedToken = jwt.decode(req.headers.authorization.split(' ')[1]);
+    let currentUserID;
 
     // FIND CURRENT USER user id based on email inside decoded token
-        db.query(`SELECT id FROM users WHERE email = '${decodedToken.email}';`).
-    then(response1 => {
-        console.log('response after SELECT from users: ', response1)
-        return currentUserID = response1[0][0].id;
-    }).
-    then(response2 => {
-        console.log(response2)
-        return db.query(`INSERT INTO cart (product_id, amount) VALUES ( ${req.body[0][0].id}, ${req.body[0][0].amount} );`)
-    }).
-    then(response3 => {
-        console.log(response3)
-        return db.query(`INSERT INTO wish (product_id) VALUES ( ${req.body[0][0].id} );`)
-    }).
-    catch(
-        err => console.log(err),
-        res.status(500).json({'message':'Error during saving cart items to db.'})
-    )
+    db.query(`SELECT id FROM users WHERE email = '${decodedToken.email}';`).
+        then((response1) => {
+            currentUserID = response1[0][0].id;
+        }).
+        then(() => { // callback parameter empty because previous op. in chain is not async
+            req.body.cartProducts.forEach(e => {
+                return db.query(`INSERT INTO cart (user_id, product_id, amount, shipping_id) VALUES(
+                    ${currentUserID}, ${e.id}, ${e.amount}, ${req.body.shippingOption.id}
+                );`)
+            });
+
+        }).
+        catch(error => {
+            console.log(error);
+            res.status(500).json({'message':'error when saving cart to database'});
+        })
+
+
+
+
 
 })
 

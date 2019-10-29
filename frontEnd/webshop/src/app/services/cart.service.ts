@@ -247,19 +247,23 @@ export class CartService {
 
   // because this method is called on logout, there is no need to unsubscribe
   saveCart(){
-    this.http.post<any>(`${environment.backURL}/cart`, this.cartProducts).
-    subscribe( 
-      response => console.log('OK, cart items saved to databse', response),
-      err => console.log('Error when saving cart to database', err)
+    let info = {
+      'cartProducts':this.cartProducts,
+      'shippingOption':this.selectedShippingOption
+    };
+    return this.http.post<any>(`${environment.backURL}/cart`, info ).
+    subscribe(
+      res => console.log('cart service: OK, cart items saved to db. ', res),
+      err => console.log('cart service: Error when saving cart items to db. ', err)
     )
   }
 
   // because this method is called on logout, there is no need to unsubscribe
   saveWish(){
-    this.http.post<any>(`${environment.backURL}/wish`, this.wishListProducts).
+    return this.http.post<any>(`${environment.backURL}/wish`, this.wishListProducts).
     subscribe(
-      response => console.log('OK, wishlist items saved to database', response),
-      err => console.log('Error when saving wishlist items to database', err)
+      res => console.log('cart service: OK, wish items saved to db. ', res),
+      err => console.log('cart service: Error when saving wish items to db. ', err)
     )
   }
 
