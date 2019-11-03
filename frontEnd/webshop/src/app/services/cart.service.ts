@@ -152,13 +152,13 @@ export class CartService {
 
   addToWish(product) {
     this.wishListProducts.push(product);
-    this.products.forEach( e => e.productName === product.productName ? e.isWished = !e.isWished : null ); 
+    this.products.forEach( e => e.id === product.id ? e.isWished = !e.isWished : null ); 
     console.log('wishList items: ', this.wishListProducts);
   }
 
   removeFromWish(product){
-    this.wishListProducts = this.wishListProducts.filter(e => e.productName !== product.productName);
-    this.products.forEach( e => e.productName === product.productName ? e.isWished = !e.isWished : null );
+    this.wishListProducts = this.wishListProducts.filter(e => e.id !== product.id);
+    this.products.forEach( e => e.id === product.id ? e.isWished = !e.isWished : null );
     console.log('wishList items: ', this.wishListProducts);
   }
 
