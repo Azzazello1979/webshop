@@ -8,9 +8,6 @@ const tokenControl = require('./../middlewares/token_control'); // tokenControl 
 
 router.post('/', tokenControl, (req,res) => {
     res.setHeader('Content-Type','application/json');
-
-    
-
     let decodedToken = jwt.decode(req.headers.authorization.split(' ')[1]);
     let currentUserID;
 
@@ -25,11 +22,11 @@ router.post('/', tokenControl, (req,res) => {
                     ${currentUserID}, ${e.id}
                 );`)
             });
-
+            res.status(200).json({'message':'@wish endpoint: OK, wish list saved to DB.'});
         }).
         catch(error => {
             console.log(error);
-            res.status(500).json({'message':'error when saving wish items to database'});
+            res.status(500).json({'message':'@wish endpoint: error when saving wish items to database'});
         })
 
 

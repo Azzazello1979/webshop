@@ -196,22 +196,11 @@ export class CartService {
     //console.log(this.cartProducts.length);
   }
 
-  addItem(product) { // product identified by productName, unique
-    for (let i = 0; i < this.products.length; i++) {
-      if (this.products.length > 0 && this.products[i].productName === product.productName) {
-        this.products[i].amount++;
-        this.products[i].totalPrice += this.products[i].price;
-        this.totalItems++;
-        this.totalPrice += this.products[i].price;
-        this.getCartProducts(); // update cartProducts
-        return;
-      }
-    }
-  }
 
-  plus(productName) {
+
+  plus(productID) {
     for (let i = 0; i < this.products.length; i++) {
-      if (this.products[i].productName === productName) {
+      if (this.products[i].id === productID) {
         this.products[i].amount++;
         this.products[i].totalPrice += this.products[i].price;
         this.totalItems++;
@@ -221,9 +210,9 @@ export class CartService {
     }
   }
 
-  minus(productName) {
+  minus(productID) {
     for (let i = 0; i < this.products.length; i++) {
-      if (this.products[i].productName === productName) {
+      if (this.products[i].id === productID) {
         if (this.products[i].amount === 0) {
           return;
         }

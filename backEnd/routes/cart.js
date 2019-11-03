@@ -22,11 +22,11 @@ router.post('/', tokenControl, (req,res) => {
                     ${currentUserID}, ${e.id}, ${e.amount}, ${req.body.shippingOption.id}
                 );`)
             });
-
+            res.status(200).json({'message':'@cart endpoint: OK, cart saved to DB.'});
         }).
         catch(error => {
             console.log(error);
-            res.status(500).json({'message':'error when saving cart to database'});
+            res.status(500).json({'message':'@cart endpoint: error when saving cart to database'});
         })
 
 

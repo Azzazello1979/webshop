@@ -19,12 +19,12 @@ export class CartComponent implements OnInit {
   ) {}
 
 
-  add(productName){
-    this.cartService.plus(productName);
+  add(productID){
+    this.cartService.plus(productID);
   }
 
-  deduct(productName){
-    this.cartService.minus(productName);
+  deduct(productID){
+    this.cartService.minus(productID);
   }
 
   collectAddress(){
