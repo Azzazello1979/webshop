@@ -13,11 +13,12 @@
     <input class="registerLoginInput" *ngIf="!this.auth.loggedIn" [(ngModel)]="userObject.email" type="email"
       name="email" required autofocus placeholder="email" />
     <input class="registerLoginInput" *ngIf="!this.auth.loggedIn" [(ngModel)]="userObject.password" type="password"
-      name="password" required placeholder="password" />
+      name="password" required placeholder="password" (keydown.enter)="this.auth.wantsToRegister = this.auth.wantsToRegister"/>
+      <!-- without handling "keydown enter", the submit button below will switch state -->
 
 
     <input class="registerLoginButton" type="submit" name="submit" value={{this.auth.buttonText}}
-      (click)="userIntent()" />
+      (click)="userIntent()"  />
 
   </form>
 </div>

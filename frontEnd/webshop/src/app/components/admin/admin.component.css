@@ -1,0 +1,10 @@
+.wrapper{
+    width: 100vw;
+    max-width:100vw;
+    display:flex;
+    justify-content:flex-start;
+    margin:0;
+    padding:10px;
+    min-height:80vh;
+    background-color:white;
+}

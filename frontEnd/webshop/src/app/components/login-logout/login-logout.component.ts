@@ -35,6 +35,7 @@ export class LoginLogoutComponent implements OnDestroy {
 
 
   // register? login? logout? are you the admin?
+  // data validation not implemented in template driven form on purpose(practice makeshift data validation)
   userIntent() { 
 
   // call logout service  
@@ -47,9 +48,12 @@ export class LoginLogoutComponent implements OnDestroy {
 
   //call register service    
     } else if (this.auth.wantsToRegister === true) { 
-      if (this.userObject.email === undefined || this.userObject.password === undefined || typeof this.userObject.email !== 'string') {
+      if (this.userObject.email === undefined || this.userObject.password === undefined) {
         console.log(' email and password is needed ');
         return window.alert(' email and password is needed ');
+      } else if( this.userObject.email.split("").includes(" ") || this.userObject.password.split("").includes(" ") ){
+        console.log(' email or password cannot have space ');
+        return window.alert(' email or password cannot have space ');
       }
       this.registerSubscription = this.auth.register(this.userObject)
         .subscribe(

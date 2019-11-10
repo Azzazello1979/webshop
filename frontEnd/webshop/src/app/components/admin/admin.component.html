@@ -1,1 +1,30 @@
-<p>admin works!</p>
+<div class="wrapper">
+    <div class="main">
+        <table>
+            <tr><td><button (click)="addProductCLK()" >Add Product...</button></td></tr>
+            <tr *ngIf="addProductBtnClicked"><td>
+                <div>
+                    Add products ...
+                </div>
+            </td></tr>
+            <tr><td><button (click)="editProductCLK()" >Edit Product...</button></td></tr>
+            <tr *ngIf="editProductBtnClicked"><td>
+                <div>
+                    Edit products ...
+                </div>
+            </td></tr>
+            <tr><td><button (click)="manageOrdersCLK()" >Manage Orders...</button></td></tr>
+            <tr *ngIf="manageOrdersBtnClicked"><td>
+                <div>
+                    Manage Orders ...
+                </div>
+            </td></tr>
+            <tr><td><button (click)="manageUsersCLK()" >Manage Users...</button></td></tr>
+            <tr *ngIf="manageUsersBtnClicked"><td>
+                <div>
+                    Manage Users ...
+                </div>
+            </td></tr>
+        </table>
+    </div>
+</div>
