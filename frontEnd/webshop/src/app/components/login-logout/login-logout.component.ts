@@ -84,7 +84,7 @@ export class LoginLogoutComponent implements OnDestroy {
             this.auth.buttonText = 'Logout';
 
             // regular user or admin?
-            this.auth.adminLoggedIn ? this.router.navigate(['/add-product']) : this.router.navigate(['/dashboard']);
+            this.auth.adminLoggedIn ? this.router.navigate(['/admin']) : this.router.navigate(['/dashboard']);
             
           },
           (error) => {

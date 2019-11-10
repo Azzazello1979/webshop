@@ -7,7 +7,7 @@ import { MenuComponent } from './components/menu/menu.component';
 import { WishListComponent } from './components/wish-list/wish-list.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { ProfileComponent } from './components/profile/profile.component';
-import { AdminProductComponent } from './components/admin-product/admin-product.component';
+import { AdminComponent } from './components/admin/admin.component';
 
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { MainComponent } from './components/main/main.component';
@@ -32,7 +32,7 @@ const routes: Routes = [
   { path: 'wishlist', component: WishListComponent, canActivate: [AuthGuard] },
   { path: 'orders', component: OrdersComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'add-product', component: AdminProductComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'admin', component: AdminComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'products/:productID', component: ProductDetailComponent, canActivate: [AuthGuard] }
 
 ];
