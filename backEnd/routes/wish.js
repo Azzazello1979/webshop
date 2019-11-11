@@ -9,30 +9,28 @@ const tokenControl = require('./../middlewares/token_control'); // tokenControl 
 router.post('/', tokenControl, (req,res) => {
     res.setHeader('Content-Type','application/json');
     let decodedToken = jwt.decode(req.headers.authorization.split(' ')[1]);
-    let currentUserID;
+    let currentUserID = decodedToken.id;
 
-    // FIND CURRENT USER user id based on email inside decoded token
-    db.query(`SELECT id FROM users WHERE email = '${decodedToken.email}';`).
-        then((response1) => {
-            currentUserID = response1[0][0].id;
-        }).
-        then(() => { // callback parameter empty because previous op. in chain is not async
-            req.body.forEach(e => {
-                return db.query(`INSERT INTO wish (user_id, product_id) VALUES(
+    try{
+        saveWish();
+    }catch(err){
+        console.log('ERROR@wish endpoint - error saving wish to DB: ' + err);
+        return res.status(500).json({'message':'ERROR@wish endpoint - error saving wish to DB: ' + err});
+    }
+    
+    
+        async function saveWish(){
+            await req.body.forEach(e => {
+                 db.query(`INSERT INTO wish (user_id, product_id) VALUES(
                     ${currentUserID}, ${e.id}
                 );`)
             });
-            res.status(200).json({'message':'@wish endpoint: OK, wish list saved to DB.'});
-        }).
-        catch(error => {
-            console.log(error);
-            res.status(500).json({'message':'@wish endpoint: error when saving wish items to database'});
-        })
+        }
 
 
-
-
-
+        console.log('@wish endpoint: OK, wish list saved to DB.');
+        res.status(200).json({'message':'@wish endpoint: OK, wish list saved to DB.'});
+        
 })
 
 module.exports = router;

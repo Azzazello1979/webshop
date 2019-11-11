@@ -9,29 +9,27 @@ const tokenControl = require('./../middlewares/token_control'); // tokenControl 
 router.post('/', tokenControl, (req,res) => {
     res.setHeader('Content-Type','application/json');
     let decodedToken = jwt.decode(req.headers.authorization.split(' ')[1]);
-    let currentUserID;
+    let currentUserID = decodedToken.id;
 
-    // FIND CURRENT USER user id based on email inside decoded token
-    db.query(`SELECT id FROM users WHERE email = '${decodedToken.email}';`).
-        then((response1) => {
-            currentUserID = response1[0][0].id;
-        }).
-        then(() => { // callback parameter empty because previous op. in chain is not async
-            req.body.cartProducts.forEach(e => {
-                return db.query(`INSERT INTO cart (user_id, product_id, amount, shipping_id) VALUES(
+    try{
+        saveCart();
+    }catch(err){
+        console.log('ERROR@cart endpoint - error saving cart to DB: ' + err);
+        return res.status(500).json({'message':'ERROR@cart endpoint - error saving cart to DB: ' + err});
+    }
+    
+
+        async function saveCart(){
+            await req.body.cartProducts.forEach(e => {
+                db.query(`INSERT INTO cart (user_id, product_id, amount, shipping_id) VALUES(
                     ${currentUserID}, ${e.id}, ${e.amount}, ${req.body.shippingOption.id}
                 );`)
             });
-            res.status(200).json({'message':'@cart endpoint: OK, cart saved to DB.'});
-        }).
-        catch(error => {
-            console.log(error);
-            res.status(500).json({'message':'@cart endpoint: error when saving cart to database'});
-        })
-
-
-
-
+        }
+           
+    console.log('@cart endpoint: OK, cart saved to DB.');    
+    res.status(200).json({'message':'@cart endpoint: OK, cart saved to DB.'});
+        
 
 })
 

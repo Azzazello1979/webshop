@@ -20,11 +20,15 @@ router.post('/', (req,res) => {
       if(response[0].length === 0){
         return res.status(400).json({'message':'This email address is not registered.'});
       } else { // record with this emai exists, and there is password too
+
+        let userId = response[0][0].id;
+
         let suppliedHashedPassword = hash(req.body.password + salt);
         let storedHashedPasswordForThisEmail = response[0][0].password;
 
         if(suppliedHashedPassword === storedHashedPasswordForThisEmail){
-          let token = jwt.sign( { 'email': req.body.email }, secret, { expiresIn: '3h' });
+
+          let token = jwt.sign( { 'id': userId }, secret, { expiresIn: '3h' });
           res.status(200).json({'token': token});
         } else {
           console.log('Supplied password does not match with the one in our database.');
