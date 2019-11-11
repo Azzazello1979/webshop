@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CartService } from './../../services/cart.service';
 
 @Component({
   selector: 'main',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private cartService:CartService
+  ) { }
 
   ngOnInit() {
+    this.cartService.loadUserData();
   }
 
 }

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from './../../environments/environment';
+import { AuthService } from './auth.service';
+import { JwtHelperService } from '@auth0/angular-jwt'; // decode JWT token on FrontEnd!
 
 
 
@@ -8,6 +10,7 @@ import { environment } from './../../environments/environment';
   providedIn: 'root'
 })
 export class CartService {
+
 
 
 
@@ -145,7 +148,8 @@ export class CartService {
 
 
   constructor(
-    private http:HttpClient
+    private http:HttpClient,
+    private auth:AuthService
   ) {}
 
 
@@ -256,6 +260,10 @@ export class CartService {
     )
   }
 
+  // load user cart & wish list
+  loadUserData() {
+    let currentToken = this.auth.getToken();
+  }
 
 
 }
