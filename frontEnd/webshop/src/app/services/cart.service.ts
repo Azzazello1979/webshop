@@ -12,7 +12,7 @@ import { JwtHelperService } from '@auth0/angular-jwt'; // decode JWT token on Fr
 export class CartService {
 
 
-
+  currentUserId = 0; // user id from token
 
   products = [
     {
@@ -262,7 +262,15 @@ export class CartService {
 
   // load user cart & wish list
   loadUserData() {
-    let currentToken = this.auth.getToken();
+    // get current user id from token
+    const helper = new JwtHelperService;
+    const currentToken = this.auth.getToken();
+    const decodedToken = helper.decodeToken(currentToken);
+    this.currentUserId = decodedToken.id;
+
+    // get the saved cart contents & update to the products array
+
+    // get the saved wishlist contents & update to the products array
   }
 
 
