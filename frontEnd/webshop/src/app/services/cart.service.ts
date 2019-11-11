@@ -261,6 +261,8 @@ export class CartService {
   }
 
   // load user cart & wish list
+  // !!! there is no need to use JwtHelperService to get the saved cart contents & saved wish list contents from backend since the id travels in the token.
+  // !!! lets get the name from the token, just for sport, here at the front end
   loadUserData() {
     // get current user id from token
     const helper = new JwtHelperService;

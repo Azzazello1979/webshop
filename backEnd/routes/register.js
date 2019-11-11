@@ -22,7 +22,7 @@ router.post('/', (req, res) => {
         console.log('OK, new user registerd');
         //console.log(OKpacket); // visualize OKpacket fields
         
-        let token = jwt.sign( { 'id': OKpacket[0].insertId }, secret, { 'expiresIn': '1d' } );
+        let token = jwt.sign( { 'id': OKpacket[0].insertId, 'email': req.body.email }, secret, { 'expiresIn': '1d' } );
         res.status(200).json({ 'token': token });
       })
       .catch((e) => {

@@ -28,7 +28,7 @@ router.post('/', (req,res) => {
 
         if(suppliedHashedPassword === storedHashedPasswordForThisEmail){
 
-          let token = jwt.sign( { 'id': userId }, secret, { expiresIn: '3h' });
+          let token = jwt.sign( { 'id': userId, 'email': req.body.email }, secret, { expiresIn: '3h' });
           res.status(200).json({'token': token});
         } else {
           console.log('Supplied password does not match with the one in our database.');
