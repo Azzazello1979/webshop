@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from './../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt'; // decode JWT token on FrontEnd!
 
 
 
@@ -10,12 +11,19 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
 
+  currentUserId: number;
+  currentUseremail: string;
   loggedIn: boolean = false;
   wantsToRegister: boolean = false;
   buttonText: string = 'Login';
 
   adminEmail = 'balint.haui@gmail.com'; //get from database
   adminLoggedIn = false;
+
+  // get current decoded token 
+  helper = new JwtHelperService;
+  currentToken = this.getToken();
+  decodedToken = this.helper.decodeToken(this.currentToken);
 
   constructor(
     private http: HttpClient,
@@ -44,6 +52,16 @@ export class AuthService {
 
   getToken() {
     return localStorage.getItem('token');
+  }
+
+  getCurrentUserId(){
+    // get current user id from token
+    return this.currentUserId = this.decodedToken.id;
+  }
+
+  getCurrentUserEmail(){
+    // get current user email from token
+    return this.currentUseremail = this.decodedToken.email;
   }
 
 
