@@ -13,7 +13,7 @@ export class MainComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.cartService.loadUserData();
+    this.cartService.loadUserCart();
   }
 
 }

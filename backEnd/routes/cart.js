@@ -31,6 +31,34 @@ router.post('/', tokenControl, (req,res) => {
     res.status(200).json({'message':'@cart endpoint: OK, cart saved to DB.'});
         
 
-})
+});
+
+
+
+
+router.get('/', tokenControl, (req,res) => {
+    res.setHeader('Content-Type','application/json');
+    let decodedToken = jwt.decode(req.headers.authorization.split(' ')[1]);
+    let currentUserID = decodedToken.id;
+    
+    let queryResult;
+
+    try{
+        getSavedCart();
+    }catch(err){
+        console.log('ERROR @ cart backend @ getSavedCart() ' + err)
+    }
+
+    async function getSavedCart(){
+       queryResult = await db.query(
+           `SELECT product_id, amount FROM suborder JOIN orders ON orders.id = suborder.order_id WHERE orders.user_id = ${currentUserID}`
+           );
+    }
+
+    res.status(200).send(queryResult);
+
+});
+
+
 
 module.exports = router;
