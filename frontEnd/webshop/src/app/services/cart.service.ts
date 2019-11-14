@@ -6,6 +6,7 @@ import { AuthService } from './auth.service';
 
 
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -238,46 +239,97 @@ export class CartService {
     this.getCartProducts(); // update cartProducts
   }
 
+
+
+
+
+  // call these on LOGOUT:
   // because this method is called on logout, there is no need to unsubscribe
+  
+
+
+  // empty users saved cart in database before updating it with current saved cart 
+  // (we could also use http.put or http.patch , but the point here is to practice chaining async functions xoxo )
+  emptySavedCart(){
+    return this.http.delete<any>(`${environment.backURL}/cart` )
+    .subscribe(
+      res => {
+        console.log("cart service: OK, cleaning of user saved cart done. ", res)
+        this.saveCart()
+      },
+      err => console.log("cart service: Error when cleaning of user saved cart. ", err)
+    );
+  }
+
+ // now save current user cart to db
   saveCart(){
     let info = {
       'cartProducts':this.cartProducts,
       'shippingOption':this.selectedShippingOption
     };
-    return this.http.post<any>(`${environment.backURL}/cart`, info ).
-    subscribe(
-      res => console.log('cart service: OK, cart items saved to db. ', res),
-      err => console.log('cart service: Error when saving cart items to db. ', err)
-    )
+    return this.http.post<any>(`${environment.backURL}/cart`, info )
+    .subscribe(
+      res => {
+        console.log("cart service: OK, cart items saved to db. ", res)
+        this.saveWish()
+      },
+      err =>
+        console.log(
+          "cart service: Error when saving cart items to db. ",
+          err
+        )
+    );
   }
 
-  // because this method is called on logout, there is no need to unsubscribe
+  // now save current wish list to db and finally call this.auth.logout() that clears the token an sets flags in auth.service
   saveWish(){
-    return this.http.post<any>(`${environment.backURL}/wish`, this.wishListProducts).
-    subscribe(
-      res => console.log('cart service: OK, wish items saved to db. ', res),
-      err => console.log('cart service: Error when saving wish items to db. ', err)
-    )
+    return this.http.post<any>(`${environment.backURL}/wish`, this.wishListProducts)
+    .subscribe(
+      res => {
+        console.log("cart service: OK, wish items saved to db. ", res)
+        this.auth.logout(); // call this last, it clears token, and token is needed by above save methods
+      },
+      err =>
+        console.log(
+          "cart service: Error when saving wish items to db. ",
+          err
+        )
+    );
   }
 
-   
+
+
+
+
+
+   // call these on LOGIN:
+   // 1/5
    loadUserCart() {
     // get the saved cart contents
     return this.http.get<any>(`${environment.backURL}/cart`)
     .subscribe(
-      result => {
-        console.table(result)
-      },
-      err => {
-        console.log('ERROR @cartService @loadUserCart() ' + err)
-      }
+      result => console.table(result),
+      err => console.log('ERROR @cartService @loadUserCart() ' + err)
     );
+    
   }
 
+  // 2/5
   loadUserWish(){
 
   }
 
+  // 3/5
+  loadUserShipmentPreference(){
+
+  }
+
+  // 4/5
+  loadUserPaymentPreference(){
+
+  }
+
+  // 5/5
   updateProductsWithSavedUserData(){
 
   }

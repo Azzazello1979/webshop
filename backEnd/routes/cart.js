@@ -6,6 +6,29 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const tokenControl = require('./../middlewares/token_control'); // tokenControl middleware
 
+
+
+router.delete('/', tokenControl, (req,res) => {
+    res.setHeader('Content-Type','application/json');
+    let decodedToken = jwt.decode(req.headers.authorization.split(' ')[1]);
+    let currentUserID = decodedToken.id;
+
+    try{
+        cleanSavedCart();
+    }catch(err){
+        console.log('ERROR @ cart endpoint @ DELETE: ' + err)
+    }
+
+    async function cleanSavedCart(){
+        let deleteResult = await db.query(`DELETE FROM cart WHERE user_id = ${currentUserID};`);
+        console.log(deleteResult.affectedRows + ' affected rows at cleanup');
+        res.status(200).json({'message':'@cart endpoint @DELETE : OK, user saved cart cleared before update'});
+    }
+
+});
+
+
+
 router.post('/', tokenControl, (req,res) => {
     res.setHeader('Content-Type','application/json');
     let decodedToken = jwt.decode(req.headers.authorization.split(' ')[1]);
@@ -17,7 +40,7 @@ router.post('/', tokenControl, (req,res) => {
         console.log('ERROR@cart endpoint - error saving cart to DB: ' + err);
         return res.status(500).json({'message':'ERROR@cart endpoint - error saving cart to DB: ' + err});
     }
-    
+
 
         async function saveCart(){
             await req.body.cartProducts.forEach(e => {
@@ -41,7 +64,8 @@ router.get('/', tokenControl, (req,res) => {
     let decodedToken = jwt.decode(req.headers.authorization.split(' ')[1]);
     let currentUserID = decodedToken.id;
     
-    let queryResult;
+
+    
 
     try{
         getSavedCart();
@@ -50,14 +74,24 @@ router.get('/', tokenControl, (req,res) => {
     }
 
     async function getSavedCart(){
-       queryResult = await db.query(
-           `SELECT product_id, amount FROM suborder JOIN orders ON orders.id = suborder.order_id WHERE orders.user_id = ${currentUserID}`
+        let queryResult;
+        queryResult = await db.query(
+           `SELECT product_id, amount FROM cart WHERE user_id = ${currentUserID}`
            );
+
+           console.log('current saved cart of user: ');
+           console.table(queryResult);
+           res.status(200).send(queryResult);
     }
 
-    res.status(200).send(queryResult);
+
 
 });
+
+
+
+
+
 
 
 

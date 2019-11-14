@@ -81,6 +81,7 @@ export class AuthService {
     this.wantsToRegister = false;
     this.loggedIn = false;
     this.buttonText = 'Login';
+    
   }
 
 

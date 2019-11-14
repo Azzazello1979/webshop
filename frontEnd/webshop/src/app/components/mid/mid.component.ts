@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 
 
 
+
 @Component({
   selector: 'mid',
   templateUrl: './mid.component.html',
@@ -23,17 +24,14 @@ export class MidComponent implements OnInit {
 
 
 
-
-
-
-
-
-
   ngOnInit() {
     this.listingService.fillAllProducts();
     this.listingService.filteredProducts = this.listingService.allProducts;
     this.listingService.getAllCollections();
     this.listingService.getAllStones();
+
+    this.cartService.loadUserCart();
+    
   }
   
 }
