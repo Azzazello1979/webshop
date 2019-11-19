@@ -15,6 +15,15 @@ export class PriceFilterComponent implements OnInit {
     private listingService:ListingService
   ) { }
 
+
+  minChanged(){
+    this.listingService.someFilterApplied = true;
+  }
+
+  maxChanged(){
+    this.listingService.someFilterApplied = true;
+  }
+
   ngOnInit() {
   }
 

@@ -20,6 +20,7 @@ export class ListingService {
   minPriceSet:number = 10;
   maxPriceSet:number = 500;
 
+  someFilterApplied = false;
 
   constructor(
     private cartService:CartService
@@ -53,6 +54,8 @@ export class ListingService {
       this.selectedPriceRange = 'no filter';
       this.selectedCollection = 'no filter';
       this.selectedStone = 'no filter';
+
+      this.someFilterApplied = false;
     }
 
 

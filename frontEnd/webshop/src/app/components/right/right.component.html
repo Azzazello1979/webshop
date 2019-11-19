@@ -1,4 +1,8 @@
 <div class="filterButtons">
-    <button (click)="this.listingService.setFilteredProducts()">Filter Products</button>
-    <button (click)="this.listingService.removeAllFilters()">Remove All Filters</button>
+    <button (click)="this.listingService.setFilteredProducts()"
+     [style.backgroundColor]="this.listingService.someFilterApplied ? '#ffd47d' : 'white' "
+     >Filter Products</button>
+    <button (click)="this.listingService.removeAllFilters()"
+     [style.backgroundColor]="this.listingService.someFilterApplied ? '#ffd47d' : 'white' "
+     >Remove All Filters</button>
 </div>
