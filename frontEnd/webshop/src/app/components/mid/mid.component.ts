@@ -30,7 +30,8 @@ export class MidComponent implements OnInit {
     this.listingService.getAllCollections();
     this.listingService.getAllStones();
 
-    this.cartService.loadUserCart();
+    this.cartService.loadUserCartAndShipping();
+    this.cartService.loadUserWish();
     
   }
   

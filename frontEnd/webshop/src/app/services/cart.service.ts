@@ -250,7 +250,7 @@ export class CartService {
 
   // empty users saved cart in database before updating it with current saved cart 
   // (we could also use http.put or http.patch , but the point here is to practice chaining async functions xoxo )
-  emptySavedCart(){
+/*   emptySavedCart(){
     return this.http.delete<any>(`${environment.backURL}/cart` )
     .subscribe(
       res => {
@@ -259,7 +259,7 @@ export class CartService {
       },
       err => console.log("cart service: Error when cleaning of user saved cart. ", err)
     );
-  }
+  } */
 
  // now save current user cart to db
   saveCart(){
@@ -282,6 +282,7 @@ export class CartService {
   }
 
   // now save current wish list to db and finally call this.auth.logout() that clears the token an sets flags in auth.service
+  
   saveWish(){
     return this.http.post<any>(`${environment.backURL}/wish`, this.wishListProducts)
     .subscribe(
@@ -304,11 +305,14 @@ export class CartService {
 
    // call these on LOGIN:
    // 1/5
-   loadUserCart() {
+   loadUserCartAndShipping() {
     // get the saved cart contents
     return this.http.get<any>(`${environment.backURL}/cart`)
     .subscribe(
-      result => console.table(result),
+      result => {
+        console.log('current saved cart of user: ')
+        console.table(result)
+      },
       err => console.log('ERROR @cartService @loadUserCart() ' + err)
     );
     
@@ -316,23 +320,22 @@ export class CartService {
 
   // 2/5
   loadUserWish(){
-
+   // get the saved wishlist items
+   return this.http.get<any>(`${environment.backURL}/wish`)
+   .subscribe(
+     result => {
+      console.log('current saved wish list of user: ')
+      console.table(result)
+     },
+     err => console.log('ERROR @cartService @loadUserWish() ' + err)
+   );
   }
 
-  // 3/5
-  loadUserShipmentPreference(){
 
-  }
 
-  // 4/5
-  loadUserPaymentPreference(){
 
-  }
 
-  // 5/5
-  updateProductsWithSavedUserData(){
 
-  }
 
 
 }

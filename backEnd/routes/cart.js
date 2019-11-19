@@ -8,7 +8,7 @@ const tokenControl = require('./../middlewares/token_control'); // tokenControl 
 
 
 
-router.delete('/', tokenControl, (req,res) => {
+/* router.delete('/', tokenControl, (req,res) => {
     res.setHeader('Content-Type','application/json');
     let decodedToken = jwt.decode(req.headers.authorization.split(' ')[1]);
     let currentUserID = decodedToken.id;
@@ -25,7 +25,7 @@ router.delete('/', tokenControl, (req,res) => {
         res.status(200).json({'message':'@cart endpoint @DELETE : OK, user saved cart cleared before update'});
     }
 
-});
+}); */
 
 
 
@@ -43,15 +43,21 @@ router.post('/', tokenControl, (req,res) => {
 
 
         async function saveCart(){
-            await req.body.cartProducts.forEach(e => {
+            let deleteResponse = await db.query(`DELETE FROM cart WHERE user_id = ${currentUserID};`);
+            console.log('deleteResponse@saveCart(): ');
+            console.table(deleteResponse);
+            
+            let insertResponse = await req.body.cartProducts.forEach(e => {
                 db.query(`INSERT INTO cart (user_id, product_id, amount, shipping_id) VALUES(
                     ${currentUserID}, ${e.id}, ${e.amount}, ${req.body.shippingOption.id}
                 );`)
             });
+            console.log('insertResponse@saveCart(): ');
+            console.table(insertResponse);
+            res.status(200).send(insertResponse);
         }
            
-    console.log('@cart endpoint: OK, cart saved to DB.');    
-    res.status(200).json({'message':'@cart endpoint: OK, cart saved to DB.'});
+
         
 
 });
