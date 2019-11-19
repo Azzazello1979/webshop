@@ -15,6 +15,7 @@ export class CartService {
 
   currentUserId = 0; // user id from token
 
+  // load products from DB on startup 
   products = [
     {
       id: 1, collection: 'Rittis', productName: 'Rittis-1', isWished: false,
@@ -247,21 +248,7 @@ export class CartService {
   // because this method is called on logout, there is no need to unsubscribe
   
 
-
-  // empty users saved cart in database before updating it with current saved cart 
-  // (we could also use http.put or http.patch , but the point here is to practice chaining async functions xoxo )
-/*   emptySavedCart(){
-    return this.http.delete<any>(`${environment.backURL}/cart` )
-    .subscribe(
-      res => {
-        console.log("cart service: OK, cleaning of user saved cart done. ", res)
-        this.saveCart()
-      },
-      err => console.log("cart service: Error when cleaning of user saved cart. ", err)
-    );
-  } */
-
- // now save current user cart to db
+ // save current user cart items,amount & shipping preference to DB
   saveCart(){
     let info = {
       'cartProducts':this.cartProducts,
@@ -282,7 +269,6 @@ export class CartService {
   }
 
   // now save current wish list to db and finally call this.auth.logout() that clears the token an sets flags in auth.service
-  
   saveWish(){
     return this.http.post<any>(`${environment.backURL}/wish`, this.wishListProducts)
     .subscribe(
@@ -304,28 +290,53 @@ export class CartService {
 
 
    // call these on LOGIN:
-   // 1/5
+   
    loadUserCartAndShipping() {
     // get the saved cart contents
+     // we need:
+     // array of {product_id, amount}
+     // {shipping_id}
+     // set amount in products
+     // set selectedShippingOption from shippingOptions
+
     return this.http.get<any>(`${environment.backURL}/cart`)
     .subscribe(
       result => {
         console.log('current saved cart of user: ')
-        console.table(result)
+        console.table(result[0])
       },
       err => console.log('ERROR @cartService @loadUserCart() ' + err)
     );
     
   }
 
-  // 2/5
+  
   loadUserWish(){
    // get the saved wishlist items
+    // we need:
+    // array of {product_id}
+    // set isWished to true...
    return this.http.get<any>(`${environment.backURL}/wish`)
    .subscribe(
      result => {
       console.log('current saved wish list of user: ')
-      console.table(result)
+      console.table(result[0])
+
+    result[0].forEach(wishedItem => {
+      console.log(wishedItem)
+      this.products.forEach(p => {
+        
+        if(p.id === wishedItem.product_id){
+          p.isWished = true; 
+          this.wishListProducts.push(p); 
+        }
+
+
+      })
+    })
+
+      
+
      },
      err => console.log('ERROR @cartService @loadUserWish() ' + err)
    );
