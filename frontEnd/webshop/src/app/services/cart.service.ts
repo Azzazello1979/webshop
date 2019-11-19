@@ -307,10 +307,24 @@ export class CartService {
         console.log(result[0]) 
 
         // update selectedShippingOption from databse
-        let shippingID = result[0][0].shipping_id; // the saved shipping id, belonging to the saved cart, from database
+        let shippingID = 1;
+        shippingID = result[0][0].shipping_id; // the saved shipping id, belonging to the saved cart, from database
         this.selectedShippingOption = this.shippingOptions.filter(e => e.id === shippingID)[0];
         //console.log(this.selectedShippingOption.name);
 
+        // update products amounts from database ... update cart based on saved user data
+        result[0].forEach(savedCartItem => {
+          this.products.forEach(p => {
+
+            if(p.id === savedCartItem.product_id){
+              p.amount = savedCartItem.amount;
+              p.totalPrice = p.price * p.amount;
+              this.totalItems ++;
+              this.totalPrice += p.totalPrice;
+              this.getCartProducts(); // update cartProducts
+            }
+          })
+        })
         
         
 
