@@ -55,6 +55,8 @@ export class ListingService {
       this.selectedCollection = 'no filter';
       this.selectedStone = 'no filter';
 
+      this.minPriceSet = 10;
+      this.maxPriceSet = 500;
       this.someFilterApplied = false;
     }
 
