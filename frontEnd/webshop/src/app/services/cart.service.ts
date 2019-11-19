@@ -146,6 +146,7 @@ export class CartService {
   cartProducts = []; 
   wishListProducts = [];
  
+  
 
 
 
@@ -303,35 +304,39 @@ export class CartService {
     .subscribe(
       result => {
         console.log('current saved cart of user: ')
-        console.table(result[0])
+        console.log(result[0]) 
+
+        // update selectedShippingOption from databse
+        let shippingID = result[0][0].shipping_id; // the saved shipping id, belonging to the saved cart, from database
+        this.selectedShippingOption = this.shippingOptions.filter(e => e.id === shippingID)[0];
+        //console.log(this.selectedShippingOption.name);
+
+        
+        
+
       },
       err => console.log('ERROR @cartService @loadUserCart() ' + err)
     );
     
   }
 
-  
+  // update wishListProducts from database
   loadUserWish(){
-   // get the saved wishlist items
-    // we need:
-    // array of {product_id}
-    // set isWished to true...
+   
    return this.http.get<any>(`${environment.backURL}/wish`)
    .subscribe(
      result => {
       console.log('current saved wish list of user: ')
-      console.table(result[0])
+      console.log(result[0])
+      
+      
 
     result[0].forEach(wishedItem => {
-      console.log(wishedItem)
       this.products.forEach(p => {
-        
         if(p.id === wishedItem.product_id){
           p.isWished = true; 
           this.wishListProducts.push(p); 
         }
-
-
       })
     })
 
