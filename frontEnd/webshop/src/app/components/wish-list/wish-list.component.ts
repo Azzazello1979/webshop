@@ -19,7 +19,6 @@ export class WishListComponent implements OnInit {
   }
 
   ngOnInit() {
-    
   }
 
 }

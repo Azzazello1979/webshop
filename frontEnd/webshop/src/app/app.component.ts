@@ -16,12 +16,6 @@ export class AppComponent implements OnInit{
 
   ngOnInit(){
 
-    // prevent logging out user if page is reloaded(=component is destroyed)
-    if(this.auth.hasToken()){
-      this.auth.loggedIn = true;
-      this.auth.buttonText = 'Logout';
-    }else{
-      this.auth.loggedIn = false;
-    }   
+  
   }
 }
