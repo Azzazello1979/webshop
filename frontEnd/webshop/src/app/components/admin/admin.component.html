@@ -15,6 +15,9 @@
 
             <div class="formContainer" *ngIf="addProductBtnClicked">
                     <form>
+
+                        <fieldset>
+                            <legend>Main info: </legend>
                         <input type="text" name="productName" placeholder="product name" required autofocus />
                         <p>Collection:</p>
                         <select name="collection">
@@ -28,19 +31,27 @@
                         <input type="number" name="carat" required placeholder="carat" />
                         <input type="text" name="cut" required placeholder="cut" />
                         <input type="text" name="material" required placeholder="material" />
+                        </fieldset><br>
 
+
+                        <fieldset>
+                            <legend>Additional info: </legend>
                         <input type="number" name="sale" placeholder="sale %" />
                         <input type="text" name="sizes" placeholder="sizes array (comma separated)" required />
 
                         <p>Description:</p>
                         <textarea name="description" rows="4" cols="50" style="resize:none;"></textarea>
+                        </fieldset><br>
 
+
+                        <fieldset>
+                            <legend>Images: </legend>
                         <p>Main image:</p>
-                        <input type="file" name="img" accept="image/png, image/jpg" required />
+                        <input type="file" name="img" accept="image/*" required />
 
                         <p>Gallery images:</p>
-                        <input type="file" name="gallImages" accept="image/png, image/jpg" multiple="true" required />
-
+                        <input type="file" name="gallImages" accept="image/*" multiple="true" required />
+                        </fieldset><br>
 
                         <input type="submit" name="addProduct" value="Add Product" /> 
                     </form>
