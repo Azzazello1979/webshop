@@ -25,8 +25,6 @@ const { // destructuring ... picking all these properties from 'req.body.'
   billingAddress, 
   paymentOption, 
   shippingOption, 
-  shippingAddress, 
-  billingAddress,
   products
    } = req.body;
 
