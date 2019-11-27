@@ -4,7 +4,14 @@
             <tr><td><button (click)="addProductCLK()" >Add Product...</button></td></tr>
             <tr *ngIf="addProductBtnClicked"><td>
                 <div>
-                    Add products ...
+                    <form>
+                        <input type="text" name="productName" placeholder="product name" autofocus />
+                        <select name="collection" placeholder="collection">
+                            <option *ngFor="let collection of collections" value="{{ collection }}">{{ collection }}</option>
+                        </select>
+
+                        <input type="submit" name="addProduct" value="Add Product" /> 
+                    </form>
                 </div>
             </td></tr>
             <tr><td><button (click)="editProductCLK()" >Edit Product...</button></td></tr>

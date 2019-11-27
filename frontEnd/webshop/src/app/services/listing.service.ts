@@ -33,6 +33,7 @@ export class ListingService {
     // initialized by mid component (that is the product listing component)
     fillAllProducts(){ 
       this.allProducts = this.cartService.getProducts();
+      
     }
 
     
@@ -70,6 +71,7 @@ export class ListingService {
       }
       result.unshift('no filter');
       this.allCollections = result;
+      return result;
     }
 
 
