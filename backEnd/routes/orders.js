@@ -19,46 +19,39 @@ router.post("/", tokenControl, (req, res) => {
   let validated_b_POBOX;
 
   // implement more validation errors, like whitespace in input field, etc...
-
-const { // destructuring ... picking all these properties from 'req.body.'
-  shippingAddress, 
-  billingAddress, 
-  paymentOption, 
-  shippingOption, 
-  products
-   } = req.body;
-
-  shippingAddress.ZIP === undefined
+  req.body.shippingAddress.ZIP === undefined
     ? (validatedZIP = 0)
-    : (validatedZIP = shippingAddress.ZIP);
+    : (validatedZIP = req.body.shippingAddress.ZIP);
 
-  shippingAddress.POBOX === undefined
+  req.body.shippingAddress.POBOX === undefined
     ? (validatedPOBOX = 0)
-    : (validatedPOBOX = shippingAddress.POBOX);
+    : (validatedPOBOX = req.body.shippingAddress.POBOX);
 
-  if (billingAddress) {
-    billingAddress.ZIP === undefined
+  if (req.body.billingAddress) {
+    req.body.billingAddress.ZIP === undefined
       ? (validated_b_ZIP = 0)
-      : (validated_b_ZIP = billingAddress.ZIP);
+      : (validated_b_ZIP = req.body.billingAddress.ZIP);
 
-    billingAddress.POBOX === undefined
+    req.body.billingAddress.POBOX === undefined
       ? (validated_b_POBOX = 0)
-      : (validated_b_POBOX = billingAddress.POBOX);
+      : (validated_b_POBOX = req.body.billingAddress.POBOX);
   }
 
   let decodedToken = jwt.decode(req.headers.authorization.split(" ")[1]);
   currentUserID = decodedToken.id;
 
+  db.query(
+    `INSERT INTO orders (user_id, payment_id, shipping_id, orderCreated) VALUES
+            ( ${currentUserID}, ${req.body.paymentOption}, ${req.body.shippingOption}, now() );`
+  )
 
     // insert record(s) into suborder table
-    db.query( `INSERT INTO orders (user_id, payment_id, shipping_id, orderCreated) VALUES
-    ( ${currentUserID}, ${paymentOption}, ${shippingOption}, now() );` )
     .then(response2 => {
       console.log("response after INSERT INTO orders: ", response2);
 
       orderID = response2[0].insertId; // orderID to be used in suborder table, address table and billing_address table
 
-      products.forEach(e => {
+      req.body.products.forEach(e => {
         return db.query(`INSERT INTO suborder (order_id, product_id, amount) VALUES 
             ( ${orderID}, ${e.id}, ${e.amount} );`);
       });
@@ -67,19 +60,19 @@ const { // destructuring ... picking all these properties from 'req.body.'
     .then(response3 => {
       console.log("response after INSERT INTO suborder: ", response3);
       return db.query(`INSERT INTO address (order_id, name, country, state, county, city, ZIP, POBOX, address1, address2, extra) VALUES 
-        ( ${orderID}, '${shippingAddress.name}', '${shippingAddress.country}', '${shippingAddress.state}', 
-        '${shippingAddress.county}', '${shippingAddress.city}', ${validatedZIP}, 
-        ${validatedPOBOX}, '${shippingAddress.address1}', '${shippingAddress.address2}', 
-        '${shippingAddress.extra}' );`);
+        ( ${orderID}, '${req.body.shippingAddress.name}', '${req.body.shippingAddress.country}', '${req.body.shippingAddress.state}', 
+        '${req.body.shippingAddress.county}', '${req.body.shippingAddress.city}', ${validatedZIP}, 
+        ${validatedPOBOX}, '${req.body.shippingAddress.address1}', '${req.body.shippingAddress.address2}', 
+        '${req.body.shippingAddress.extra}' );`);
     })
     // if req.body.billingAddress is truthy, add billingAddress info to BILLING_ADDRESS
     .then(response4 => {
       console.log("response after INSERT INTO address: ", response4);
-      if (billingAddress) {
+      if (req.body.billingAddress) {
         return db.query(`INSERT INTO billing_address (order_id, name, country, state, county, city, ZIP, POBOX, address1, address2) VALUES 
-        ( ${orderID}, '${billingAddress.name}', '${billingAddress.country}', '${billingAddress.state}', 
-        '${billingAddress.county}', '${billingAddress.city}', ${validated_b_ZIP}, 
-        ${validated_b_POBOX}, '${billingAddress.address1}', '${billingAddress.address2}' );`);
+        ( ${orderID}, '${req.body.billingAddress.name}', '${req.body.billingAddress.country}', '${req.body.billingAddress.state}', 
+        '${req.body.billingAddress.county}', '${req.body.billingAddress.city}', ${validated_b_ZIP}, 
+        ${validated_b_POBOX}, '${req.body.billingAddress.address1}', '${req.body.billingAddress.address2}' );`);
       }
     })
     .then(response5 => {

@@ -85,7 +85,7 @@ router.get('/', tokenControl, (req,res) => {
     async function getSavedCart(){
         let queryResult;
         queryResult = await db.query(
-           `SELECT product_id, amount, shipping_id FROM cart WHERE user_id = ${currentUserID}`
+           `SELECT product_id, amount, shipping_id FROM cart WHERE user_id = ${currentUserID};`
            );
 
            console.log('current saved cart of user: ');

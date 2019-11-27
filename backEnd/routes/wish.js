@@ -52,13 +52,13 @@ router.get('/', tokenControl, (req,res) => {
     try{
         getSavedWish();
     }catch(err){
-        console.log('ERROR @ cart backend @ getSavedWish() ' + err)
+        return console.log('ERROR @ cart backend @ getSavedWish() ' + err)
     }
 
     async function getSavedWish(){
         
         let response = await db.query(
-           `SELECT product_id FROM wish WHERE user_id = ${currentUserID}`
+           `SELECT product_id FROM wish WHERE user_id = ${currentUserID};`
            );
 
            console.log('current saved wish items of user: ');
