@@ -1,37 +1,61 @@
 <div class="wrapper">
     <div class="main">
+        
         <table>
-            <tr><td><button (click)="addProductCLK()" >Add Product...</button></td></tr>
-            <tr *ngIf="addProductBtnClicked"><td>
-                <div>
+            <tr>
+                <td><button (click)="addProductCLK()" >Add Product...</button></td>
+                <td><button (click)="editProductCLK()" >Edit Product...</button></td>
+                <td><button (click)="manageOrdersCLK()" >Manage Orders...</button></td>
+                <td><button (click)="manageUsersCLK()" >Manage Users...</button></td>
+            </tr>
+        </table>
+            
+
+
+
+            <div class="formContainer" *ngIf="addProductBtnClicked">
                     <form>
-                        <input type="text" name="productName" placeholder="product name" autofocus />
-                        <select name="collection" placeholder="collection">
+                        <input type="text" name="productName" placeholder="product name" required autofocus />
+                        <p>Collection:</p>
+                        <select name="collection">
                             <option *ngFor="let collection of collections" value="{{ collection }}">{{ collection }}</option>
                         </select>
+                        <input type="number" id="price" name="price" placeholder="price" required>
+                        <p>Stone:</p>
+                        <select name="stone">
+                            <option *ngFor="let stone of stones" value="{{ stone }}">{{ stone }}</option>
+                        </select>
+                        <input type="number" name="carat" required placeholder="carat" />
+                        <input type="text" name="cut" required placeholder="cut" />
+                        <input type="text" name="material" required placeholder="material" />
+
+                        <input type="number" name="sale" placeholder="sale %" />
+                        <input type="text" name="sizes" placeholder="sizes array (comma separated)" required />
+
+                        <p>Description:</p>
+                        <textarea name="description" rows="4" cols="50" style="resize:none;"></textarea>
+
+                        <p>Main image:</p>
+                        <input type="file" name="img" accept="image/png, image/jpg" required />
+
+                        <p>Gallery images:</p>
+                        <input type="file" name="gallImages" accept="image/png, image/jpg" multiple="true" required />
+
 
                         <input type="submit" name="addProduct" value="Add Product" /> 
                     </form>
-                </div>
-            </td></tr>
-            <tr><td><button (click)="editProductCLK()" >Edit Product...</button></td></tr>
-            <tr *ngIf="editProductBtnClicked"><td>
-                <div>
-                    Edit products ...
-                </div>
-            </td></tr>
-            <tr><td><button (click)="manageOrdersCLK()" >Manage Orders...</button></td></tr>
-            <tr *ngIf="manageOrdersBtnClicked"><td>
-                <div>
-                    Manage Orders ...
-                </div>
-            </td></tr>
-            <tr><td><button (click)="manageUsersCLK()" >Manage Users...</button></td></tr>
-            <tr *ngIf="manageUsersBtnClicked"><td>
-                <div>
-                    Manage Users ...
-                </div>
-            </td></tr>
-        </table>
+            </div>
+
+
+            
+            <div *ngIf="editProductBtnClicked">Edit Products ...</div>
+                 
+            
+            <div *ngIf="manageOrdersBtnClicked">Manage Orders ...</div>
+                
+            
+            <div *ngIf="manageUsersBtnClicked">Manage Users ...</div>
+            
+        
     </div>
 </div>

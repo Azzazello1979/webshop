@@ -8,3 +8,19 @@
     min-height:80vh;
     background-color:white;
 }
+
+.formContainer{
+    display:flex;
+    flex-direction: column;
+    justify-content:flex-start;
+    padding:10px;
+
+}
+
+select {
+    display:block;
+}
+
+input {
+    display:block;
+}

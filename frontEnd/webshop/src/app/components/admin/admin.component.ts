@@ -15,6 +15,7 @@ export class AdminComponent implements OnInit {
   manageUsersBtnClicked = false;
 
   collections = [];
+  stones = [];
 
   constructor(
     private listingService: ListingService
@@ -41,11 +42,16 @@ export class AdminComponent implements OnInit {
   async fillCollections(){
     await this.listingService.fillAllProducts();
     this.collections = await this.listingService.getAllCollections();
-    //console.log(this.collections);
+  }
+
+  async fillStones(){
+    await this.listingService.fillAllProducts();
+    this.stones = await this.listingService.getAllStones();
   }
 
   ngOnInit() {
     this.fillCollections();
+    this.fillStones();
   }
 
 }

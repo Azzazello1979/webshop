@@ -83,6 +83,7 @@ export class ListingService {
       }
       result.unshift('no filter');
       this.allStones = result;
+      return result;
     }
 
 
