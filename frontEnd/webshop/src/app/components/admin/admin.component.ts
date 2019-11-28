@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ListingService } from './../../services/listing.service';
 
 
@@ -9,16 +9,22 @@ import { ListingService } from './../../services/listing.service';
 })
 export class AdminComponent implements OnInit {
 
+  @ViewChild('productForm', { static:false }) productForm;
+
   addProductBtnClicked = false;
   editProductBtnClicked = false;
   manageOrdersBtnClicked = false;
   manageUsersBtnClicked = false;
+
+  switched = false;
 
   collections = [];
   stones = [];
   cuts = [];
   materials = [];
   sizes = [];
+
+  
 
   constructor(
     private listingService: ListingService
@@ -66,7 +72,21 @@ export class AdminComponent implements OnInit {
     this.sizes = await this.listingService.getAllSizes();
   }
 
+  productFormSubmit(formValue){
+    console.log('submitted form value: ');
+    console.table(formValue);
+  }
+
+  
+ switch(){
+   this.switched = !this.switched;
+ }
+
+
+  
+
   ngOnInit() {
+    
     this.fillCollections();
     this.fillStones();
     this.fillCuts();

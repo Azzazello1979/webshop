@@ -14,27 +14,32 @@
 
 
             <div class="formContainer" *ngIf="addProductBtnClicked">
-                    <form>
+                    <form #productForm="ngForm" (ngSubmit)="productFormSubmit(productForm.value)" >
 
                         <fieldset>
                             <legend>Main info: </legend>
-                        <input type="text" name="productName" placeholder="product name" required autofocus />
-                        <p>Collection:</p>
-                        <select name="collection">
+                        <input type="text" ngModel name="productName" placeholder="product name" required autofocus />
+                        <p>Collection:</p><button (click)="switch()">new/existing</button>
+                        <input *ngIf="!switched" type="text" ngModel name="collection" #collectionText  />
+                        <select *ngIf="switched" ngModel name="collection" #collectionSelect  >
                             <option *ngFor="let collection of collections" value="{{ collection }}">{{ collection }}</option>
                         </select>
-                        <input type="number" id="price" name="price" placeholder="price" required>
+                        <p>Price:</p>
+                        <input type="number" ngModel name="price" placeholder="price" required>
                         <p>Stone:</p>
-                        <select name="stone">
+                        <input type="text" ngModel name="stone" #stoneText />
+                        <select ngModel name="stone" #stoneSelect >
                             <option *ngFor="let stone of stones" value="{{ stone }}">{{ stone }}</option>
                         </select>
-                        <input type="number" name="carat" required placeholder="carat" />
+                        <input type="number" ngModel name="carat" required placeholder="carat" />
                         <p>Cut:</p>
-                        <select name="cut">
+                        <input type="text" ngModel name="cut" #cutText />
+                        <select ngModel name="cut" #cutSelect >
                             <option *ngFor="let cut of cuts" value="{{ cut }}">{{ cut }}</option>
                         </select>
                         <p>Material:</p>
-                        <select name="material">
+                        <input type="text" ngModel name="material" #materialText />
+                        <select ngModel name="material" #materialSelect >
                             <option *ngFor="let material of materials" value="{{ material }}">{{ material }}</option>
                         </select>
                         </fieldset><br>
@@ -42,27 +47,27 @@
 
                         <fieldset>
                             <legend>Additional info: </legend>
-                        <input type="number" name="sale" placeholder="sale %" />
+                        <input type="number" ngModel name="sale" placeholder="sale %" />
                         <p>Sizes:</p>
-                        <select name="sizes" multiple="true">
+                        <select ngModel name="sizes" multiple="true">
                             <option *ngFor="let size of sizes" value="{{ size }}">{{ size }}</option>
                         </select>
 
                         <p>Description:</p>
-                        <textarea name="description" rows="4" cols="50" style="resize:none;"></textarea>
+                        <textarea ngModel name="description" rows="4" cols="50" style="resize:none;"></textarea>
                         </fieldset><br>
 
 
                         <fieldset>
                             <legend>Images: </legend>
                         <p>Main image:</p>
-                        <input type="file" name="img" accept="image/*" required />
+                        <input type="file" ngModel name="img" accept="image/*" required />
 
                         <p>Gallery images:</p>
-                        <input type="file" name="gallImages" accept="image/*" multiple="true" required />
+                        <input type="file" ngModel name="gallImages" accept="image/*" multiple="true" />
                         </fieldset><br>
 
-                        <input type="submit" name="addProduct" value="Add Product" /> 
+                        <input type="submit" value="Add Product" [disabled]="!productForm.valid" /> 
                     </form>
             </div>
 
