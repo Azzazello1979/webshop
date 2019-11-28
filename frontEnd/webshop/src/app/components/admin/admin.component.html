@@ -29,15 +29,24 @@
                             <option *ngFor="let stone of stones" value="{{ stone }}">{{ stone }}</option>
                         </select>
                         <input type="number" name="carat" required placeholder="carat" />
-                        <input type="text" name="cut" required placeholder="cut" />
-                        <input type="text" name="material" required placeholder="material" />
+                        <p>Cut:</p>
+                        <select name="cut">
+                            <option *ngFor="let cut of cuts" value="{{ cut }}">{{ cut }}</option>
+                        </select>
+                        <p>Material:</p>
+                        <select name="material">
+                            <option *ngFor="let material of materials" value="{{ material }}">{{ material }}</option>
+                        </select>
                         </fieldset><br>
 
 
                         <fieldset>
                             <legend>Additional info: </legend>
                         <input type="number" name="sale" placeholder="sale %" />
-                        <input type="text" name="sizes" placeholder="sizes array (comma separated)" required />
+                        <p>Sizes:</p>
+                        <select name="sizes" multiple="true">
+                            <option *ngFor="let size of sizes" value="{{ size }}">{{ size }}</option>
+                        </select>
 
                         <p>Description:</p>
                         <textarea name="description" rows="4" cols="50" style="resize:none;"></textarea>

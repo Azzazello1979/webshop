@@ -16,6 +16,9 @@ export class AdminComponent implements OnInit {
 
   collections = [];
   stones = [];
+  cuts = [];
+  materials = [];
+  sizes = [];
 
   constructor(
     private listingService: ListingService
@@ -49,9 +52,26 @@ export class AdminComponent implements OnInit {
     this.stones = await this.listingService.getAllStones();
   }
 
+  async fillCuts(){
+    await this.listingService.fillAllProducts();
+    this.cuts = await this.listingService.getAllCuts();
+  }
+
+  async fillMaterials(){
+    await this.listingService.fillAllProducts();
+    this.materials = await this.listingService.getAllMaterials();
+  }
+
+  async fillSizes(){
+    this.sizes = await this.listingService.getAllSizes();
+  }
+
   ngOnInit() {
     this.fillCollections();
     this.fillStones();
+    this.fillCuts();
+    this.fillMaterials();
+    this.fillSizes();
   }
 
 }
