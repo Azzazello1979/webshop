@@ -16,7 +16,10 @@ export class AdminComponent implements OnInit {
   manageOrdersBtnClicked = false;
   manageUsersBtnClicked = false;
 
-  switched = false;
+  collectionSwitched = false;
+  stoneSwitched = false;
+  cutSwitched = false;
+  materialSwitched = false;
 
   collections = [];
   stones = [];
@@ -78,9 +81,21 @@ export class AdminComponent implements OnInit {
   }
 
   
- switch(){
-   this.switched = !this.switched;
+ collectionSwitch(){
+   this.collectionSwitched = !this.collectionSwitched;
  }
+
+ stoneSwitch(){
+  this.stoneSwitched = !this.stoneSwitched;
+}
+
+cutSwitch(){
+  this.cutSwitched = !this.cutSwitched;
+}
+
+materialSwitch(){
+  this.materialSwitched = !this.materialSwitched;
+}
 
 
   

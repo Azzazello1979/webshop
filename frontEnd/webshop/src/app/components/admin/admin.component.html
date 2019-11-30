@@ -17,36 +17,39 @@
                     <form #productForm="ngForm" (ngSubmit)="productFormSubmit(productForm.value)" >
 
                         <fieldset>
-                            <legend>Main info: </legend>
+                        <legend>Main info: </legend>
+                        <p>Product name:</p>
                         <input type="text" ngModel name="productName" placeholder="product name" required autofocus />
-                        <p>Collection:</p><button (click)="switch()">new/existing</button>
-                        <input *ngIf="!switched" type="text" ngModel name="collection" #collectionText  />
-                        <select *ngIf="switched" ngModel name="collection" #collectionSelect  >
+                        <p>Collection:</p><button (click)="collectionSwitch()">existing/new</button>
+                        <input *ngIf="collectionSwitched" type="text" ngModel name="collection" #collectionText />
+                        <select *ngIf="!collectionSwitched" ngModel name="collection" #collectionSelect  >
                             <option *ngFor="let collection of collections" value="{{ collection }}">{{ collection }}</option>
                         </select>
                         <p>Price:</p>
                         <input type="number" ngModel name="price" placeholder="price" required>
-                        <p>Stone:</p>
-                        <input type="text" ngModel name="stone" #stoneText />
-                        <select ngModel name="stone" #stoneSelect >
+                        <p>Stone:</p><button (click)="stoneSwitch()">existing/new</button>
+                        <input *ngIf="stoneSwitched" type="text" ngModel name="stone" #stoneText />
+                        <select *ngIf="!stoneSwitched" ngModel name="stone" #stoneSelect >
                             <option *ngFor="let stone of stones" value="{{ stone }}">{{ stone }}</option>
-                        </select>
+                        </select><br>
+                        <p>Carat:</p>
                         <input type="number" ngModel name="carat" required placeholder="carat" />
-                        <p>Cut:</p>
-                        <input type="text" ngModel name="cut" #cutText />
-                        <select ngModel name="cut" #cutSelect >
+                        <p>Cut:</p><button (click)="cutSwitch()">existing/new</button>
+                        <input *ngIf="cutSwitched" type="text" ngModel name="cut" #cutText />
+                        <select *ngIf="!cutSwitched"ngModel name="cut" #cutSelect >
                             <option *ngFor="let cut of cuts" value="{{ cut }}">{{ cut }}</option>
                         </select>
-                        <p>Material:</p>
-                        <input type="text" ngModel name="material" #materialText />
-                        <select ngModel name="material" #materialSelect >
+                        <p>Material:</p><button (click)="materialSwitch()">existing/new</button>
+                        <input *ngIf="materialSwitched" type="text" ngModel name="material" #materialText />
+                        <select *ngIf="!materialSwitched" ngModel name="material" #materialSelect >
                             <option *ngFor="let material of materials" value="{{ material }}">{{ material }}</option>
                         </select>
                         </fieldset><br>
 
 
                         <fieldset>
-                            <legend>Additional info: </legend>
+                        <legend>Additional info: </legend>
+                        <p>Sale:</p>
                         <input type="number" ngModel name="sale" placeholder="sale %" />
                         <p>Sizes:</p>
                         <select ngModel name="sizes" multiple="true">
@@ -59,7 +62,7 @@
 
 
                         <fieldset>
-                            <legend>Images: </legend>
+                        <legend>Images: </legend>
                         <p>Main image:</p>
                         <input type="file" ngModel name="img" accept="image/*" required />
 
