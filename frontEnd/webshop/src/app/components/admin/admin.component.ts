@@ -76,11 +76,33 @@ export class AdminComponent implements OnInit {
   }
 
   productFormSubmit(formValue){
+    // sanitize data received from form, before passing it to service
+
     //console.log('submitted form value: ');
     //console.table(formValue
     let imgFileName = formValue.img.substring(12);
-    
-    
+    let theCollection = formValue.collection.toLowerCase();
+    let constructedImgPath = `./../../assets/images/collections/${theCollection}/${imgFileName}`;
+    //console.log(constructedImgPath);
+    let sanitizedFormValue = {
+      'collection': theCollection,
+      'productName': formValue.productName,
+      'isWished': false,
+      'price': formValue.price,
+      'totalPrice': 0,
+      'stone': formValue.stone,
+      'carat': formValue.carat,
+      'cut': formValue.cut,
+      'img': constructedImgPath,
+      'material': formValue.material,
+      'description': formValue.description,
+      'amount': 0,
+      'sale': formValue.sale ? formValue.sale : 1,
+      'show': 0.8,
+      'sizes': formValue.sizes,
+      'gallImages': 0
+    }
+    console.log(sanitizedFormValue);
   }
 
   
