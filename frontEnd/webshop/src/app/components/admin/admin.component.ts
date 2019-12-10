@@ -76,8 +76,11 @@ export class AdminComponent implements OnInit {
   }
 
   productFormSubmit(formValue){
-    console.log('submitted form value: ');
-    console.table(formValue);
+    //console.log('submitted form value: ');
+    //console.table(formValue
+    let imgFileName = formValue.img.substring(12);
+    
+    
   }
 
   
