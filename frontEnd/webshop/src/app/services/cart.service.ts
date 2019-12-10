@@ -528,4 +528,14 @@ export class CartService {
       err => console.log("ERROR @cartService @loadUserWish() " + err)
     );
   }
+
+  saveNewProduct(newProductObj){
+    return this.http.post<any>(`${environment.backURL}/products`, newProductObj).subscribe(
+      res => console.log(`cartService >> saveNewProduct >> OK, product successfully saved, id is: ${res}`),
+      err => console.log( 'cartService >> saveNewProduct >> error: ' , err )
+    )
+  }
+
+
+
 }

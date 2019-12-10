@@ -21,6 +21,7 @@ const loginRoute = require('./routes/login');
 const ordersRoute = require('./routes/orders');
 const cartRoute = require('./routes/cart');
 const wishRoute = require('./routes/wish');
+const productsRoute = require('./routes/products');
 
 
 // use routes...
@@ -30,6 +31,7 @@ app.use('/login', loginRoute);
 app.use('/orders', ordersRoute);
 app.use('/cart', cartRoute);
 app.use('/wish', wishRoute);
+app.use('/products', productsRoute);
 
 
 // TEST connection

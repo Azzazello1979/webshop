@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ListingService } from './../../services/listing.service';
+import { CartService } from './../../services/cart.service';
 
 
 @Component({
@@ -30,7 +31,8 @@ export class AdminComponent implements OnInit {
   
 
   constructor(
-    private listingService: ListingService
+    private listingService: ListingService,
+    private cartService: CartService
   ) { }
 
 
@@ -84,25 +86,21 @@ export class AdminComponent implements OnInit {
     let theCollection = formValue.collection.toLowerCase();
     let constructedImgPath = `./../../assets/images/collections/${theCollection}/${imgFileName}`;
     //console.log(constructedImgPath);
-    let sanitizedFormValue = {
+    let newProductObj = {
       'collection': theCollection,
       'productName': formValue.productName,
-      'isWished': false,
       'price': formValue.price,
-      'totalPrice': 0,
       'stone': formValue.stone,
       'carat': formValue.carat,
       'cut': formValue.cut,
       'img': constructedImgPath,
       'material': formValue.material,
       'description': formValue.description,
-      'amount': 0,
       'sale': formValue.sale ? formValue.sale : 1,
-      'show': 0.8,
-      'sizes': formValue.sizes,
-      'gallImages': 0
+      'sizes': formValue.sizes
     }
-    console.log(sanitizedFormValue);
+    //console.log(newProductObj);
+    this.cartService.saveNewProduct(newProductObj);
   }
 
   
