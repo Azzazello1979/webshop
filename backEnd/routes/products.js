@@ -19,7 +19,8 @@ router.post("/", tokenControl, (req, res) => {
         console.log('saved product to db, insert id is ', response[0].insertId);
         req.body.sizes.forEach(size => {
             db.query(`INSERT INTO sizes (product_id, size) VALUES ( ${response[0].insertId}, ${size} );`)
-        })
+        });
+        res.status(200).send( response[0].insertId ); 
         
     }).catch( e => {
         console.log(e);
