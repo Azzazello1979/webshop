@@ -12,7 +12,7 @@
             
 
 
-
+            <!-- you must specify type="button" for the switch buttons, or else, they will be treated as submit buttons... -->
             <div class="formContainer" *ngIf="addProductBtnClicked">
                     <form #productForm="ngForm" (ngSubmit)="productFormSubmit(productForm.value)" >
 
@@ -20,26 +20,26 @@
                         <legend>Main info: </legend>
                         <p>Product name:</p>
                         <input type="text" ngModel name="productName" placeholder="product name" required autofocus />
-                        <p>Collection:</p><button (click)="collectionSwitch()">existing/new</button>
+                        <p>Collection:</p><button type="button" (click)="collectionSwitch()">existing/new</button>
                         <input *ngIf="collectionSwitched" type="text" ngModel name="collection" #collectionText />
                         <select *ngIf="!collectionSwitched" ngModel name="collection" #collectionSelect  >
                             <option *ngFor="let collection of collections" value="{{ collection }}">{{ collection }}</option>
                         </select>
                         <p>Price:</p>
                         <input type="number" ngModel name="price" placeholder="price" required>
-                        <p>Stone:</p><button (click)="stoneSwitch()">existing/new</button>
+                        <p>Stone:</p><button type="button" (click)="stoneSwitch()">existing/new</button>
                         <input *ngIf="stoneSwitched" type="text" ngModel name="stone" #stoneText />
                         <select *ngIf="!stoneSwitched" ngModel name="stone" #stoneSelect >
                             <option *ngFor="let stone of stones" value="{{ stone }}">{{ stone }}</option>
                         </select><br>
                         <p>Carat:</p>
                         <input type="number" ngModel name="carat" required placeholder="carat" />
-                        <p>Cut:</p><button (click)="cutSwitch()">existing/new</button>
+                        <p>Cut:</p><button type="button" (click)="cutSwitch()">existing/new</button>
                         <input *ngIf="cutSwitched" type="text" ngModel name="cut" #cutText />
                         <select *ngIf="!cutSwitched"ngModel name="cut" #cutSelect >
                             <option *ngFor="let cut of cuts" value="{{ cut }}">{{ cut }}</option>
                         </select>
-                        <p>Material:</p><button (click)="materialSwitch()">existing/new</button>
+                        <p>Material:</p><button type="button" (click)="materialSwitch()">existing/new</button>
                         <input *ngIf="materialSwitched" type="text" ngModel name="material" #materialText />
                         <select *ngIf="!materialSwitched" ngModel name="material" #materialSelect >
                             <option *ngFor="let material of materials" value="{{ material }}">{{ material }}</option>
