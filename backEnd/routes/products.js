@@ -8,7 +8,7 @@ const router = express.Router();
 const tokenControl = require("./../middlewares/token_control"); // tokenControl middleware
 
 
-router.post("/", tokenControl, (req, res) => {
+router.post('/', tokenControl, (req, res) => {
     res.setHeader("Content-Type", "application/json");
 
 
@@ -20,7 +20,7 @@ router.post("/", tokenControl, (req, res) => {
         req.body.sizes.forEach(size => {
             db.query(`INSERT INTO sizes (product_id, size) VALUES ( ${response[0].insertId}, ${size} );`)
         });
-        res.status(200).send( response[0].insertId ); 
+        res.status(200).send((response[0].insertId).toString()); //send() cannot send a number, so convert it to string
         
     }).catch( e => {
         console.log(e);
