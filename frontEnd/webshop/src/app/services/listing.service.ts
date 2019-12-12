@@ -32,9 +32,11 @@ export class ListingService {
 
 
 
-    // initialized by mid component (that is the product listing component)
+    
     fillAllProducts(){ 
-      this.allProducts = this.cartService.getProducts();
+      this.filteredProducts = this.allProducts;
+      this.getAllCollections();
+      this.getAllStones();
       
     }
 
@@ -64,7 +66,7 @@ export class ListingService {
     }
 
 
-
+    
     getAllCollections(){
       let result = [];
       for(let i=0 ; i<this.allProducts.length ; i++){
@@ -76,7 +78,6 @@ export class ListingService {
       return result;
     }
 
-
     getAllStones(){
       let result = [];
       for(let i=0 ; i<this.allProducts.length ; i++){
@@ -87,6 +88,11 @@ export class ListingService {
       this.allStones = result;
       return result;
     }
+
+
+
+
+
 
     getAllCuts(){
       let result = [];

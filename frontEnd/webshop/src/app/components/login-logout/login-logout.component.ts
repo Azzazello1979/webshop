@@ -1,5 +1,6 @@
 import { AuthService } from "./../../services/auth.service";
 import { CartService } from "./../../services/cart.service";
+import { ListingService } from "./../../services/listing.service";
 
 import { Component, OnDestroy } from "@angular/core";
 import { Router } from "@angular/router";
@@ -11,13 +12,16 @@ import { Subscription } from "rxjs";
   styleUrls: ["./login-logout.component.css"]
 })
 export class LoginLogoutComponent implements OnDestroy {
+
   userObject: any = {};
   registerSubscription: Subscription = new Subscription();
   loginSubscription: Subscription = new Subscription();
+  initProductsSubscription: Subscription = new Subscription();
 
   constructor(
     private auth: AuthService,
     private cartService: CartService,
+    private listingService: ListingService,
     private router: Router
   ) {}
 
@@ -28,13 +32,15 @@ export class LoginLogoutComponent implements OnDestroy {
   // register? login? logout? are you the admin?
   // data validation not implemented in template driven form on purpose(practice makeshift data validation)
   userIntent() {
+
     // call logout service
     if (this.auth.hasToken()) {
-
       this.cartService.saveCart();
       this.router.navigate(["/landingpage"]);
 
-      //call register service
+
+
+    //call register service
     } else if (this.auth.wantsToRegister === true) {
       if (
         this.userObject.email === undefined ||
@@ -68,6 +74,8 @@ export class LoginLogoutComponent implements OnDestroy {
         }
       );
 
+
+
       //call login service
     } else if (this.auth.wantsToRegister === false) {
       if (
@@ -80,15 +88,31 @@ export class LoginLogoutComponent implements OnDestroy {
       }
       this.loginSubscription = this.auth.logIn(this.userObject).subscribe(
         endPointResponseObj => {
+
           localStorage.setItem("token", endPointResponseObj.token);
           this.auth.loggedIn = true;
           this.auth.buttonText = "Logout";
+          
+          this.initProductsSubscription = this.cartService.initProducts().subscribe(
+            response => {
+              this.cartService.products = response[0];
+              //console.log(this.cartService.products);
 
-          // regular user or admin?
-          this.auth.adminLoggedIn
-            ? this.router.navigate(["/admin"])
-            : this.router.navigate(["/dashboard"]);
-        },
+              this.listingService.allProducts = response[0];
+              this.listingService.fillAllProducts();
+  
+              this.cartService.loadUserCartAndShipping();
+              this.cartService.loadUserWish();
+
+              // regular user or admin?
+              this.auth.adminLoggedIn ?
+              this.router.navigate(["/admin"]) : 
+              this.router.navigate(["/dashboard"])
+            },
+            err => {
+              console.log(`Error when pulling products from database: ${err.message}`)
+            }
+          )},
         error => {
           console.log(
             "error @ login-logout.component.ts login service observer: "
@@ -104,7 +128,7 @@ export class LoginLogoutComponent implements OnDestroy {
 
     this.userObject = {};
   }
-
+    
 
 
   // prevent mem. leaks, without this, component is destroyed on navigating away but the
@@ -112,5 +136,6 @@ export class LoginLogoutComponent implements OnDestroy {
   ngOnDestroy() {
     this.registerSubscription.unsubscribe();
     this.loginSubscription.unsubscribe();
+    this.initProductsSubscription.unsubscribe();
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 
+
 @Component({
   selector: 'landingpage',
   templateUrl: './landingpage.component.html',
@@ -35,8 +36,12 @@ export class LandingpageComponent implements OnInit {
 
 
 
-  ngOnInit() { }
+  ngOnInit() {
+    
+   }
   // call a landingpage.service, that fetches info from database about the slides, fills up this.slidersArray,
   // then the landingpage template can display the slides with *ngFor 
+
+  
 
 }
