@@ -21,18 +21,22 @@ export class MidComponent implements OnInit {
   ) { }
 
 
+  async callDatabase(){
+  await this.cartService.initProducts();
 
-
-
-  ngOnInit() {
     this.listingService.fillAllProducts();
     this.listingService.filteredProducts = this.listingService.allProducts;
     this.listingService.getAllCollections();
     this.listingService.getAllStones();
-
+  
     this.cartService.loadUserCartAndShipping();
     this.cartService.loadUserWish();
-    
+  }
+  
+
+
+  ngOnInit() {
+    this.callDatabase();
   }
   
 }

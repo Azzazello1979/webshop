@@ -334,6 +334,21 @@ export class CartService {
 
   constructor(private http: HttpClient, private auth: AuthService) {}
 
+  // fill up products array from database
+  initProducts(){
+    return this.http.get<any>(`${environment.backURL}/products`).subscribe(
+      res => {
+        console.log('products loaded from database...');
+        console.log(res);
+        this.products = res;
+      },
+      err => {
+        console.log('error@cart.service >> initProducts', err.message);
+      }
+    )
+    
+  }
+
   addToWish(product) {
     this.wishListProducts.push(product);
     this.products.forEach(e =>
