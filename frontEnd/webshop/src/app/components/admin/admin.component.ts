@@ -38,19 +38,30 @@ export class AdminComponent implements OnInit {
 
   addProductCLK(){
     this.addProductBtnClicked = !this.addProductBtnClicked;
-
+    this.editProductBtnClicked = false;
+    this.manageOrdersBtnClicked = false;
+    this.manageUsersBtnClicked = false;
   }
 
   editProductCLK(){
     this.editProductBtnClicked = !this.editProductBtnClicked;
+    this.addProductBtnClicked = false;
+    this.manageOrdersBtnClicked = false;
+    this.manageUsersBtnClicked = false;
   }
 
   manageOrdersCLK(){
     this.manageOrdersBtnClicked = !this.manageOrdersBtnClicked;
+    this.addProductBtnClicked = false;
+    this.editProductBtnClicked = false;
+    this.manageUsersBtnClicked = false;
   }
 
   manageUsersCLK(){
     this.manageUsersBtnClicked = !this.manageUsersBtnClicked;
+    this.addProductBtnClicked = false;
+    this.editProductBtnClicked = false;
+    this.manageOrdersBtnClicked = false;
   }
 
   async fillCollections(){
