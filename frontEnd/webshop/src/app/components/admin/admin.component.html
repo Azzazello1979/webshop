@@ -169,11 +169,10 @@
             <p>Product name:</p>
             <input
               type="text"
-              ngModel
+              [(ngModel)]="defaultProductName"
               name="productName"
               [placeholder]="defaultProductName"
-              [value]="defaultProductName"
-              
+              required
               autofocus
               
             />
