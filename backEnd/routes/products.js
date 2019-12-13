@@ -40,16 +40,44 @@ router.post('/', tokenControl, (req, res) => {
 
 });
 
-router.get('/', tokenControl, (req, res) => {
+router.get('/', /*tokenControl,*/ (req, res) => {
     res.setHeader("Content-Type", "application/json");
 
-    db.query(`SELECT * FROM products;`)
-    .then( products => {
-        res.status(200).send(products);
+    
+
+    db.query(`SELECT * FROM products where id = 13;`)
+    .then( response => {
+
+                    let mappedProducts = [...response[0]];
+
+                    mappedProducts.forEach(e => {
+                        let arr = fillSizes(e.id)
+                        .then(r => {e.sizes = arr})
+                        .catch(e => console.log(e));
+                    });
+
+                    console.log(mappedProducts);
+   
+        
+        //res.status(200).send(mappedProducts);
     })
     .catch( err => {
         res.status(500).json({'message' : `Error @ products.js endpoint @ GET request, error is: ${err.message}`})
     })
+
+
+    async function fillSizes(productID){
+        let response = await db.query(`SELECT size FROM sizes WHERE product_id = ${productID};`);
+        let sizesArr = [];
+        response[0].forEach(e => {
+            sizesArr.push( e.size )
+        })
+
+        console.log('the sizes array: ')
+        console.log(sizesArr);
+        return sizesArr;
+    }
+
 });
 
 
