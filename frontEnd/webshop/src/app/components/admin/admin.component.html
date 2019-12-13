@@ -1,89 +1,324 @@
 <div class="wrapper">
-    <div class="main">
-        
-        <table>
-            <tr>
-                <td><button (click)="addProductCLK()" >Add Product...</button></td>
-                <td><button (click)="editProductCLK()" >Edit Product...</button></td>
-                <td><button (click)="manageOrdersCLK()" >Manage Orders...</button></td>
-                <td><button (click)="manageUsersCLK()" >Manage Users...</button></td>
-            </tr>
-        </table>
-            
+  <div class="main">
+    <table>
+      <tr>
+        <td><button (click)="addProductCLK()">Add Product...</button></td>
+        <td><button (click)="editProductCLK()">Edit Product...</button></td>
+        <td><button (click)="manageOrdersCLK()">Manage Orders...</button></td>
+        <td><button (click)="manageUsersCLK()">Manage Users...</button></td>
+      </tr>
+    </table>
 
+    <!-- you must specify type="button" for the switch buttons, or else, they will be treated as submit buttons... -->
+    <div class="addProductWrapper" *ngIf="addProductBtnClicked">
+      <form
+        #productForm="ngForm"
+        (ngSubmit)="productFormSubmit(productForm.value)"
+      >
+        <fieldset>
+          <legend>Main info:</legend>
+          <p>Product name:</p>
+          <input
+            type="text"
+            ngModel
+            name="productName"
+            placeholder="product name"
+            required
+            autofocus
+          />
+          <p>Collection:</p>
+          <button type="button" (click)="collectionSwitch()">
+            existing/new
+          </button>
+          <input
+            *ngIf="collectionSwitched"
+            type="text"
+            ngModel
+            name="collection"
+            #collectionText
+          />
+          <select
+            *ngIf="!collectionSwitched"
+            ngModel
+            name="collection"
+            #collectionSelect
+          >
+            <option
+              *ngFor="let collection of collections"
+              value="{{ collection }}"
+              >{{ collection }}</option
+            >
+          </select>
+          <p>Price:</p>
+          <input
+            type="number"
+            ngModel
+            name="price"
+            placeholder="price"
+            required
+          />
+          <p>Stone:</p>
+          <button type="button" (click)="stoneSwitch()">existing/new</button>
+          <input
+            *ngIf="stoneSwitched"
+            type="text"
+            ngModel
+            name="stone"
+            #stoneText
+          />
+          <select *ngIf="!stoneSwitched" ngModel name="stone" #stoneSelect>
+            <option *ngFor="let stone of stones" value="{{ stone }}">{{
+              stone
+            }}</option> </select
+          ><br />
+          <p>Carat:</p>
+          <input
+            type="number"
+            ngModel
+            name="carat"
+            required
+            placeholder="carat"
+          />
+          <p>Cut:</p>
+          <button type="button" (click)="cutSwitch()">existing/new</button>
+          <input *ngIf="cutSwitched" type="text" ngModel name="cut" #cutText />
+          <select *ngIf="!cutSwitched" ngModel name="cut" #cutSelect>
+            <option *ngFor="let cut of cuts" value="{{ cut }}">{{
+              cut
+            }}</option>
+          </select>
+          <p>Material:</p>
+          <button type="button" (click)="materialSwitch()">existing/new</button>
+          <input
+            *ngIf="materialSwitched"
+            type="text"
+            ngModel
+            name="material"
+            #materialText
+          />
+          <select
+            *ngIf="!materialSwitched"
+            ngModel
+            name="material"
+            #materialSelect
+          >
+            <option *ngFor="let material of materials" value="{{ material }}">{{
+              material
+            }}</option>
+          </select>
+        </fieldset>
+        <br />
 
-            <!-- you must specify type="button" for the switch buttons, or else, they will be treated as submit buttons... -->
-            <div class="formContainer" *ngIf="addProductBtnClicked">
-                    <form #productForm="ngForm" (ngSubmit)="productFormSubmit(productForm.value)" >
+        <fieldset>
+          <legend>Additional info:</legend>
+          <p>Sale:</p>
+          <input type="number" ngModel name="sale" placeholder="sale %" />
+          <p>Sizes:</p>
+          <select ngModel name="sizes" multiple="true">
+            <option *ngFor="let size of sizes" value="{{ size }}">{{
+              size
+            }}</option>
+          </select>
 
-                        <fieldset>
-                        <legend>Main info: </legend>
-                        <p>Product name:</p>
-                        <input type="text" ngModel name="productName" placeholder="product name" required autofocus />
-                        <p>Collection:</p><button type="button" (click)="collectionSwitch()">existing/new</button>
-                        <input *ngIf="collectionSwitched" type="text" ngModel name="collection" #collectionText />
-                        <select *ngIf="!collectionSwitched" ngModel name="collection" #collectionSelect  >
-                            <option *ngFor="let collection of collections" value="{{ collection }}">{{ collection }}</option>
-                        </select>
-                        <p>Price:</p>
-                        <input type="number" ngModel name="price" placeholder="price" required>
-                        <p>Stone:</p><button type="button" (click)="stoneSwitch()">existing/new</button>
-                        <input *ngIf="stoneSwitched" type="text" ngModel name="stone" #stoneText />
-                        <select *ngIf="!stoneSwitched" ngModel name="stone" #stoneSelect >
-                            <option *ngFor="let stone of stones" value="{{ stone }}">{{ stone }}</option>
-                        </select><br>
-                        <p>Carat:</p>
-                        <input type="number" ngModel name="carat" required placeholder="carat" />
-                        <p>Cut:</p><button type="button" (click)="cutSwitch()">existing/new</button>
-                        <input *ngIf="cutSwitched" type="text" ngModel name="cut" #cutText />
-                        <select *ngIf="!cutSwitched"ngModel name="cut" #cutSelect >
-                            <option *ngFor="let cut of cuts" value="{{ cut }}">{{ cut }}</option>
-                        </select>
-                        <p>Material:</p><button type="button" (click)="materialSwitch()">existing/new</button>
-                        <input *ngIf="materialSwitched" type="text" ngModel name="material" #materialText />
-                        <select *ngIf="!materialSwitched" ngModel name="material" #materialSelect >
-                            <option *ngFor="let material of materials" value="{{ material }}">{{ material }}</option>
-                        </select>
-                        </fieldset><br>
+          <p>Description:</p>
+          <textarea
+            ngModel
+            name="description"
+            rows="4"
+            cols="50"
+            style="resize:none;"
+          ></textarea>
+        </fieldset>
+        <br />
 
+        <fieldset>
+          <legend>Images:</legend>
+          <p>Main image:</p>
+          <input type="file" ngModel name="img" accept="image/*" required />
 
-                        <fieldset>
-                        <legend>Additional info: </legend>
-                        <p>Sale:</p>
-                        <input type="number" ngModel name="sale" placeholder="sale %" />
-                        <p>Sizes:</p>
-                        <select ngModel name="sizes" multiple="true">
-                            <option *ngFor="let size of sizes" value="{{ size }}">{{ size }}</option>
-                        </select>
+          <p>Gallery images:</p>
+          <input
+            type="file"
+            ngModel
+            name="gallImages"
+            accept="image/*"
+            multiple="true"
+          />
+        </fieldset>
+        <br />
 
-                        <p>Description:</p>
-                        <textarea ngModel name="description" rows="4" cols="50" style="resize:none;"></textarea>
-                        </fieldset><br>
-
-
-                        <fieldset>
-                        <legend>Images: </legend>
-                        <p>Main image:</p>
-                        <input type="file" ngModel name="img" accept="image/*" required />
-
-                        <p>Gallery images:</p>
-                        <input type="file" ngModel name="gallImages" accept="image/*" multiple="true" />
-                        </fieldset><br>
-
-                        <input type="submit" value="Add Product" [disabled]="!productForm.valid" /> 
-                    </form>
-            </div>
-
-
-            
-            <div *ngIf="editProductBtnClicked">Edit Products ...</div>
-                 
-            
-            <div *ngIf="manageOrdersBtnClicked">Manage Orders ...</div>
-                
-            
-            <div *ngIf="manageUsersBtnClicked">Manage Users ...</div>
-            
-        
+        <input
+          type="submit"
+          value="Add Product"
+          [disabled]="!productForm.valid"
+        />
+      </form>
     </div>
+
+    <div class="editProductWrapper" *ngIf="editProductBtnClicked">
+      <div class="productListing">
+          ...the products thumbs will be here...
+      </div>
+      <div class="editProductForm">
+        <form
+          #editProductForm="ngForm"
+          (ngSubmit)="saveProductChanges(editProductForm.value)"
+        >
+          <fieldset>
+            <legend>Main info:</legend>
+            <p>Product name:</p>
+            <input
+              type="text"
+              ngModel
+              name="productName"
+              [placeholder]="defaultProductName"
+              [value]="defaultProductName"
+              
+              autofocus
+              
+            />
+            <p>Collection:</p>
+            <button type="button" (click)="collectionSwitch()">
+              existing/new
+            </button>
+            <input
+              *ngIf="collectionSwitched"
+              type="text"
+              ngModel
+              name="collection"
+              #collectionText
+            />
+            <select
+              *ngIf="!collectionSwitched"
+              ngModel
+              name="collection"
+              #collectionSelect
+            >
+              <option
+                *ngFor="let collection of collections"
+                value="{{ collection }}"
+                >{{ collection }}</option
+              >
+            </select>
+            <p>Price:</p>
+            <input
+              type="number"
+              ngModel
+              name="price"
+              placeholder="price"
+              required
+            />
+            <p>Stone:</p>
+            <button type="button" (click)="stoneSwitch()">existing/new</button>
+            <input
+              *ngIf="stoneSwitched"
+              type="text"
+              ngModel
+              name="stone"
+              #stoneText
+            />
+            <select *ngIf="!stoneSwitched" ngModel name="stone" #stoneSelect>
+              <option *ngFor="let stone of stones" value="{{ stone }}">{{
+                stone
+              }}</option> </select
+            ><br />
+            <p>Carat:</p>
+            <input
+              type="number"
+              ngModel
+              name="carat"
+              required
+              placeholder="carat"
+            />
+            <p>Cut:</p>
+            <button type="button" (click)="cutSwitch()">existing/new</button>
+            <input
+              *ngIf="cutSwitched"
+              type="text"
+              ngModel
+              name="cut"
+              #cutText
+            />
+            <select *ngIf="!cutSwitched" ngModel name="cut" #cutSelect>
+              <option *ngFor="let cut of cuts" value="{{ cut }}">{{
+                cut
+              }}</option>
+            </select>
+            <p>Material:</p>
+            <button type="button" (click)="materialSwitch()">
+              existing/new
+            </button>
+            <input
+              *ngIf="materialSwitched"
+              type="text"
+              ngModel
+              name="material"
+              #materialText
+            />
+            <select
+              *ngIf="!materialSwitched"
+              ngModel
+              name="material"
+              #materialSelect
+            >
+              <option
+                *ngFor="let material of materials"
+                value="{{ material }}"
+                >{{ material }}</option
+              >
+            </select>
+          </fieldset>
+          <br />
+
+          <fieldset>
+            <legend>Additional info:</legend>
+            <p>Sale:</p>
+            <input type="number" ngModel name="sale" placeholder="sale %" />
+            <p>Sizes:</p>
+            <select ngModel name="sizes" multiple="true">
+              <option *ngFor="let size of sizes" value="{{ size }}">{{
+                size
+              }}</option>
+            </select>
+
+            <p>Description:</p>
+            <textarea
+              ngModel
+              name="description"
+              rows="4"
+              cols="50"
+              style="resize:none;"
+            ></textarea>
+          </fieldset>
+          <br />
+
+          <fieldset>
+            <legend>Images:</legend>
+            <p>Main image:</p>
+            <input type="file" ngModel name="img" accept="image/*" required />
+
+            <p>Gallery images:</p>
+            <input
+              type="file"
+              ngModel
+              name="gallImages"
+              accept="image/*"
+              multiple="true"
+            />
+          </fieldset>
+          <br />
+
+          <input
+            type="submit"
+            value="Save Product Changes"
+            [disabled]="!editProductForm.valid"
+          />
+        </form>
+      </div>
+    </div>
+
+    <div *ngIf="manageOrdersBtnClicked">Manage Orders ...</div>
+
+    <div *ngIf="manageUsersBtnClicked">Manage Users ...</div>
+  </div>
 </div>

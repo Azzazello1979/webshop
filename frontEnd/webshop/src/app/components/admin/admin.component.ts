@@ -11,6 +11,13 @@ import { CartService } from './../../services/cart.service';
 export class AdminComponent implements OnInit {
 
   @ViewChild('productForm', { static:false }) productForm;
+  @ViewChild('editProductForm', { static:false }) editProductForm;
+
+  // this is how you access the queried node's values with @ViewChild:
+  // this.editProductForm.value.productName (form will have value only after submitted)
+  // This is read-only!
+
+  defaultProductName = "YOOOO";
 
   addProductBtnClicked = false;
   editProductBtnClicked = false;
@@ -91,8 +98,8 @@ export class AdminComponent implements OnInit {
   productFormSubmit(formValue){
     // sanitize data received from form, before passing it to service
 
-    //console.log('submitted form value: ');
-    //console.table(formValue
+    //console.log('add product form value: ');
+    //console.table(formValue);
     let imgFileName = formValue.img.substring(12);
     let theCollection = formValue.collection.toLowerCase();
     let constructedImgPath = `./../../assets/images/collections/${theCollection}/${imgFileName}`;
@@ -131,16 +138,31 @@ materialSwitch(){
   this.materialSwitched = !this.materialSwitched;
 }
 
+saveProductChanges(formValue){
+  console.log('edit product form value: ');
+  console.log(formValue);
+
+  //console.log('edit product form viewChild: ');
+  //console.log(this.editProductForm);
+
 
   
 
+  
+}
+  
+
   ngOnInit() {
-    
     this.fillCollections();
     this.fillStones();
     this.fillCuts();
     this.fillMaterials();
     this.fillSizes();
   }
+
+
+  
+
+
 
 }
