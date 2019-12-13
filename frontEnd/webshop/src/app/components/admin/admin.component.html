@@ -160,7 +160,10 @@
 
     <div class="editProductWrapper" *ngIf="editProductBtnClicked">
       <div class="productListing">
-          ...the products thumbs will be here...
+          <div class="productCard" *ngFor="let product of this.cartService.products">
+            <img class="thumb" [src]="product.img" />
+            <p>{{ product.productName }}</p>
+          </div>
       </div>
       <div class="editProductForm">
         <form

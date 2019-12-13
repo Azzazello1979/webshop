@@ -17,6 +17,8 @@ export class AdminComponent implements OnInit {
   // this.editProductForm.value.productName
   // This is read-only!
 
+  
+
   defaultProductName = "YOOOO";
 
   addProductBtnClicked = false;
