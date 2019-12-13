@@ -22,6 +22,7 @@ const ordersRoute = require('./routes/orders');
 const cartRoute = require('./routes/cart');
 const wishRoute = require('./routes/wish');
 const productsRoute = require('./routes/products');
+const productsWithSizesRoute = require('./routes/productsWithSizes');
 
 
 // use routes...
@@ -32,6 +33,7 @@ app.use('/orders', ordersRoute);
 app.use('/cart', cartRoute);
 app.use('/wish', wishRoute);
 app.use('/products', productsRoute);
+app.use('/productsWithSizes', productsWithSizesRoute);
 
 
 // TEST connection

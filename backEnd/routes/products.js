@@ -43,7 +43,7 @@ router.post('/', tokenControl, (req, res) => {
 router.get('/', tokenControl, (req, res) => {
     res.setHeader("Content-Type", "application/json");
 
-    db.query(`SELECT * FROM products ;`)
+    db.query(`SELECT * FROM products;`)
     .then( products => {
         res.status(200).send(products);
     })
@@ -51,6 +51,8 @@ router.get('/', tokenControl, (req, res) => {
         res.status(500).json({'message' : `Error @ products.js endpoint @ GET request, error is: ${err.message}`})
     })
 });
+
+
 
 module.exports = router;
 
