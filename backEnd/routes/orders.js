@@ -52,8 +52,8 @@ router.post("/", tokenControl, (req, res) => {
       orderID = response2[0].insertId; // orderID to be used in suborder table, address table and billing_address table
 
       req.body.products.forEach(e => {
-        return db.query(`INSERT INTO suborder (order_id, product_id, amount) VALUES 
-            ( ${orderID}, ${e.id}, ${e.amount} );`);
+        return db.query(`INSERT INTO suborder (order_id, product_id, amount, price) VALUES 
+            ( ${orderID}, ${e.id}, ${e.amount}, ${e.price} );`);
       });
     })
     // insert record into ADDRESS table
