@@ -21,6 +21,8 @@ export class AdminComponent implements OnInit {
 
   defaultProductName = "YOOOO";
 
+  editProductFormInitialValues = { };
+
   addProductBtnClicked = false;
   editProductBtnClicked = false;
   manageOrdersBtnClicked = false;
@@ -147,6 +149,12 @@ saveProductChanges(formValue){
   //console.log('edit product form viewChild: ');
   //console.log(this.editProductForm);
 
+}
+
+sendProductToForm(productObj){
+  this.editProductFormInitialValues = {...productObj};
+  console.log('the filled up init form object: ');
+  console.log(this.editProductFormInitialValues);
 }
   
 

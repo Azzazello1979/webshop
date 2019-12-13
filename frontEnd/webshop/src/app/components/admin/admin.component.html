@@ -160,7 +160,7 @@
 
     <div class="editProductWrapper" *ngIf="editProductBtnClicked">
       <div class="productListing">
-          <div class="productCard" *ngFor="let product of this.cartService.products">
+          <div class="productCard" *ngFor="let product of this.cartService.products" (click)="sendProductToForm(product)">
             <img class="thumb" [src]="product.img" />
             <p>{{ product.productName }}</p>
           </div>
@@ -291,7 +291,7 @@
               ngModel
               name="description"
               rows="8"
-              cols="40"
+              cols="30"
               style="resize:none;"
             ></textarea>
           </fieldset>
