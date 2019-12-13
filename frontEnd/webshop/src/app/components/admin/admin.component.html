@@ -1,5 +1,6 @@
 <div class="wrapper">
-  <div class="main">
+  
+  <div class="navi">
     <table>
       <tr>
         <td><button (click)="addProductCLK()">Add Product...</button></td>
@@ -8,7 +9,9 @@
         <td><button (click)="manageUsersCLK()">Manage Users...</button></td>
       </tr>
     </table>
+  </div>
 
+  <div class="main">
     <!-- you must specify type="button" for the switch buttons, or else, they will be treated as submit buttons... -->
     <div class="addProductWrapper" *ngIf="addProductBtnClicked">
       <form
@@ -124,8 +127,8 @@
           <textarea
             ngModel
             name="description"
-            rows="4"
-            cols="50"
+            rows="8"
+            cols="60"
             style="resize:none;"
           ></textarea>
         </fieldset>
@@ -284,8 +287,8 @@
             <textarea
               ngModel
               name="description"
-              rows="4"
-              cols="50"
+              rows="8"
+              cols="40"
               style="resize:none;"
             ></textarea>
           </fieldset>
@@ -320,4 +323,5 @@
 
     <div *ngIf="manageUsersBtnClicked">Manage Users ...</div>
   </div>
+  
 </div>

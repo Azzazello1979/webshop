@@ -14,7 +14,7 @@ export class AdminComponent implements OnInit {
   @ViewChild('editProductForm', { static:false }) editProductForm;
 
   // this is how you access the queried node's values with @ViewChild:
-  // this.editProductForm.value.productName (form will have value only after submitted)
+  // this.editProductForm.value.productName
   // This is read-only!
 
   defaultProductName = "YOOOO";
