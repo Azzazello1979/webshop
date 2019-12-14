@@ -66,9 +66,11 @@ router.post("/", tokenControl, (req, res) => {
     });
 });
 
+
+
 router.get(
   "/",
-  /*tokenControl,*/ (req, res) => {
+  tokenControl, (req, res) => {
     res.setHeader("Content-Type", "application/json");
 
     let mappedProducts = [];
@@ -92,11 +94,13 @@ router.get(
               //console.log(`the originalProducts array length is: ${originalProducts.length}`)
               //console.log(`the mappedProducts array length is: ${mappedProducts.length}`)
               //console.log(mappedProducts);
+
+              
             })
             .catch(err => console.log(err.message));
         }
 
-        //res.status(200).send(mappedProducts);
+        
       })
       .catch(err => {
         res
@@ -122,6 +126,9 @@ router.get(
       //console.log(productObj)
       return productObj; // working fine! returning the mapped productObj
     }
+
+    res.status(200).send(mappedProducts);
+
   }
 );
 
