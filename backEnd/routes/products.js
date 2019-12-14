@@ -68,68 +68,23 @@ router.post("/", tokenControl, (req, res) => {
 
 
 
-router.get(
-  "/",
-  tokenControl, (req, res) => {
+router.get( "/", tokenControl, (req, res) => {
     res.setHeader("Content-Type", "application/json");
-
-    let mappedProducts = [];
-
+    
     db.query(`SELECT * FROM products ;`)
-      .then(products => {
-        let originalProducts = products[0];
-        //console.log('original products: ')
-        //console.log(originalProducts)
-
-        for (let i = 0; i < originalProducts.length; i++) {
-          mappedObject(originalProducts[i])
-            .then(mappedObj => {
-              //console.log('this is the mapped object received, now to push inside arr: ')
-              //console.log(mappedObj) // working so far, receiving the mapped obj fine
-
-              let pushThis = mappedObj;
-
-              mappedProducts.push(pushThis);
-
-              //console.log(`the originalProducts array length is: ${originalProducts.length}`)
-              //console.log(`the mappedProducts array length is: ${mappedProducts.length}`)
-              //console.log(mappedProducts);
-
-              
-            })
-            .catch(err => console.log(err.message));
-        }
-
-        
+      .then( reply => {
+             res.status(200).send(reply[0])
       })
       .catch(err => {
-        res
-          .status(500)
-          .json({
-            message: `Error @ products.js endpoint @ GET request, error is: ${err.message}`
+        res.status(500).json({
+            'message': `Error @ products.js endpoint @ GET request, error is: ${err.message}`
           });
       });
 
-    async function mappedObject(product) {
-      let productObj = { ...product };
-      let response = await db.query(
-        `SELECT size FROM sizes WHERE product_id = ${product.id};`
-      );
-      let sizesArr = [];
-      response[0].forEach(e => {
-        sizesArr.push(e.size);
-      });
-      //console.log('the sizes array: ')
-      //console.log(sizesArr);
-      productObj.sizes = sizesArr;
-      //console.log('the productObj by mappedObject(): ')
-      //console.log(productObj)
-      return productObj; // working fine! returning the mapped productObj
-    }
-
-    res.status(200).send(mappedProducts);
-
-  }
-);
+    
+        
+    
+    
+  });
 
 module.exports = router;
