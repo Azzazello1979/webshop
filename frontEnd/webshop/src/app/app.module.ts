@@ -12,17 +12,15 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-
-
+// import services...
+import { AuthService } from './services/auth.service';
+import { TokenInterceptorService } from './services/token-interceptor.service';
 import { CartService } from './services/cart.service';
 import { ListingService } from './services/listing.service';
-import { TokenInterceptorService } from './services/token-interceptor.service';
-import { AuthService } from './services/auth.service';
+import { ProductService } from './services/product-service.service';
 import { PaymentService } from './services/payment.service';
 
-
-
-
+// import components...
 import { AppComponent } from './app.component';
 import { NavibarComponent } from './components/navibar/navibar.component';
 import { LoginLogoutComponent } from './components/login-logout/login-logout.component';
@@ -47,12 +45,6 @@ import { WishListComponent } from './components/wish-list/wish-list.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { AdminComponent } from './components/admin/admin.component';
-
-
-
-
- 
-
 
 
 @NgModule({
@@ -103,6 +95,7 @@ import { AdminComponent } from './components/admin/admin.component';
     PaymentService,
     ListingService,
     CartService,
+    ProductService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,

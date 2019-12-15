@@ -295,15 +295,13 @@
               [ngModel]="selectedProductObj.sale" 
               name="sale" 
             >
-                      <!-- excluded the "name" property below to make this drop-down read-only -->
-                      <!-- if you use ngModel, and you exclude the "name" property, -->
-                      <!-- you must use: [ngModelOptions]="{standalone: true}"  -->
                       
+
             <p>All Available sizes:</p>
             <select 
             [ngModel]="sizes" 
             multiple="true"
-            [ngModelOptions]="{standalone: true}" 
+            name="sizes"
             >
               <option *ngFor="let size of sizes" value="{{ size }}">{{
                 size
@@ -311,11 +309,14 @@
             </option>
             </select>
 
+            <!-- excluded the "name" property below to make this drop-down read-only -->
+            <!-- if you use ngModel, and you exclude the "name" property, -->
+            <!-- you must use: [ngModelOptions]="{standalone: true}"  -->
 
             <p>Current sizes:</p>
             <select 
             [ngModel]="selectedProductObj.sizes" 
-            name="sizes" 
+            [ngModelOptions]="{standalone: true}" 
             multiple="true"
             
             >
