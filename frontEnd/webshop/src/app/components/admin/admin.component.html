@@ -179,7 +179,6 @@
               [ngModel]="selectedProductObj.productName"
               name="productName"
               placeholder="product name"
-              required
               autofocus
             />
 
@@ -213,7 +212,6 @@
               [ngModel]="selectedProductObj.price"
               name="price"
               placeholder="price"
-              required
             />
 
             <p>Stone:</p>
@@ -242,7 +240,6 @@
               type="number"
               [ngModel]="selectedProductObj.carat"
               name="carat"
-              required
               placeholder="carat"
             />
 
@@ -292,19 +289,21 @@
           <fieldset>
             <legend>Additional info:</legend>
 
-            <p>Sale:</p>
+            <p>Sale (1 means 100%, 0.4 means at 40% ...):</p>
             <input 
               type="number" 
               [ngModel]="selectedProductObj.sale" 
               name="sale" 
-              placeholder="promotion, selling at %" 
             >
-
+                      <!-- excluded the "name" property below to make this drop-down read-only -->
+                      <!-- if you use ngModel, and you exclude the "name" property, -->
+                      <!-- you must use: [ngModelOptions]="{standalone: true}"  -->
+                      
             <p>All Available sizes:</p>
             <select 
             [ngModel]="sizes" 
             multiple="true"
-            
+            [ngModelOptions]="{standalone: true}" 
             >
               <option *ngFor="let size of sizes" value="{{ size }}">{{
                 size
@@ -343,7 +342,12 @@
             <legend>Images:</legend>
 
             <p>Main image:</p>
-            <input type="file" ngModel name="img" accept="image/*" required />
+            <input 
+              type="file" 
+              ngModel
+              name="img" 
+              accept="image/*" 
+            >
 
             <p>Gallery images:</p>
             <input
@@ -359,7 +363,6 @@
           <input
             type="submit"
             value="Save Product Changes"
-            [disabled]="!editProductForm.valid"
           />
         </form>
       </div>

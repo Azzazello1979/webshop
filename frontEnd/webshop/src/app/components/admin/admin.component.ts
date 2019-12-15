@@ -144,9 +144,8 @@ materialSwitch(){
 }
 
 saveProductChanges(formValue){
-  console.log('edit product form value: ');
-  console.log(formValue);
-
+    console.log('edit product form value: ');
+    console.log(formValue);
   //console.log('edit product form viewChild: ');
   //console.log(this.editProductForm);
 
