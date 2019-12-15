@@ -146,25 +146,8 @@ materialSwitch(){
 }
 
 saveProductChanges(formValueObj){
-  //console.log('edit product form value: ');
-  //console.log(formValueObj);
-  //console.log('edit product form viewChild: ');
-  //console.log(this.editProductForm);
-
+  
   let thePatchObj = {};
-
-  //console.log('selected: ' + this.selectedProductObj.price)
-  //console.log('edited: ' + formValueObj.price)
-  //formValueObj['price'] !== this.selectedProductObj['price'] ? console.log('not the same') : null
-
-  //Object.entries returns an object as key value pairs of the obj.
-  let selectedObjEntries = Object.entries(this.selectedProductObj);
-  let formObjEntries = Object.entries(formValueObj);
-
-  //console.log('selectedObjEntries: ')
-  //console.table(selectedObjEntries)
-  //console.log('formObjEntries: ')
-  //console.table(formObjEntries)
 
   for(let keyS in this.selectedProductObj){
     for(let keyF in formValueObj){
@@ -178,8 +161,7 @@ saveProductChanges(formValueObj){
   if(formValueObj['img'] === ""){ delete thePatchObj['img'] }
   if(formValueObj['gallImages'] === ""){ delete thePatchObj['gallImages'] }
 
-  console.log(thePatchObj)
-  //this.productService.updateProduct(thePatch);
+  this.productService.updateProduct(thePatchObj);
 }
 
 sendProductToForm(productObj){
