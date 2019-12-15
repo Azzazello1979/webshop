@@ -172,16 +172,17 @@
         >
           <fieldset>
             <legend>Main info:</legend>
+
             <p>Product name:</p>
             <input
               type="text"
-              [(ngModel)]="defaultProductName"
+              [ngModel]="selectedProductObj.productName"
               name="productName"
-              [placeholder]="defaultProductName"
+              placeholder="product name"
               required
               autofocus
-              
             />
+
             <p>Collection:</p>
             <button type="button" (click)="collectionSwitch()">
               existing/new
@@ -189,13 +190,13 @@
             <input
               *ngIf="collectionSwitched"
               type="text"
-              ngModel
+              [ngModel]="selectedProductObj.collection"
               name="collection"
               #collectionText
             />
             <select
               *ngIf="!collectionSwitched"
-              ngModel
+              [ngModel]="selectedProductObj.collection"
               name="collection"
               #collectionSelect
             >
@@ -205,50 +206,63 @@
                 >{{ collection }}</option
               >
             </select>
+
             <p>Price:</p>
             <input
               type="number"
-              ngModel
+              [ngModel]="selectedProductObj.price"
               name="price"
               placeholder="price"
               required
             />
+
             <p>Stone:</p>
             <button type="button" (click)="stoneSwitch()">existing/new</button>
             <input
               *ngIf="stoneSwitched"
               type="text"
-              ngModel
+              [ngModel]="selectedProductObj.stone"
               name="stone"
               #stoneText
             />
-            <select *ngIf="!stoneSwitched" ngModel name="stone" #stoneSelect>
-              <option *ngFor="let stone of stones" value="{{ stone }}">{{
-                stone
-              }}</option> </select
-            ><br />
+            <select 
+              *ngIf="!stoneSwitched" 
+              [ngModel]="selectedProductObj.stone"
+              name="stone" 
+              #stoneSelect >
+              <option 
+              *ngFor="let stone of stones" 
+              value="{{ stone }}">
+              {{ stone }}
+            </option>
+              </select><br />
+
             <p>Carat:</p>
             <input
               type="number"
-              ngModel
+              [ngModel]="selectedProductObj.carat"
               name="carat"
               required
               placeholder="carat"
             />
+
             <p>Cut:</p>
             <button type="button" (click)="cutSwitch()">existing/new</button>
             <input
               *ngIf="cutSwitched"
               type="text"
-              ngModel
+              [ngModel]="selectedProductObj.cut"
               name="cut"
               #cutText
             />
-            <select *ngIf="!cutSwitched" ngModel name="cut" #cutSelect>
-              <option *ngFor="let cut of cuts" value="{{ cut }}">{{
-                cut
-              }}</option>
+            <select 
+              *ngIf="!cutSwitched" 
+              [ngModel]="selectedProductObj.cut" 
+              name="cut" 
+              #cutSelect >
+              <option *ngFor="let cut of cuts" value="{{ cut }}">{{ cut }}</option>
             </select>
+
             <p>Material:</p>
             <button type="button" (click)="materialSwitch()">
               existing/new
@@ -256,39 +270,67 @@
             <input
               *ngIf="materialSwitched"
               type="text"
-              ngModel
+              [ngModel]="selectedProductObj.material"
               name="material"
               #materialText
             />
             <select
               *ngIf="!materialSwitched"
-              ngModel
+              [ngModel]="selectedProductObj.material"
               name="material"
               #materialSelect
             >
               <option
                 *ngFor="let material of materials"
                 value="{{ material }}"
-                >{{ material }}</option
-              >
+                >{{ material }}
+                </option>
             </select>
           </fieldset>
           <br />
 
           <fieldset>
             <legend>Additional info:</legend>
+
             <p>Sale:</p>
-            <input type="number" ngModel name="sale" placeholder="sale %" />
-            <p>Sizes:</p>
-            <select ngModel name="sizes" multiple="true">
+            <input 
+              type="number" 
+              [ngModel]="selectedProductObj.sale" 
+              name="sale" 
+              placeholder="promotion, selling at %" 
+            >
+
+            <p>All Available sizes:</p>
+            <select 
+            [ngModel]="sizes" 
+            multiple="true"
+            
+            >
               <option *ngFor="let size of sizes" value="{{ size }}">{{
                 size
-              }}</option>
+              }}
+            </option>
             </select>
+
+
+            <p>Current sizes:</p>
+            <select 
+            [ngModel]="selectedProductObj.sizes" 
+            name="sizes" 
+            multiple="true"
+            
+            >
+              <option *ngFor="let currSize of selectedProductObj.sizes" value="{{ currSize }}">{{
+                currSize
+              }}
+            </option>
+            </select>
+
+            
 
             <p>Description:</p>
             <textarea
-              ngModel
+            [ngModel]="selectedProductObj.description"
               name="description"
               rows="8"
               cols="30"
@@ -299,6 +341,7 @@
 
           <fieldset>
             <legend>Images:</legend>
+
             <p>Main image:</p>
             <input type="file" ngModel name="img" accept="image/*" required />
 

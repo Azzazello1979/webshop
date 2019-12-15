@@ -19,9 +19,9 @@ export class AdminComponent implements OnInit {
 
   
 
-  defaultProductName = "YOOOO";
+  
 
-  editProductFormInitialValues = { };
+  selectedProductObj = { };
 
   addProductBtnClicked = false;
   editProductBtnClicked = false;
@@ -39,6 +39,7 @@ export class AdminComponent implements OnInit {
   materials = [];
   sizes = [];
 
+  
   
 
   constructor(
@@ -152,13 +153,22 @@ saveProductChanges(formValue){
 }
 
 sendProductToForm(productObj){
-  this.editProductFormInitialValues = {...productObj};
+  this.selectedProductObj = { ...productObj };
   console.log('the filled up init form object: ');
-  console.log(this.editProductFormInitialValues);
+  console.log(this.selectedProductObj);
 }
+
+setDefaultSelectedProductObj(){
+  this.selectedProductObj = this.cartService.products[0] ;  
+}
+
+
   
 
   ngOnInit() {
+    this.setDefaultSelectedProductObj();
+    
+
     this.fillCollections();
     this.fillStones();
     this.fillCuts();

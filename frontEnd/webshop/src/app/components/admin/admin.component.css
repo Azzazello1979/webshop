@@ -57,9 +57,18 @@
                 flex-direction:column;
                 align-items:center;
                 justify-content:center;
-                border:1px solid grey;
+                border:2px solid grey;
                 border-radius: 5px;
+                cursor:pointer;
             }
+            .productCard:active{
+                border:2px solid green;
+            }
+            .productCard:hover{
+                border:2px solid green;
+            }
+            
+
 
                 .thumb{
                     width:90%;
