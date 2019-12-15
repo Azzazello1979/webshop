@@ -161,7 +161,10 @@ saveProductChanges(formValueObj){
   if(formValueObj['img'] === ""){ delete thePatchObj['img'] }
   if(formValueObj['gallImages'] === ""){ delete thePatchObj['gallImages'] }
 
+  thePatchObj['id'] = this.selectedProductObj['id'];
+
   this.productService.updateProduct(thePatchObj);
+  
 }
 
 sendProductToForm(productObj){

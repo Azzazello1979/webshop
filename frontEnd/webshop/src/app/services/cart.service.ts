@@ -313,6 +313,24 @@ export class CartService {
     )
   }
 
+  patchProduct(receivedProduct){   //{'id':13, 'price':200, 'collection':'Rittis'}
+    this.products.forEach(product => {
+      if(product.id === receivedProduct.id){
 
+        //console.log('the product to be patched: ');
+        //console.log(product);
+
+        for(let keyRP in receivedProduct){
+          for(let keyP in product){
+            keyP === keyRP ? product[keyP] = receivedProduct[keyRP] : null
+          }
+        }
+
+        //console.log('the patched product: ');
+        //console.log(product);
+      }
+    })
+        
+  }
 
 }
