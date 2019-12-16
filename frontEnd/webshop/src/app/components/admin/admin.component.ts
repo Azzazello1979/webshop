@@ -152,8 +152,30 @@ saveProductChanges(formValueObj){
   for(let keyS in this.selectedProductObj){
     for(let keyF in formValueObj){
       if(keyF === keyS){
-        formValueObj[keyF] !== this.selectedProductObj[keyS] ? 
-        thePatchObj[keyF] = formValueObj[keyF] : null
+        
+        // add member to thePatchObj if the value is a primitive and the value of the selectedObj 
+        // and the value of the receivedObj for the same key is different 
+        // the value has to be the one coming from the form
+        if( typeof formValueObj[keyF] !== 'object' && formValueObj[keyF] !== this.selectedProductObj[keyS] ){
+            thePatchObj[keyF] = formValueObj[keyF];
+
+        // if the receivedObj value for a key is an array...    
+        } else if( typeof formValueObj[keyF] === 'object' ){
+
+          let receivedObjectSizeArray = formValueObj['sizes'];
+          let selectedObjectSizeArray = this.selectedProductObj['sizes'];
+
+          // compare the 2 arrays's length, if they have same length, do not add 
+          // the sizes prop to the patch object because there is nothing to update,
+          // else, the value for the sizes key must come from the form
+          let theTwoArraysHaveTheSameLength:boolean;
+          receivedObjectSizeArray.length === selectedObjectSizeArray.length ? 
+          theTwoArraysHaveTheSameLength = true : theTwoArraysHaveTheSameLength = false ;
+
+          !theTwoArraysHaveTheSameLength ? thePatchObj['sizes'] = receivedObjectSizeArray : null ;
+
+
+        }
       }
     }
   }

@@ -14,14 +14,14 @@ export class ProductService {
   ) { }
 
   updateProduct(patchObj){
-    //console.log(patchObj);
+    console.log(patchObj);
     //this.cartService.patchProduct(patchObj);
 
-    return this.http.patch<any>( `${environment.backURL}/products`, patchObj )
+    /* return this.http.patch<any>( `${environment.backURL}/products`, patchObj )
     .subscribe(
       responseObj => this.cartService.patchProduct(responseObj),
       error => console.log('Error@product-service.ts@updateProduct(): ' + error.message)
-    )
+    ) */
       
   }
 
