@@ -148,7 +148,7 @@ materialSwitch(){
 saveProductChanges(formValueObj){
   
   let thePatchObj = {};
-
+  
   for(let keyS in this.selectedProductObj){
     for(let keyF in formValueObj){
       if(keyF === keyS){
@@ -162,18 +162,33 @@ saveProductChanges(formValueObj){
         // if the receivedObj value for a key is an array...    
         } else if( typeof formValueObj[keyF] === 'object' ){
 
-          let receivedObjectSizeArray = formValueObj['sizes'];
-          let selectedObjectSizeArray = this.selectedProductObj['sizes'];
-
           // compare the 2 arrays's length, if they have same length, do not add 
           // the sizes prop to the patch object because there is nothing to update,
           // else, the value for the sizes key must come from the form
-          let theTwoArraysHaveTheSameLength:boolean;
-          receivedObjectSizeArray.length === selectedObjectSizeArray.length ? 
-          theTwoArraysHaveTheSameLength = true : theTwoArraysHaveTheSameLength = false ;
+          
+          
+          let theTwoArraysAreNotEqual = false;
+          arrayCompare();
 
-          !theTwoArraysHaveTheSameLength ? thePatchObj['sizes'] = receivedObjectSizeArray : null ;
 
+          function arrayCompare(){
+
+            let receivedObjectSizeArray = formValueObj['sizes'];
+            let selectedObjectSizeArray = this.selectedProductObj['sizes'];
+
+            if(receivedObjectSizeArray.length !== selectedObjectSizeArray.length){
+              thePatchObj['sizes'] = receivedObjectSizeArray;
+            } else {
+              let sortedReceived = [...receivedObjectSizeArray].sort((a,b) => a - b);
+              let sortedSelected = [...selectedObjectSizeArray].sort((a,b) => a - b);
+
+              for(let i=0 ; i<sortedSelected.length ; i++){
+                sortedSelected[i] === sortedReceived[i] ? null : theTwoArraysAreNotEqual = true ;
+              }
+            }
+          }
+
+          theTwoArraysAreNotEqual ? thePatchObj['sizes'] = formValueObj.sizes : null ;
 
         }
       }
@@ -183,9 +198,13 @@ saveProductChanges(formValueObj){
   if(formValueObj['img'] === ""){ delete thePatchObj['img'] }
   if(formValueObj['gallImages'] === ""){ delete thePatchObj['gallImages'] }
 
-  thePatchObj['id'] = this.selectedProductObj['id'];
+  if(thePatchObj === {}){
+    return;
+  } else {
+    thePatchObj['id'] = this.selectedProductObj['id'];
+    this.productService.updateProduct(thePatchObj);
+  }
 
-  this.productService.updateProduct(thePatchObj);
   
 }
 

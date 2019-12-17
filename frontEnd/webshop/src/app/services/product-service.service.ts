@@ -14,6 +14,7 @@ export class ProductService {
   ) { }
 
   updateProduct(patchObj){
+    console.log('service: this is the patch object: ');
     console.log(patchObj);
     //this.cartService.patchProduct(patchObj);
 
