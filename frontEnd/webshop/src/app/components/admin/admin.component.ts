@@ -160,10 +160,8 @@ saveProductChanges(formValueObj){
           
           
           let theTwoArraysAreNotEqual = false;
-          arrayCompare();
 
-
-          function arrayCompare(){
+          let arrayCompare = () => {
 
             let receivedObjectSizeArray = formValueObj['sizes'];
             let selectedObjectSizeArray = this.selectedProductObj['sizes'];
@@ -180,6 +178,11 @@ saveProductChanges(formValueObj){
             }
           }
 
+          arrayCompare();
+
+
+          
+
           theTwoArraysAreNotEqual ? thePatchObj['sizes'] = formValueObj.sizes : null ;
 
         }
@@ -187,15 +190,20 @@ saveProductChanges(formValueObj){
     }
   }
 
+  // remove 'img' and 'gallImages' from patch object if their values are empty
   if(formValueObj['img'] === ""){ delete thePatchObj['img'] }
   if(formValueObj['gallImages'] === ""){ delete thePatchObj['gallImages'] }
 
-  if(thePatchObj === {}){
-    return;
-  } else {
+  // if thePatchObj is empty, do not call service, because nothing was edited on the form...
+
+    if( Object.keys( thePatchObj ).length === 0 ){
+      console.log('service will not be called because nothing was changed on the form');
+      return;
+    } 
+
     thePatchObj['id'] = this.selectedProductObj['id'];
     this.productService.updateProduct(thePatchObj);
-  }
+  
 
   
 }
@@ -207,7 +215,9 @@ sendProductToForm(productObj){
 }
 
 setDefaultSelectedProductObj(){
-  this.selectedProductObj = this.cartService.products[0] ;  
+  this.selectedProductObj = this.cartService.products[0] ;
+  //console.log('the default selected product obj after ngOnInit is: ');
+  //console.log(this.selectedProductObj);
 }
 
 
