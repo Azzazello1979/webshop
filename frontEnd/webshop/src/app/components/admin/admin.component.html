@@ -128,7 +128,7 @@
             ngModel
             name="description"
             rows="8"
-            cols="60"
+            cols="50"
             style="resize:none;"
           ></textarea>
         </fieldset>
@@ -295,7 +295,21 @@
               [ngModel]="selectedProductObj.sale" 
               name="sale" 
             >
-                      
+                     
+            <!-- excluded the "name" property below to make this drop-down read-only -->
+            <!-- if you use ngModel, and you exclude the "name" property, -->
+            <!-- you must use: [ngModelOptions]="{standalone: true}"  -->
+            <p>Current sizes:</p>
+            <select 
+            [ngModel]="selectedProductObj.sizes" 
+            [ngModelOptions]="{standalone: true}" 
+            multiple="true"
+            >
+              <option *ngFor="let currSize of selectedProductObj.sizes" value="{{ currSize }}">{{
+                currSize
+              }}
+            </option>
+            </select>
 
             <p>All Available sizes:</p>
             <select 
@@ -309,24 +323,6 @@
             </option>
             </select>
 
-            <!-- excluded the "name" property below to make this drop-down read-only -->
-            <!-- if you use ngModel, and you exclude the "name" property, -->
-            <!-- you must use: [ngModelOptions]="{standalone: true}"  -->
-
-            <p>Current sizes:</p>
-            <select 
-            [ngModel]="selectedProductObj.sizes" 
-            [ngModelOptions]="{standalone: true}" 
-            multiple="true"
-            
-            >
-              <option *ngFor="let currSize of selectedProductObj.sizes" value="{{ currSize }}">{{
-                currSize
-              }}
-            </option>
-            </select>
-
-            
 
             <p>Description:</p>
             <textarea
@@ -344,6 +340,7 @@
 
             <p>Main image:</p>
             <input 
+              class="chooseFile"
               type="file" 
               ngModel
               name="img" 
@@ -352,6 +349,7 @@
 
             <p>Gallery images:</p>
             <input
+              class="chooseFile"
               type="file"
               ngModel
               name="gallImages"

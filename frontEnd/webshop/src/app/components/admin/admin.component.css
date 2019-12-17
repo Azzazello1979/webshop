@@ -7,13 +7,11 @@
     padding:10px;
     min-height:80vh;
     background-color:white;
-    border:1px solid blue;
 }
 
 .navi{
     display:block;
     margin:0 auto;
-    border:1px solid pink;
 }
 
 
@@ -24,21 +22,18 @@
     width:80%;
     justify-content:space-around;
     padding:10px;
-    border:1px solid yellow;
 }
 
     .addProductWrapper{
         width:60%;
         padding:10px;
-        border:1px solid rgb(77, 4, 16);
     }
 
     .editProductWrapper{
         display:flex;
         justify-content: space-between;
-        width:100%;
+        width:80%;
         padding:10px;
-        border:1px solid rgb(77, 4, 16);
     }
 
         .productListing{
@@ -47,7 +42,7 @@
             flex-wrap:wrap;
             justify-content:space-around;
             padding:10px;
-            border:1px solid green;
+            border:1px solid #e3e4e6;
         }
 
             .productCard{
@@ -78,7 +73,7 @@
         .editProductForm{
             width:40%;
             padding:10px;
-            border:1px solid green;
+            border:1px solid #e3e4e6;
         }
 
 
@@ -91,4 +86,8 @@ select {
 
 input {
     display:block;
+}
+
+.chooseFile{
+    margin:0px;
 }
