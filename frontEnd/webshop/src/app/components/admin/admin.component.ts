@@ -18,10 +18,6 @@ export class AdminComponent implements OnInit {
   // this.editProductForm.value.productName
   // This is read-only!
 
-  
-
-  
-
   selectedProductObj = { };
 
   addProductBtnClicked = false;
@@ -39,9 +35,6 @@ export class AdminComponent implements OnInit {
   cuts = [];
   materials = [];
   sizes = [];
-
-  
-  
 
   constructor(
     private listingService: ListingService,
@@ -78,28 +71,28 @@ export class AdminComponent implements OnInit {
     this.manageOrdersBtnClicked = false;
   }
 
-  async fillCollections(){
-    await this.listingService.fillAllProducts();
-    this.collections = await this.listingService.getAllCollections();
+  fillCollections(){
+    this.listingService.fillAllProducts();
+    this.collections = this.listingService.getAllCollections();
   }
 
-  async fillStones(){
-    await this.listingService.fillAllProducts();
-    this.stones = await this.listingService.getAllStones();
+  fillStones(){
+    this.listingService.fillAllProducts();
+    this.stones = this.listingService.getAllStones();
   }
 
-  async fillCuts(){
-    await this.listingService.fillAllProducts();
-    this.cuts = await this.listingService.getAllCuts();
+  fillCuts(){
+    this.listingService.fillAllProducts();
+    this.cuts = this.listingService.getAllCuts();
   }
 
-  async fillMaterials(){
-    await this.listingService.fillAllProducts();
-    this.materials = await this.listingService.getAllMaterials();
+  fillMaterials(){
+    this.listingService.fillAllProducts();
+    this.materials = this.listingService.getAllMaterials();
   }
 
-  async fillSizes(){
-    this.sizes = await this.listingService.getAllSizes();
+  fillSizes(){
+    this.sizes = this.listingService.getAllSizes();
   }
 
   productFormSubmit(formValue){
@@ -128,7 +121,6 @@ export class AdminComponent implements OnInit {
     this.cartService.saveNewProduct(newProductObj);
   }
 
-  
  collectionSwitch(){
    this.collectionSwitched = !this.collectionSwitched;
  }
