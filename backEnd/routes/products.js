@@ -68,9 +68,7 @@ router.post("/", tokenControl, (req, res) => {
 
 
 // this is the one WITH sending back sizes...
-router.get(
-  "/",
-  tokenControl, (req, res) => {
+router.get("/", tokenControl, (req, res) => {
     res.setHeader("Content-Type", "application/json");
 
     let originalProducts = [];
@@ -137,6 +135,78 @@ router.get(
      }, 100)
     
   });
+
+
+// patch ...
+router.patch("/", (req, res) => {
+  res.setHeader('Content-Type','application/json');
+  let productID = req.body.id;
+
+  let columns = [];
+  let values = [];
+
+for(let key in req.body){ 
+  if(typeof req.body[key] === 'object'){ // to deal with the size array...
+    let sizeArr = req.body[key];
+
+    sizeArr.forEach(e => {
+      return db.query(` INSERT INTO sizes (size) VALUES (${e}) WHERE product_id = ${productID};`)
+      .then( response => console.log(response))
+      .catch( error => {
+        console.log('products.js >> patch >> INSERT INTO sizes error: ' + error.message);
+        return res.status(500).json({'message':'products.js >> patch >> INSERT INTO sizes error: ' + error.message});
+      })
+    })
+  } else { // primitive...
+    columns.push(key);
+    values.push( req.body[key] );
+    console.log( JSON.stringify($columns) );
+    console.log( JSON.stringify($values) );
+  }
+}
+
+    db.query(` UPDATE products SET ( ${JSON.stringify($columns)} ) VALUES ( ${JSON.stringify($values)} );`)
+    .then( response => {
+      console.log(response);
+      res.status(200).send(req.body);
+    })
+    .catch( error => {
+      console.log(error);
+      return res.status(500).json({'message':'products.js >> patch >> UPDATE products error: ' + error.message}); 
+    })
+
+    
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // this is the one without sending back sizes...
 /* router.get( "/", tokenControl, (req, res) => {
