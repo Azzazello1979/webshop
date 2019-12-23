@@ -141,31 +141,54 @@ router.get("/", tokenControl, (req, res) => {
 router.patch("/", (req, res) => {
   res.setHeader('Content-Type','application/json');
   let productID = req.body.id;
+  let reqBody = req.body;
+  delete reqBody.id; // we dont need this key-value pair when we iterate and fill up below arrays columns, values
 
   let columns = [];
   let values = [];
 
-for(let key in req.body){ 
-  if(typeof req.body[key] === 'object'){ // to deal with the size array...
-    let sizeArr = req.body[key];
+for(let key in reqBody){ 
+  if(typeof reqBody[key] === 'object'){ // to deal with the size array...
+    let sizeArr = reqBody[key];
 
-    sizeArr.forEach(e => {
-      return db.query(` INSERT INTO sizes (size) VALUES (${e}) WHERE product_id = ${productID};`)
-      .then( response => console.log(response))
-      .catch( error => {
-        console.log('products.js >> patch >> INSERT INTO sizes error: ' + error.message);
-        return res.status(500).json({'message':'products.js >> patch >> INSERT INTO sizes error: ' + error.message});
+    // 1st delete all size entries for that id...
+
+    db.query(` DELETE FROM sizes WHERE product_id = ${productID} ;`)
+    .then( response => {
+      console.log(response);
+      sizeArr.forEach(e => {
+        return db.query(` INSERT INTO sizes (size) VALUES (${e}) WHERE product_id = ${productID};`)
+        .then( response => console.log(response))
+        .catch( error => {
+          console.log('products.js >> patch >> INSERT INTO sizes error: ' + error.message);
+          return res.status(500).json({'message':'products.js >> patch >> INSERT INTO sizes error: ' + error.message});
+        })
       })
     })
+    .catch( error => {
+      console.log('Error@products.js>>patch>>DELETE query: ', error)
+    } )
+
+    
   } else { // primitive...
-    columns.push(key);
-    values.push( req.body[key] );
-    console.log( JSON.stringify($columns) );
-    console.log( JSON.stringify($values) );
+      columns.push( key );
+      values.push( reqBody[key] );
   }
 }
+    
+    let setString = "";
+    
+    for(let i=0 ; i<columns.length ; i++){
+      if(typeof values[i] === 'number'){
+        setString += `${columns[i]} = ${values[i]}, `
+      } else if(typeof values[i] === 'string'){
+        setString += `${columns[i]} = '${values[i]}', `
+      }
+    }
+    setString = setString.slice(0,setString.length-2);
+    
 
-    db.query(` UPDATE products SET ( ${JSON.stringify($columns)} ) VALUES ( ${JSON.stringify($values)} );`)
+    db.query(` UPDATE products SET ${setString} WHERE id = ${productID} ;`)
     .then( response => {
       console.log(response);
       res.status(200).send(req.body);
