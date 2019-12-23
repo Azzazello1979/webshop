@@ -148,25 +148,30 @@ router.patch("/", (req, res) => {
   let values = [];
 
 for(let key in reqBody){ 
-  if(typeof reqBody[key] === 'object'){ // to deal with the size array...
-    let sizeArr = reqBody[key];
+  if(key === 'sizes'){ // to deal with the size array...
+    let sizeArr = reqBody.sizes;
 
     // 1st delete all size entries for that id...
-
     db.query(` DELETE FROM sizes WHERE product_id = ${productID} ;`)
     .then( response => {
-      console.log(response);
+      console.log('DELETE query response: ', response);
       sizeArr.forEach(e => {
-        return db.query(` INSERT INTO sizes (size) VALUES (${e}) WHERE product_id = ${productID};`)
-        .then( response => console.log(response))
+        return db.query(` INSERT INTO sizes (size, product_id) VALUES (${e}, ${productID}); `)
+        .then( response => {
+          console.log('INSERT INTO response: ', response);
+        })
         .catch( error => {
           console.log('products.js >> patch >> INSERT INTO sizes error: ' + error.message);
           return res.status(500).json({'message':'products.js >> patch >> INSERT INTO sizes error: ' + error.message});
         })
       })
     })
+    .then( allDone => {
+      console.log('allDone: ', allDone);
+      res.status(200).send(req.body);
+    })
     .catch( error => {
-      console.log('Error@products.js>>patch>>DELETE query: ', error)
+      console.log('Error@products.js>>patch>>DELETE query: ', error.message)
     } )
 
     
@@ -175,28 +180,31 @@ for(let key in reqBody){
       values.push( reqBody[key] );
   }
 }
-    
-    let setString = "";
-    
-    for(let i=0 ; i<columns.length ; i++){
-      if(typeof values[i] === 'number'){
-        setString += `${columns[i]} = ${values[i]}, `
-      } else if(typeof values[i] === 'string'){
-        setString += `${columns[i]} = '${values[i]}', `
-      }
-    }
-    setString = setString.slice(0,setString.length-2);
-    
 
-    db.query(` UPDATE products SET ${setString} WHERE id = ${productID} ;`)
-    .then( response => {
-      console.log(response);
-      res.status(200).send(req.body);
-    })
-    .catch( error => {
-      console.log(error);
-      return res.status(500).json({'message':'products.js >> patch >> UPDATE products error: ' + error.message}); 
-    })
+    if(columns.length > 0){ // if there is at least one primitive to patch...
+      let setString = "";
+    
+      for(let i=0 ; i<columns.length ; i++){
+        if(typeof values[i] === 'number'){
+          setString += `${columns[i]} = ${values[i]}, `
+        } else if(typeof values[i] === 'string'){
+          setString += `${columns[i]} = '${values[i]}', `
+        }
+      }
+      setString = setString.slice(0,setString.length-2);
+      
+  
+      db.query(` UPDATE products SET ${setString} WHERE id = ${productID} ;`)
+      .then( response => {
+        console.log('UPDATE products response: ', response);
+        res.status(200).send(req.body);
+      })
+      .catch( error => {
+        console.log('products.js >> patch >> UPDATE products error: ', error.message);
+        return res.status(500).json({'message':'products.js >> patch >> UPDATE products error: ' + error.message}); 
+      })
+    }
+    
 
     
 
