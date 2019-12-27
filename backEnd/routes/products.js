@@ -145,7 +145,7 @@ router.patch("/", (req, res) => {
   res.setHeader('Content-Type','application/json');
 
   let productID = req.body.id;
-  let reqBody = req.body;
+  let reqBody = {...req.body};
   delete reqBody.id; // we dont need this key-value pair when we iterate and fill up below arrays columns, values
 
   let columns = [];
