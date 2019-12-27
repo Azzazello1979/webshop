@@ -2,7 +2,20 @@
     <h3>Your previous orders:</h3>
 
     <div class="orders">
-        <div class="order">
+        <div class="order-card" *ngFor="let order of this.ordersService.orders">
+
+            <div class="order-info">
+                <div>Order created: {{ order.orderCreated | date }}</div>
+                <div>Shipping method: {{ order.shipping_id }}</div>
+                <div>Payment method: {{ order.payment_id }}</div>
+            </div>
+
+            <div class="order-items" *ngFor="let item of order.suborder">
+                <div>Product ID: {{ item.product_id }}</div>
+                <div>pieces: {{ item.amount }}</div>
+                <div>size: {{ item.size }}</div>
+                <div>price: {{ item.price | currency }}</div>
+            </div>
             
         </div>
     </div>

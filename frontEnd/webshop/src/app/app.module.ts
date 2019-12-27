@@ -19,6 +19,7 @@ import { CartService } from './services/cart.service';
 import { ListingService } from './services/listing.service';
 import { ProductService } from './services/product-service.service';
 import { PaymentService } from './services/payment.service';
+import { OrdersService } from './services/orders.service';
 
 // import components...
 import { AppComponent } from './app.component';
@@ -73,10 +74,6 @@ import { AdminComponent } from './components/admin/admin.component';
     OrdersComponent,
     ProfileComponent,
     AdminComponent
-    
-    
-    
-    
   ],
   imports: [
     BrowserModule,
@@ -85,16 +82,13 @@ import { AdminComponent } from './components/admin/admin.component';
     HttpClientModule,
     NoopAnimationsModule,
     MatCheckboxModule
-
-    
-
-
   ],
   providers: [
     AuthService,
     PaymentService,
     ListingService,
     CartService,
+    OrdersService,
     ProductService,
     {
       provide: HTTP_INTERCEPTORS,
