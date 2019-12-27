@@ -5,16 +5,21 @@
         <div class="order-card" *ngFor="let order of this.ordersService.orders">
 
             <div class="order-info">
-                <div>Order created: {{ order.orderCreated | date }}</div>
-                <div>Shipping method: {{ order.shipping_id }}</div>
-                <div>Payment method: {{ order.payment_id }}</div>
+                <div>Order created: {{ order.orderCreated | date:'medium' }}</div>
+                <div>Shipping method: {{ order.shippingName }}</div>
             </div>
 
             <div class="order-items" *ngFor="let item of order.suborder">
-                <div>Product ID: {{ item.product_id }}</div>
+                <div><a [routerLink]="['/products', (item.product_id-1)]"><img class="thumb" [src]="item.img"></a></div>
+                <div>{{ item.productName }}</div>
                 <div>pieces: {{ item.amount }}</div>
                 <div>size: {{ item.size }}</div>
                 <div>price: {{ item.price | currency }}</div>
+            </div>
+
+            <div class="order-summary">
+                <div>Payment method: {{ order.paymentName }}</div>
+                <div>Order total: {{ order.total | currency }}</div>
             </div>
             
         </div>

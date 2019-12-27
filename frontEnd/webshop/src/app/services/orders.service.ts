@@ -8,21 +8,24 @@ export class OrdersService {
   orders = [
     { 
       'id':1,
-      'shipping_id':1,
+      'shippingName':'FedEx',
       'user_id':1,
-      'payment_id':1,
-      'orderCreated':2019-12-24,
+      'paymentName':'PayPal',
+      'orderCreated':'2019-12-24T08:30:31Z',
+      'total':219.9,
       'suborder':[
         { 
-          'id':55,
           'product_id':13,
+          'img':'./../../assets/images/collections/rittis/Rittis-1.jpg',
+          'productName':'Rittis-1',
           'amount':1,
           'size':7.5,
           'price':59.95
          },
          { 
-          'id':56,
           'product_id':14,
+          'img':'./../../assets/images/collections/rittis/Rittis-2.jpg',
+          'productName':'Rittis-2',
           'amount':1,
           'size':8.5,
           'price':159.95
@@ -31,21 +34,24 @@ export class OrdersService {
      },
      { 
       'id':2,
-      'shipping_id':4,
+      'shippingName':'free',
       'user_id':3,
-      'payment_id':2,
-      'orderCreated':2019-12-25,
+      'paymentName':'DHL',
+      'orderCreated':'2019-12-25T09:11:45Z',
+      'total':256.9,
       'suborder':[
         { 
-          'id':57,
           'product_id':15,
+          'img':'./../../assets/images/collections/rittis/Rittis-3.jpg',
+          'productName':'Rittis-3',
           'amount':1,
           'size':5.5,
           'price':33.95
          },
          { 
-          'id':58,
           'product_id':16,
+          'img':'./../../assets/images/collections/biafin/Biafin-1.jpg',
+          'productName':'Biafin-1',
           'amount':1,
           'size':9.5,
           'price':222.95
