@@ -137,9 +137,13 @@ router.get("/", tokenControl, (req, res) => {
   });
 
 
+
+
+
 // patch ...
 router.patch("/", (req, res) => {
   res.setHeader('Content-Type','application/json');
+
   let productID = req.body.id;
   let reqBody = req.body;
   delete reqBody.id; // we dont need this key-value pair when we iterate and fill up below arrays columns, values
@@ -152,27 +156,20 @@ for(let key in reqBody){
     let sizeArr = reqBody.sizes;
 
     // 1st delete all size entries for that id...
-    db.query(` DELETE FROM sizes WHERE product_id = ${productID} ;`)
-    .then( response => {
-      console.log('DELETE query response: ', response);
-      sizeArr.forEach(e => {
-        return db.query(` INSERT INTO sizes (size, product_id) VALUES (${e}, ${productID}); `)
-        .then( response => {
-          console.log('INSERT INTO response: ', response);
-        })
-        .catch( error => {
-          console.log('products.js >> patch >> INSERT INTO sizes error: ' + error.message);
-          return res.status(500).json({'message':'products.js >> patch >> INSERT INTO sizes error: ' + error.message});
-        })
-      })
-    })
-    .then( allDone => {
-      console.log('allDone: ', allDone);
-      res.status(200).send(req.body);
-    })
-    .catch( error => {
-      console.log('Error@products.js>>patch>>DELETE query: ', error.message)
-    } )
+
+    try{
+      doIt()
+    }catch(e){
+      console.log('ERROR @ doIt(): ', e.message);
+    }
+
+    async function doIt(){
+      await db.query(` DELETE FROM sizes WHERE product_id = ${productID} ;`);
+      await sizeArr.forEach(e => {
+        return db.query(` INSERT INTO sizes (size, product_id) VALUES (${e}, ${productID}) ;`)
+      });
+    }
+    
 
     
   } else { // primitive...
@@ -181,6 +178,7 @@ for(let key in reqBody){
   }
 }
 
+    // by this time sizeArray is dealt with & columns and values arrays are filled up
     if(columns.length > 0){ // if there is at least one primitive to patch...
       let setString = "";
     
@@ -197,11 +195,13 @@ for(let key in reqBody){
       db.query(` UPDATE products SET ${setString} WHERE id = ${productID} ;`)
       .then( response => {
         console.log('UPDATE products response: ', response);
-        res.status(200).send(req.body);
+        //res.status(200).json({'message':'products.js >> OK, record patched'});
+        let answer = req.body;
+        res.status(200).json(answer);
       })
       .catch( error => {
         console.log('products.js >> patch >> UPDATE products error: ', error.message);
-        return res.status(500).json({'message':'products.js >> patch >> UPDATE products error: ' + error.message}); 
+        return res.status(500).json({'message':`products.js >> patch >> UPDATE products error: ${error.message}`}); 
       })
     }
     
@@ -212,46 +212,5 @@ for(let key in reqBody){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// this is the one without sending back sizes...
-/* router.get( "/", tokenControl, (req, res) => {
-    res.setHeader("Content-Type", "application/json");
-    
-    db.query(`SELECT * FROM products ;`)
-      .then( reply => {
-             res.status(200).send(reply[0])
-      })
-      .catch(err => {
-        res.status(500).json({
-            'message': `Error @ products.js endpoint @ GET request, error is: ${err.message}`
-          });
-      });  
-  }); */
 
 module.exports = router;

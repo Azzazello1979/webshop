@@ -180,9 +180,6 @@ saveProductChanges(formValueObj){
 
           arrayCompare();
 
-
-          
-
           theTwoArraysAreNotEqual ? thePatchObj['sizes'] = formValueObj.sizes : null ;
 
         }
@@ -203,8 +200,6 @@ saveProductChanges(formValueObj){
 
     thePatchObj['id'] = this.selectedProductObj['id'];
     this.productService.updateProduct(thePatchObj);
-  
-
   
 }
 
