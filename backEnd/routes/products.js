@@ -141,7 +141,7 @@ router.get("/", tokenControl, (req, res) => {
 
 
 // patch ...
-router.patch("/", (req, res) => {
+router.patch("/", tokenControl, (req, res) => {
   res.setHeader('Content-Type','application/json');
 
   let productID = req.body.id;

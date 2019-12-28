@@ -93,6 +93,11 @@ router.post("/", tokenControl, (req, res) => {
     });
 });
 
+router.get("/", (req, res) => {
+  res.setHeader("Content-Type", "application-json");
+  let decodedToken = jwt.decode(req.headers.authorization.split(" ")[1]);
+  let currentUserID = decodedToken.id;
 
+});
 
 module.exports = router;

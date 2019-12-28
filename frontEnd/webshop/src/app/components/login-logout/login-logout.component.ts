@@ -96,14 +96,16 @@ export class LoginLogoutComponent implements OnDestroy {
           this.initProductsSubscription = this.cartService.initProducts().subscribe(
             response => {
               this.cartService.products = response;
-              console.log('cartService products: ');
-              console.log(this.cartService.products);
+              //console.log('cartService products: ');
+              //console.log(this.cartService.products);
+              this.cartService.initShippingOptions();
+              this.cartService.loadUserCartAndShipping();
+              this.cartService.loadUserWish();
 
               this.listingService.allProducts = response;
               this.listingService.fillAllProducts();
-  
-              this.cartService.loadUserCartAndShipping();
-              this.cartService.loadUserWish();
+              
+              
 
               // regular user or admin?
               this.auth.adminLoggedIn ?

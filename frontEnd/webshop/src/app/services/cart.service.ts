@@ -38,56 +38,7 @@ export class CartService {
     address1: "",
     address2: ""
   };
-  shippingOptions: any = [
-    {
-      id: 1,
-      name: "free",
-      cost: 0,
-      minDays: 30,
-      maxDays: 50,
-      imgSrc: "./../../assets/icons/shipping-icon.png"
-    },
-    {
-      id: 2,
-      name: "ePacket",
-      cost: 10,
-      minDays: 7,
-      maxDays: 14,
-      imgSrc: "./../../assets/icons/Shipping-3-icon.png"
-    },
-    {
-      id: 3,
-      name: "FedEx",
-      cost: 22,
-      minDays: 5,
-      maxDays: 12,
-      imgSrc: "./../../assets/icons/Shipping-4-icon.png"
-    },
-    {
-      id: 4,
-      name: "UPS",
-      cost: 15,
-      minDays: 6,
-      maxDays: 11,
-      imgSrc: "./../../assets/icons/Shipping-5-icon.png"
-    },
-    {
-      id: 5,
-      name: "TnT",
-      cost: 33,
-      minDays: 5,
-      maxDays: 7,
-      imgSrc: "./../../assets/icons/Shipping-7-icon.png"
-    },
-    {
-      id: 6,
-      name: "DHL",
-      cost: 29,
-      minDays: 3,
-      maxDays: 9,
-      imgSrc: "./../../assets/icons/Shipping-8-icon.png"
-    }
-  ]; // get this arr from db
+  shippingOptions: any = []; // get this arr from db
   selectedShippingOption = {
     id: 1,
     name: "free",
@@ -109,6 +60,13 @@ export class CartService {
   // fill up products array from database
   initProducts(){
     return this.http.get<any>(`${environment.backURL}/products`);
+  }
+
+  initShippingOptions(){
+    return this.http.get<any>(`${environment.backURL}/shippingoptions`).subscribe(
+      res => console.log('shipping options loaded: ', res),
+      err => console.log('cartService: initShippingOptions() error: ', err)
+    )
   }
 
   addToWish(product) {
