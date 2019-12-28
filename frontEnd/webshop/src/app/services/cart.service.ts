@@ -39,13 +39,7 @@ export class CartService {
     address2: ""
   };
   shippingOptions: any = []; // get this arr from db
-  selectedShippingOption = {
-    id: 1,
-    name: "free",
-    cost: 0,
-    minDays: 30,
-    maxDays: 50
-  };
+  selectedShippingOption = {}; // default selected shipping option is "free"
   billingAddressIsDifferentFromShippingAddress = false;
   addressSubmitted = false;
 
@@ -64,7 +58,10 @@ export class CartService {
 
   initShippingOptions(){
     return this.http.get<any>(`${environment.backURL}/shippingoptions`).subscribe(
-      res => console.log('shipping options loaded: ', res),
+      res => {
+        console.log('shipping options loaded: ', res);
+        this.selectedShippingOption = res[0];
+      },
       err => console.log('cartService: initShippingOptions() error: ', err)
     )
   }

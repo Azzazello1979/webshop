@@ -32,7 +32,9 @@ export class PaymentComponent implements OnInit, OnDestroy {
 
 
 
-  ngOnInit() {}
+  ngOnInit() {
+    
+  }
 
   ngOnDestroy(){
     this.saveOrderSubscription.unsubscribe();

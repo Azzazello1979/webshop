@@ -1,6 +1,7 @@
 import { AuthService } from "./../../services/auth.service";
 import { CartService } from "./../../services/cart.service";
 import { ListingService } from "./../../services/listing.service";
+import { PaymentService } from "./../../services/payment.service";
 
 import { Component, OnDestroy } from "@angular/core";
 import { Router } from "@angular/router";
@@ -22,6 +23,7 @@ export class LoginLogoutComponent implements OnDestroy {
     private auth: AuthService,
     private cartService: CartService,
     private listingService: ListingService,
+    private paymentService: PaymentService,
     private router: Router
   ) {}
 
@@ -101,6 +103,7 @@ export class LoginLogoutComponent implements OnDestroy {
               this.cartService.initShippingOptions();
               this.cartService.loadUserCartAndShipping();
               this.cartService.loadUserWish();
+              this.paymentService.getPaymentOptions();
 
               this.listingService.allProducts = response;
               this.listingService.fillAllProducts();

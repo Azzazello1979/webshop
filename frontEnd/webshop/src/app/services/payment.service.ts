@@ -24,6 +24,17 @@ export class PaymentService {
     private http:HttpClient
   ) { }
 
+  getPaymentOptions(){
+    return this.http.get<any>(`${environment.backURL}/paymentoptions`).subscribe(
+      res => {
+        this.paymentOptions = res;
+        this.selectedPayment = this.paymentOptions[0];
+        console.log('payment options loaded successfully');
+      },
+      err => console.log('Error @ payment.service getPaymentOptions(): ' + err.message)
+    )
+  }
+
   initPayment(paymentOption) {
     this.selectedPayment = paymentOption;
     this.fillOrder();
