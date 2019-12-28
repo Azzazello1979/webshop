@@ -5,7 +5,7 @@ const express = require("express");
 const router = express.Router();
 const tokenControl = require("./../middlewares/token_control"); // tokenControl middleware
 
-router.get("/", (req, res) => {
+router.get("/", tokenControl, (req, res) => {
     res.setHeader("Content-Type", "application/json");
     db.query('SELECT * FROM paymentoptions ;')
     .then( paymentoptions => res.status(200).send( paymentoptions[0])  )

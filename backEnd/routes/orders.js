@@ -95,8 +95,85 @@ router.post("/", tokenControl, (req, res) => {
 
 router.get("/", (req, res) => {
   res.setHeader("Content-Type", "application/json");
-  let decodedToken = jwt.decode(req.headers.authorization.split(" ")[1]);
-  let currentUserID = decodedToken.id;
+  //let decodedToken = jwt.decode(req.headers.authorization.split(" ")[1]);
+  //let currentUserID = decodedToken.id;
+
+  let currentUserID = 19;
+  let orders = [];
+  
+  db.query(`SELECT id, user_id, shipping_id, payment_id, orderCreated FROM orders WHERE user_id = ${currentUserID};`)
+  .then( orderResponse => {
+    //console.log(orderResponse[0]);
+
+    let ordersCount = orderResponse[0].length;
+    let order = {
+      'id':0,
+      'shippingName':'',
+      'paymentName':'',
+      'user_id':0,
+      'orderCreated':'2019-12-24T08:30:31Z',
+      'total':0,
+      'suborder':[
+        {
+          'id':0,
+          'product_id':0,
+          'img':'./../../assets/images/collections/rittis/Rittis-1.jpg',
+          'productName':'',
+          'amount':0,
+          'size':0,
+          'price':0
+      }
+    ]
+  };
+
+
+    try{
+      for(let i=0 ; i<ordersCount ; i++){
+        orders.push( fillOrder() );
+      }
+    }catch(e){
+      console.log('Error at bringNames() function: ' + e.message)
+    }
+
+    async function fillOrder(){
+      order.id = orderResponse[0].id;
+      order.user_id = orderResponse[0].user_id;
+      order.orderCreated = orderResponse[0].orderCreated;
+
+      let shipping_id = orderResponse[0].shipping_id;
+      let payment_id = orderResponse[0].payment_id;
+
+      order.shippingName = await db.query(`SELECT name FROM shippingoptions WHERE id = ${shipping_id};`);
+      order.paymentName = await db.query(`SELECT name FROM paymentoptions WHERE id = ${payment_id};`);
+
+      let suborder = [];
+
+      let suborderLength = await db.query(`SELECT COUNT(id) FROM suborder WHERE order_id = ${orderResponse[0].id};`)
+      let itemPrices = [];
+
+      for(let i=0 ; i<suborderLength ; i++){
+        let item = await db.query(`SELECT id, product_id, amount, size, price FROM suborder WHERE order_id = ${orderResponse[0].id} ;`);
+
+        let productName = await db.query(`SELECT productName FROM products WHERE id = ${item.product_id} ;`);
+        let img = await db.query(`SELECT img FROM products WHERE id = ${item.product_id} ;`);
+
+        item.img = img;
+        item.productName = productName;
+        itemPrices.push(item.price);
+
+        suborder.push(item);
+      }
+
+      order.total = itemPrices.reduce((acc,curr) => acc + curr);
+      order.suborder = suborder;
+      return order;
+
+    }
+    
+  })
+  .catch( err => console.log(err) )
+
+    res.status(200).send(orders);
 
 });
 
