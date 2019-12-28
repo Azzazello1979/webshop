@@ -24,6 +24,7 @@ const wishRoute = require('./routes/wish');
 const productsRoute = require('./routes/products');
 const productsWithSizesRoute = require('./routes/productsWithSizes');
 const shippingOptions = require('./routes/shippingoptions');
+const paymentOptions = require('./routes/paymentoptions');
 
 
 // use routes...
@@ -36,6 +37,7 @@ app.use('/wish', wishRoute);
 app.use('/products', productsRoute);
 app.use('/productsWithSizes', productsWithSizesRoute);
 app.use('/shippingoptions', shippingOptions);
+app.use('/paymentoptions', paymentOptions);
 
 
 // TEST connection
