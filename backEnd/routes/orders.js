@@ -160,21 +160,29 @@ router.get("/", (req, res) => {
       console.log('order.paymentName is: ' , order.paymentName);
       
 
-      let suborderLength = await db.query(`SELECT COUNT(id) FROM suborder WHERE order_id = ${orderResponse[0][0].id};`)
+      let res3 = await db.query(`SELECT COUNT(id) FROM suborder WHERE order_id = ${orderResponse[0][0].id};`);
+      let suborderLength = res3[0][0]['COUNT(id)'];
+      console.log('suborderLength is: ' , suborderLength);
       
 
       for(let i=0 ; i<suborderLength ; i++){
-        let item = await db.query(`SELECT id, product_id, amount, size, price FROM suborder WHERE order_id = ${orderResponse[0][0].id} ;`);
+        let res1 = await db.query(`SELECT id, product_id, amount, size, price FROM suborder WHERE order_id = ${orderResponse[0][0].id} ;`);
+        console.log('res1[0] is: ', res1[0]);
+        let items = res1[0];
+        console.log('items are: ', items);
+        let res2 = await db.query(`SELECT productName FROM products WHERE id = ${items[i].product_id} ;`);
+        let productName = res2[0][0]['productName']
+        console.log('productName is: ', productName);
+        let res3 = await db.query(`SELECT img FROM products WHERE id = ${items[i].product_id} ;`);
+        let img = res3[0][0]['img'];
+        console.log('img is: ', img);
 
-        let productName = await db.query(`SELECT productName FROM products WHERE id = ${item.product_id} ;`);
-        let img = await db.query(`SELECT img FROM products WHERE id = ${item.product_id} ;`);
+        items[i].img = img;
+        items[i].productName = productName;
+        console.log('item.price is: ' + items[i].price);
+        itemPrices.push(items[i].price);
 
-        item.img = img;
-        item.productName = productName;
-        console.log('item.price is: ' + item.price);
-        itemPrices.push(item.price);
-
-        suborder.push(item);
+        suborder.push(items[i]);
       }
 
       console.log('itemPrices is: ', itemPrices);
