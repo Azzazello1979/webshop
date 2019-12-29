@@ -93,97 +93,96 @@ router.post("/", tokenControl, (req, res) => {
     });
 });
 
-router.get("/", (req, res) => {
+router.get("/", tokenControl, (req, res) => {
   res.setHeader("Content-Type", "application/json");
-  //let decodedToken = jwt.decode(req.headers.authorization.split(" ")[1]);
-  //let currentUserID = decodedToken.id;
-
-  let currentUserID = 19;
+  let decodedToken = jwt.decode(req.headers.authorization.split(" ")[1]);
   
+  let currentUserID = decodedToken.id;
+  let orders = [];
+  let ordersCount = 0;
+  let counter = 0;
   
   db.query(`SELECT id, user_id, shipping_id, payment_id, orderCreated FROM orders WHERE user_id = ${currentUserID};`)
   .then( orderResponse => {
-    console.log('orderResponse[0][0] is: ' , orderResponse[0][0]);
+    //console.log('orderResponse[0][0] is: ' , orderResponse[0][0]);
 
-    let ordersCount = orderResponse[0].length;
+    ordersCount = orderResponse[0].length;
     
-    
-
-    try{
-      let orders = [];
-      for(let i=0 ; i<ordersCount ; i++){
-        orders.push( fillOrder() );
-      }
-        res.status(200).send(orders);
-    }catch(e){
-      console.log('Error at fillOrder() function: ' + e.message)
+    for(let i=0 ; i<ordersCount ; i++){
+        fillOrder()
+        .then(OneOrder => {
+          orders.push( OneOrder );
+          counter++;
+          counter === ordersCount ? res.status(200).send(orders) : null
+        })
+        .catch(err => console.log('calling fillOrder() error: ', err.message))
     }
-
-    let itemPrices = [];
-    let suborder = [];
-
+    
     async function fillOrder(){
-      let order = {};
-      order.id = orderResponse[0][0].id;
-      console.log('order.id is: ' + orderResponse[0][0].id);
-      order.user_id = orderResponse[0][0].user_id;
-      console.log('order.user_id is: ' + orderResponse[0][0].user_id);
-      order.orderCreated = orderResponse[0][0].orderCreated;
-      console.log('order.orderCreated is: ' + orderResponse[0][0].orderCreated);
 
-      let shipping_id = orderResponse[0][0].shipping_id;
-      console.log('shipping_id is: ' + shipping_id);
-      let payment_id = orderResponse[0][0].payment_id;
-      console.log('payment_id is: ' + payment_id);
+      let order = {};
+      let itemPrices = [];
+      let suborder = [];
+
+      let orderResponseObj = orderResponse[0][0];
+
+      order.id = orderResponseObj.id;
+      //console.log('order.id is: ' + orderResponseObj.id);
+      order.user_id = orderResponseObj.user_id;
+      //console.log('order.user_id is: ' + orderResponseObj.user_id);
+      order.orderCreated = orderResponseObj.orderCreated;
+      //console.log('order.orderCreated is: ' + orderResponseObj.orderCreated);
+
+      let shipping_id = orderResponseObj.shipping_id;
+      //console.log('shipping_id is: ' + shipping_id);
+      let payment_id = orderResponseObj.payment_id;
+      //console.log('payment_id is: ' + payment_id);
 
       let res1 = await db.query(`SELECT name FROM shippingoptions WHERE id = ${shipping_id};`);
       order.shippingName = res1[0][0].name;
-      console.log('order.shippingName is: ' , order.shippingName);
+      //console.log('order.shippingName is: ' , order.shippingName);
 
       let res2 = await db.query(`SELECT name FROM paymentoptions WHERE id = ${payment_id};`);
       order.paymentName = res2[0][0].name;
-      console.log('order.paymentName is: ' , order.paymentName);
+      //console.log('order.paymentName is: ' , order.paymentName);
       
-
-      let res3 = await db.query(`SELECT COUNT(id) FROM suborder WHERE order_id = ${orderResponse[0][0].id};`);
+      let res3 = await db.query(`SELECT COUNT(id) FROM suborder WHERE order_id = ${orderResponseObj.id};`);
       let suborderLength = res3[0][0]['COUNT(id)'];
-      console.log('suborderLength is: ' , suborderLength);
+      //console.log('suborderLength is: ' , suborderLength);
       
-
       for(let i=0 ; i<suborderLength ; i++){
         let res1 = await db.query(`SELECT id, product_id, amount, size, price FROM suborder WHERE order_id = ${orderResponse[0][0].id} ;`);
-        console.log('res1[0] is: ', res1[0]);
+        //console.log('res1[0] is: ', res1[0]);
         let items = res1[0];
-        console.log('items are: ', items);
+        //console.log('items are: ', items);
         let res2 = await db.query(`SELECT productName FROM products WHERE id = ${items[i].product_id} ;`);
         let productName = res2[0][0]['productName']
-        console.log('productName is: ', productName);
+        //console.log('productName is: ', productName);
         let res3 = await db.query(`SELECT img FROM products WHERE id = ${items[i].product_id} ;`);
         let img = res3[0][0]['img'];
-        console.log('img is: ', img);
+        //console.log('img is: ', img);
 
         items[i].img = img;
         items[i].productName = productName;
-        console.log('item.price is: ' + items[i].price);
+        //console.log('item.price is: ' + items[i].price);
         itemPrices.push(items[i].price);
 
         suborder.push(items[i]);
       }
 
-      console.log('itemPrices is: ', itemPrices);
+      //console.log('itemPrices is: ', itemPrices);
       order.total = itemPrices.reduce((acc,curr) => acc + curr);
-      console.log('order total is: ' + order.total);
+      //console.log('order total is: ' + order.total);
       order.suborder = suborder;
-      console.log('suborder is: ', suborder);
-      console.log('order is: ', order);
-      return order;
+      //console.log('suborder is: ', suborder);
+      //console.log('order is: ', order);
 
+      return order;
+      
     }
-    
+
   })
   .catch( err => console.log('ERROR at SELECT ... FROM orders: ' + err.message) )
-
-    
 
 });
 
