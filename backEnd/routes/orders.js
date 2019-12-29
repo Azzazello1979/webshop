@@ -99,38 +99,22 @@ router.get("/", (req, res) => {
   //let currentUserID = decodedToken.id;
 
   let currentUserID = 19;
-  let orders = [];
+  
   
   db.query(`SELECT id, user_id, shipping_id, payment_id, orderCreated FROM orders WHERE user_id = ${currentUserID};`)
   .then( orderResponse => {
     console.log('orderResponse[0][0] is: ' , orderResponse[0][0]);
 
     let ordersCount = orderResponse[0].length;
-    let order = {
-      'id':0,
-      'shippingName':'',
-      'paymentName':'',
-      'user_id':0,
-      'orderCreated':'2019-12-24T08:30:31Z',
-      'total':0,
-      'suborder':[
-        {
-          'id':0,
-          'product_id':0,
-          'img':'./../../assets/images/collections/rittis/Rittis-1.jpg',
-          'productName':'',
-          'amount':0,
-          'size':0,
-          'price':0
-      }
-    ]
-  };
-
+    
+    
 
     try{
+      let orders = [];
       for(let i=0 ; i<ordersCount ; i++){
         orders.push( fillOrder() );
       }
+        res.status(200).send(orders);
     }catch(e){
       console.log('Error at fillOrder() function: ' + e.message)
     }
@@ -139,6 +123,7 @@ router.get("/", (req, res) => {
     let suborder = [];
 
     async function fillOrder(){
+      let order = {};
       order.id = orderResponse[0][0].id;
       console.log('order.id is: ' + orderResponse[0][0].id);
       order.user_id = orderResponse[0][0].user_id;
@@ -187,7 +172,10 @@ router.get("/", (req, res) => {
 
       console.log('itemPrices is: ', itemPrices);
       order.total = itemPrices.reduce((acc,curr) => acc + curr);
+      console.log('order total is: ' + order.total);
       order.suborder = suborder;
+      console.log('suborder is: ', suborder);
+      console.log('order is: ', order);
       return order;
 
     }
@@ -195,7 +183,7 @@ router.get("/", (req, res) => {
   })
   .catch( err => console.log('ERROR at SELECT ... FROM orders: ' + err.message) )
 
-    res.status(200).send(orders);
+    
 
 });
 
