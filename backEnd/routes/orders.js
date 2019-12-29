@@ -103,7 +103,7 @@ router.get("/", (req, res) => {
   
   db.query(`SELECT id, user_id, shipping_id, payment_id, orderCreated FROM orders WHERE user_id = ${currentUserID};`)
   .then( orderResponse => {
-    //console.log(orderResponse[0]);
+    console.log('orderResponse[0][0] is: ' , orderResponse[0][0]);
 
     let ordersCount = orderResponse[0].length;
     let order = {
@@ -132,38 +132,52 @@ router.get("/", (req, res) => {
         orders.push( fillOrder() );
       }
     }catch(e){
-      console.log('Error at bringNames() function: ' + e.message)
+      console.log('Error at fillOrder() function: ' + e.message)
     }
 
+    let itemPrices = [];
+    let suborder = [];
+
     async function fillOrder(){
-      order.id = orderResponse[0].id;
-      order.user_id = orderResponse[0].user_id;
-      order.orderCreated = orderResponse[0].orderCreated;
+      order.id = orderResponse[0][0].id;
+      console.log('order.id is: ' + orderResponse[0][0].id);
+      order.user_id = orderResponse[0][0].user_id;
+      console.log('order.user_id is: ' + orderResponse[0][0].user_id);
+      order.orderCreated = orderResponse[0][0].orderCreated;
+      console.log('order.orderCreated is: ' + orderResponse[0][0].orderCreated);
 
-      let shipping_id = orderResponse[0].shipping_id;
-      let payment_id = orderResponse[0].payment_id;
+      let shipping_id = orderResponse[0][0].shipping_id;
+      console.log('shipping_id is: ' + shipping_id);
+      let payment_id = orderResponse[0][0].payment_id;
+      console.log('payment_id is: ' + payment_id);
 
-      order.shippingName = await db.query(`SELECT name FROM shippingoptions WHERE id = ${shipping_id};`);
-      order.paymentName = await db.query(`SELECT name FROM paymentoptions WHERE id = ${payment_id};`);
+      let res1 = await db.query(`SELECT name FROM shippingoptions WHERE id = ${shipping_id};`);
+      order.shippingName = res1[0][0].name;
+      console.log('order.shippingName is: ' , order.shippingName);
 
-      let suborder = [];
+      let res2 = await db.query(`SELECT name FROM paymentoptions WHERE id = ${payment_id};`);
+      order.paymentName = res2[0][0].name;
+      console.log('order.paymentName is: ' , order.paymentName);
+      
 
-      let suborderLength = await db.query(`SELECT COUNT(id) FROM suborder WHERE order_id = ${orderResponse[0].id};`)
-      let itemPrices = [];
+      let suborderLength = await db.query(`SELECT COUNT(id) FROM suborder WHERE order_id = ${orderResponse[0][0].id};`)
+      
 
       for(let i=0 ; i<suborderLength ; i++){
-        let item = await db.query(`SELECT id, product_id, amount, size, price FROM suborder WHERE order_id = ${orderResponse[0].id} ;`);
+        let item = await db.query(`SELECT id, product_id, amount, size, price FROM suborder WHERE order_id = ${orderResponse[0][0].id} ;`);
 
         let productName = await db.query(`SELECT productName FROM products WHERE id = ${item.product_id} ;`);
         let img = await db.query(`SELECT img FROM products WHERE id = ${item.product_id} ;`);
 
         item.img = img;
         item.productName = productName;
+        console.log('item.price is: ' + item.price);
         itemPrices.push(item.price);
 
         suborder.push(item);
       }
 
+      console.log('itemPrices is: ', itemPrices);
       order.total = itemPrices.reduce((acc,curr) => acc + curr);
       order.suborder = suborder;
       return order;
@@ -171,7 +185,7 @@ router.get("/", (req, res) => {
     }
     
   })
-  .catch( err => console.log(err) )
+  .catch( err => console.log('ERROR at SELECT ... FROM orders: ' + err.message) )
 
     res.status(200).send(orders);
 
