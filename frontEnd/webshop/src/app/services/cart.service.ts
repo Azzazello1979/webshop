@@ -39,7 +39,7 @@ export class CartService {
     address2: ""
   };
   shippingOptions: any = []; // get this arr from db
-  selectedShippingOption = {}; // default selected shipping option is "free"
+  selectedShippingOption = { 'id':0 }; // default selected shipping option is "free"
   billingAddressIsDifferentFromShippingAddress = false;
   addressSubmitted = false;
 

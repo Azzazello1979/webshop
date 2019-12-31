@@ -10,13 +10,10 @@ import { HttpClient } from '@angular/common/http';
 })
 export class PaymentService {
 
-  selectedPayment = { id: 1, name: 'PayPal', img: './../../assets/icons/paypal-icon.png', url: 'https://paypal.com' }; // default selected payment obj
+  selectedPayment = { 'id':0 }; // default selected payment obj
   order = {};
   paymentOptions: any = [
-    { id: 1, name: 'PayPal', img: './../../assets/icons/paypal-icon.png', url: 'https://paypal.com' },
-    { id: 2, name: 'MasterCard', img: './../../assets/icons/mastercard-icon.png', url: 'https://paypal.com' },
-    { id: 3, name: 'Visa', img: './../../assets/icons/visa-icon.png', url: 'https://paypal.com' }
-  ]; //bring in from database
+    ]; //bring in from database
 
   constructor(
     private cartService:CartService,
