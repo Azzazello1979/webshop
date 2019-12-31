@@ -137,9 +137,6 @@ router.get("/", tokenControl, (req, res) => {
   });
 
 
-
-
-
 // patch ...
 router.patch("/", tokenControl, (req, res) => {
   res.setHeader('Content-Type','application/json');
@@ -210,7 +207,28 @@ for(let key in reqBody){
 
 })
 
+// delete product
+router.delete("/:id", tokenControl, (req, res) => {
+  res.setHeader("Content-Type", "application/json");
 
+  let productID = req.params.id;
+  console.log('this is the productID: ', productID);
 
+  db.query(`DELETE FROM products WHERE id = ${productID}`)
+  .then(
+    fulfilled => {
+      console.log(fulfilled);
+      res.status(200).json({ 'id':productID });
+    },
+    rejected => {
+      console.log(rejected)
+    }
+  )
+  .catch(error => {
+    console.log('Error @ products.js endpoint at router.delete @ delete request: ' + error.message);
+    res.status(500).send('Error @ products.js endpoint at router.delete @ delete request: ' + error.message);
+  })
+
+})
 
 module.exports = router;

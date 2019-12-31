@@ -18,6 +18,8 @@ export class AdminComponent implements OnInit {
   // this.editProductForm.value.productName
   // This is read-only!
 
+  products = [];
+
   selectedProductObj = { };
 
   addProductBtnClicked = false;
@@ -42,6 +44,11 @@ export class AdminComponent implements OnInit {
     private productService: ProductService
   ) { }
 
+  onDeleteProduct(id:number){
+    console.log('this is the id received by onDeleteProduct(): ', id);
+    this.products = this.products.filter(e => e.id !== id);
+    this.productService.deleteProduct(id);
+  }
 
   addProductCLK(){
     this.addProductBtnClicked = !this.addProductBtnClicked;
@@ -215,10 +222,13 @@ setDefaultSelectedProductObj(){
   //console.log(this.selectedProductObj);
 }
 
-
+getProductsFromCart(){
+  this.products = this.cartService.getProducts();
+}
   
 
   ngOnInit() {
+    this.getProductsFromCart();
     this.setDefaultSelectedProductObj();
     
 

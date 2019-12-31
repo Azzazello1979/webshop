@@ -160,16 +160,24 @@
 
     <div class="editProductWrapper" *ngIf="editProductBtnClicked">
       <div class="productListing">
-          <div class="productCard" *ngFor="let product of this.cartService.products" (click)="sendProductToForm(product)">
+          <div class="productCard" *ngFor="let product of products" (click)="sendProductToForm(product)">
             <img class="thumb" [src]="product.img" />
             <p>{{ product.productName }}</p>
           </div>
       </div>
+
+
       <div class="editProductForm">
         <form
           #editProductForm="ngForm"
           (ngSubmit)="saveProductChanges(editProductForm.value)"
         >
+
+          <fieldset>
+            <legend>Delete product</legend>
+            <button type="button" (mousedown)="onDeleteProduct(selectedProductObj.id)">Delete</button>
+          </fieldset>
+
           <fieldset>
             <legend>Main info:</legend>
 
