@@ -71,7 +71,7 @@ export class AuthService {
 
 
   logIn(userObject) {
-    userObject.email === this.adminEmail ? this.adminLoggedIn = true : null; // upgrade later to have password check too
+    userObject.email === this.adminEmail ? this.adminLoggedIn = true : this.adminLoggedIn = false; // upgrade later to have password check too
     return this.http.post<any>(`${environment.backURL}/login`, userObject);
   }
 
