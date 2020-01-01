@@ -32,7 +32,7 @@ export class CartService {
   wishListProducts = [];
 
   cartAndShippingInitialized = false; // did you load users saved shipping preference & cart products from DB already?
-  wishInitialized = false; // did you load users saved wish list from DB already?
+  
 
   constructor(
     private http: HttpClient, 
@@ -249,7 +249,7 @@ export class CartService {
           });
 
           console.log('wishListProductsArr after loadUserWish(): ' , this.wishListProducts );
-          this.wishInitialized = true;
+          
         
       },
       err => console.log("ERROR @cartService @loadUserWish() " + err)
