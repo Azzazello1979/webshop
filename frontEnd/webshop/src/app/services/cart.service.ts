@@ -34,7 +34,10 @@ export class CartService {
   cartAndShippingInitialized = false; // did you load users saved shipping preference & cart products from DB already?
   wishInitialized = false; // did you load users saved wish list from DB already?
 
-  constructor(private http: HttpClient, private auth: AuthService) {}
+  constructor(
+    private http: HttpClient, 
+    private auth: AuthService
+    ) {}
 
   // fill up products array from database
   initProducts(){
@@ -160,22 +163,16 @@ export class CartService {
 
   // now save current wish list to db and finally call this.auth.logout() that clears the token an sets flags in auth.service
   saveWish() {
-    if(this.wishListProducts.length > 0){
       return this.http.post<any>(`${environment.backURL}/wish`, this.wishListProducts)
       .subscribe(
         res => {
           console.log("cart service: OK, wish items saved to db. ", res);
           this.cleanUpCart();
-          return this.auth.logout(); // call this last, it clears token, and token is needed by above save methods
+          this.auth.logout(); // call this last, it clears token, and token is needed by above save methods
         },
         err =>
         console.log("cart service: Error when saving wish items to db. ", err)
         );
-      }  
-      
-      this.cleanUpCart();
-      return this.auth.logout();
-      
   }
 
   // call these on LOGIN:
@@ -241,8 +238,7 @@ export class CartService {
       result => {
         console.log("current saved wish list of user: ");
         console.log(result[0]);
-
-        if (this.wishInitialized === false) {
+        
           result[0].forEach(wishedItem => {
             this.products.forEach(p => {
               if (p.id === wishedItem.product_id) {
@@ -251,8 +247,10 @@ export class CartService {
               }
             });
           });
-        }
-        this.wishInitialized = true; // cannot use this func. more than once
+
+          console.log('wishListProductsArr after loadUserWish(): ' , this.wishListProducts );
+          this.wishInitialized = true;
+        
       },
       err => console.log("ERROR @cartService @loadUserWish() " + err)
     );
