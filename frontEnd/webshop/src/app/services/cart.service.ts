@@ -60,6 +60,7 @@ export class CartService {
     return this.http.get<any>(`${environment.backURL}/shippingoptions`).subscribe(
       res => {
         console.log('shipping options loaded: ', res);
+        this.shippingOptions = res;
         this.selectedShippingOption = res[0];
       },
       err => console.log('cartService: initShippingOptions() error: ', err)
