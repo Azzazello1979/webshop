@@ -284,6 +284,9 @@ export class CartService {
   }
 
   cleanUpCart(){
+    // !!!! IMPORTANT !!!!
+    // on logout clean all these variables as otherways they stay in memory in client computer
+    
     this.products = [];
     this.cartProducts = [];
     this.wishListProducts = [];
