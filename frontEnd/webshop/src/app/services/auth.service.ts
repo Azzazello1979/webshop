@@ -6,6 +6,7 @@ import { JwtHelperService } from '@auth0/angular-jwt'; // decode JWT token on Fr
 
 
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -77,11 +78,10 @@ export class AuthService {
 
 
   logout() {
-    localStorage.removeItem('token');
     this.wantsToRegister = false;
     this.loggedIn = false;
     this.buttonText = 'Login';
-    
+    localStorage.removeItem('token');
   }
 
 

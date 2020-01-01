@@ -7,28 +7,6 @@ const jwt = require('jsonwebtoken');
 const tokenControl = require('./../middlewares/token_control'); // tokenControl middleware
 
 
-
-/* router.delete('/', tokenControl, (req,res) => {
-    res.setHeader('Content-Type','application/json');
-    let decodedToken = jwt.decode(req.headers.authorization.split(' ')[1]);
-    let currentUserID = decodedToken.id;
-
-    try{
-        cleanSavedCart();
-    }catch(err){
-        console.log('ERROR @ cart endpoint @ DELETE: ' + err)
-    }
-
-    async function cleanSavedCart(){
-        let deleteResult = await db.query(`DELETE FROM cart WHERE user_id = ${currentUserID};`);
-        console.log(deleteResult.affectedRows + ' affected rows at cleanup');
-        res.status(200).json({'message':'@cart endpoint @DELETE : OK, user saved cart cleared before update'});
-    }
-
-}); */
-
-
-
 router.post('/', tokenControl, (req,res) => {
     res.setHeader('Content-Type','application/json');
     let decodedToken = jwt.decode(req.headers.authorization.split(' ')[1]);

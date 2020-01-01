@@ -15,31 +15,16 @@ export class CartService {
 
   totalItems = 0; // total number of items in cart
   totalPrice = 0; // total price of rings, no shipping added yet
+
   clickedCollection = ""; // name of currently clicked collection
   oneCollection = []; // the clickedCollection's objects
-  shippingAddress = {
-    country: "USA",
-    state: "Texas",
-    county: "Archer",
-    city: "Archer city",
-    ZIP: 1234,
-    POBOX: 1234,
-    address1: "some",
-    address2: "some",
-    extra: "extra info"
-  };
-  billingAddress = {
-    country: "",
-    state: "",
-    county: "",
-    city: "",
-    ZIP: 0,
-    POBOX: 0,
-    address1: "",
-    address2: ""
-  };
-  shippingOptions: any = []; // get this arr from db
-  selectedShippingOption = { 'id':0 }; // default selected shipping option is "free"
+
+  shippingAddress = {};
+  billingAddress = {};
+
+  shippingOptions = []; // get this arr from db
+  selectedShippingOption = {}; // default selected shipping option is "free"
+
   billingAddressIsDifferentFromShippingAddress = false;
   addressSubmitted = false;
 
@@ -111,7 +96,7 @@ export class CartService {
 
   getCartProducts() {
     // get products added to the cart
-    this.cartProducts = this.products.filter(e => e.amount > 0);
+    return this.cartProducts = this.products.filter(e => e.amount > 0);
     //console.log(this.cartProducts.length);
   }
 
@@ -151,37 +136,46 @@ export class CartService {
     this.getCartProducts(); // update cartProducts
   }
 
-  // call these on LOGOUT:
+  // start LOGOUT procedure:
+  // * saveCart()
+  // * save WishList()
+  // * clean up cart service variables
   // because this method is called on logout, there is no need to unsubscribe
 
   // save current user cart items,amount & shipping preference to DB
   saveCart() {
-    let info = {
-      cartProducts: this.cartProducts,
-      shippingOption: this.selectedShippingOption
-    };
-    return this.http.post<any>(`${environment.backURL}/cart`, info).subscribe(
-      res => {
-        console.log("cart service: OK, cart items saved to db. ", res);
-        this.saveWish();
-      },
-      err =>
-        console.log("cart service: Error when saving cart items to db. ", err)
-    );
+      let info = {
+        'cartProducts': this.cartProducts,
+        'shippingOption': this.selectedShippingOption
+      };
+      return this.http.post<any>(`${environment.backURL}/cart`, info).subscribe(
+        res => {
+          console.log("cart service: OK, cart items saved to db. ", res);
+          this.saveWish();
+        },
+        err =>
+          console.log("cart service: Error when saving cart items to db. ", err)
+      );
   }
 
   // now save current wish list to db and finally call this.auth.logout() that clears the token an sets flags in auth.service
   saveWish() {
-    return this.http
-      .post<any>(`${environment.backURL}/wish`, this.wishListProducts)
+    if(this.wishListProducts.length > 0){
+      return this.http.post<any>(`${environment.backURL}/wish`, this.wishListProducts)
       .subscribe(
         res => {
           console.log("cart service: OK, wish items saved to db. ", res);
-          this.auth.logout(); // call this last, it clears token, and token is needed by above save methods
+          this.cleanUpCart();
+          return this.auth.logout(); // call this last, it clears token, and token is needed by above save methods
         },
         err =>
-          console.log("cart service: Error when saving wish items to db. ", err)
-      );
+        console.log("cart service: Error when saving wish items to db. ", err)
+        );
+      }  
+      
+      this.cleanUpCart();
+      return this.auth.logout();
+      
   }
 
   // call these on LOGIN:
@@ -199,7 +193,7 @@ export class CartService {
         console.log("current saved cart of user: ");
         console.log(result[0]);
 
-        if (this.cartAndShippingInitialized === false) {
+        
           // update selectedShippingOption from databse
 
           // the saved shipping id, belonging to the saved cart, from database
@@ -227,13 +221,14 @@ export class CartService {
                   p.totalPrice = p.price * p.amount;
                   this.totalItems += p.amount;
                   this.totalPrice += p.totalPrice;
-                  this.getCartProducts(); // update cartProducts
+                  
                 }
               });
             });
+            this.getCartProducts(); // update cartProducts
           }
           
-        }
+        
         this.cartAndShippingInitialized = true; // cannot use this func. more than once
       },
       err => console.log("ERROR @cartService @loadUserCart() " + err)
@@ -288,6 +283,16 @@ export class CartService {
       }
     })
         
+  }
+
+  cleanUpCart(){
+    this.products = [];
+    this.cartProducts = [];
+    this.wishListProducts = [];
+    this.shippingOptions = [];
+    this.selectedShippingOption = {};
+    this.totalItems = 0;
+    this.totalPrice = 0;
   }
 
 }
