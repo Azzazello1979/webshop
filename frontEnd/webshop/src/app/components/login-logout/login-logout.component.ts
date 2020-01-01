@@ -95,7 +95,8 @@ export class LoginLogoutComponent implements OnDestroy {
           this.auth.loggedIn = true;
           this.auth.buttonText = "Logout";
           
-          this.initProductsSubscription = this.cartService.initProducts().subscribe(
+          this.initProductsSubscription = this.cartService.initProducts()
+          .subscribe(
             response => {
               this.cartService.products = response;
               //console.log('cartService products: ');
@@ -105,7 +106,7 @@ export class LoginLogoutComponent implements OnDestroy {
               this.cartService.loadUserWish();
               this.paymentService.getPaymentOptions();
 
-              this.listingService.allProducts = response;
+              this.listingService.allProducts = [...response];
               this.listingService.fillAllProducts();
               
               

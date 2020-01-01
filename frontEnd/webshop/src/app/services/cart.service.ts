@@ -20,10 +20,10 @@ export class CartService {
   oneCollection = []; // the clickedCollection's objects
 
   shippingAddress = {};
-  billingAddress = {};
+  billingAddress = { 'country':"" };
 
   shippingOptions = []; // get this arr from db
-  selectedShippingOption = {}; // default selected shipping option is "free"
+  selectedShippingOption = { 'id':0 }; // default selected shipping option is "free"
 
   billingAddressIsDifferentFromShippingAddress = false;
   addressSubmitted = false;
@@ -291,7 +291,7 @@ export class CartService {
     this.cartProducts = [];
     this.wishListProducts = [];
     this.shippingOptions = [];
-    this.selectedShippingOption = {};
+    this.selectedShippingOption = { 'id':0 };
     this.totalItems = 0;
     this.totalPrice = 0;
   }

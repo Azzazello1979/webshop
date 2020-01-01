@@ -11,9 +11,8 @@ import { ListingService } from './../../services/listing.service';
 })
 export class ProductDetailComponent implements OnInit{
 
-  product; // filleld up from listingService OnInit 
-  isWished:boolean = false;
-
+  product; // filled up from listingService OnInit 
+  
   constructor(
     private cartService:CartService,
     private listingService:ListingService,
@@ -21,11 +20,11 @@ export class ProductDetailComponent implements OnInit{
     
   ) { }
 
-  wish(product){
-    if(product.isWished === false){
-      this.cartService.addToWish(product);
+  wish(){
+    if(!this.product.isWished){
+      this.cartService.addToWish(this.product);
     }else{
-      this.cartService.removeFromWish(product);
+      this.cartService.removeFromWish(this.product);
     }
   }
 
@@ -38,12 +37,21 @@ export class ProductDetailComponent implements OnInit{
     this.route.paramMap.subscribe(
       params => {
         this.product = this.listingService.filteredProducts[params.get('productID')];
-        //this.product = this.listingService.products[+params.get('productID')]; ( + is used to convert a string into a number )
+
+        //convert 0 to false, 1 to true, MySQL cannot store boolean true/false...
+        if(this.product.isWished === 0){
+          this.product.isWished = false;
+        } else if(this.product.isWished === 1){
+          this.product.isWished === true
+        }
+        //this.product = this.listingService.products[+params.get('productID')]; ( + is used to convert a string into a number );
       },
       err => {
         console.log(err);
       }
     );
+
+    
   }
 
 
