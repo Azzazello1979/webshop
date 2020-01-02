@@ -1,8 +1,9 @@
 <div class="wrapper">
-    <h3>Your previous orders:</h3>
+    <h3 *ngIf="orders.length > 0">Your previous orders:</h3>
+    <h3 *ngIf="orders.length === 0">You have no previous orders.</h3>
 
-    <div class="orders">
-        <div class="order-card" *ngFor="let order of this.ordersService.orders">
+    <div class="orders" *ngIf="orders.length > 0">
+        <div class="order-card" *ngFor="let order of orders">
 
             <div class="order-info">
                 <div>Order created: {{ order.orderCreated | date:'medium' }}</div>

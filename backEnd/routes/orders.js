@@ -9,8 +9,10 @@ const jwt = require("jsonwebtoken");
 router.post("/", tokenControl, (req, res) => {
   res.setHeader("Content-Type", "application/json");
 
+  console.log(req.body);
+
   let currentUserID;
-  let orderID;
+  let orderID = 0;
 
   let validatedZIP;
   let validatedPOBOX;
@@ -46,16 +48,34 @@ router.post("/", tokenControl, (req, res) => {
   )
 
     // insert record(s) into suborder table
-    .then(response2 => {
+    .then(
+      response2 => {
       console.log("response after INSERT INTO orders: ", response2);
 
-      orderID = response2[0].insertId; // orderID to be used in suborder table, address table and billing_address table
+      orderID = response2[0]['insertId']; // orderID to be used in suborder table, address table and billing_address table
+      //console.log('this is the type of orderId: ' + typeof orderID);
 
-      req.body.products.forEach(e => {
-        return db.query(`INSERT INTO suborder (order_id, product_id, amount, price) VALUES 
-            ( ${orderID}, ${e.id}, ${e.amount}, ${e.price} );`);
-      });
-    })
+      let products = [...req.body.products];
+      Promise.all([
+        products.forEach(e => {
+          //console.log(e);
+          return db.query(`INSERT INTO suborder (order_id, product_id, amount, price) VALUES 
+              ( ${orderID}, ${e.id}, ${e.amount}, ${e.price} );`);
+        })
+      ]).then(
+        ok => {
+          console.log('OK, all products inserted.' + ok);
+          return ok;
+        },
+        fail => console.log('some inserts into suborder rejected: ' + fail)
+        ).catch(err => console.log('Promise.all([]) error: ' + err))
+        
+
+    },
+      rejection => {
+        return console.log('INSERT INTO orders Rejection: ', rejection);
+      }
+    )
     // insert record into ADDRESS table
     .then(response3 => {
       console.log("response after INSERT INTO suborder: ", response3);
@@ -64,7 +84,11 @@ router.post("/", tokenControl, (req, res) => {
         '${req.body.shippingAddress.county}', '${req.body.shippingAddress.city}', ${validatedZIP}, 
         ${validatedPOBOX}, '${req.body.shippingAddress.address1}', '${req.body.shippingAddress.address2}', 
         '${req.body.shippingAddress.extra}' );`);
-    })
+    },
+      rejection => {
+        return console.log('INSERT INTO address Rejection: ', rejection);
+      }
+    )
     // if req.body.billingAddress is truthy, add billingAddress info to BILLING_ADDRESS
     .then(response4 => {
       console.log("response after INSERT INTO address: ", response4);
@@ -74,16 +98,23 @@ router.post("/", tokenControl, (req, res) => {
         '${req.body.billingAddress.county}', '${req.body.billingAddress.city}', ${validated_b_ZIP}, 
         ${validated_b_POBOX}, '${req.body.billingAddress.address1}', '${req.body.billingAddress.address2}' );`);
       }
-    })
-    .then(response5 => {
-      console.log(
+    },
+      rejection => {
+        console.log('INSERT INTO billing_address Rejection: ', rejection);
+      }
+    )
+    .then(
+      response5 => {
+        console.log(
         "response after INSERT INTO billing_address (undefined means: billing address was not provided): ",
         response5
       );
-      return res.status(200).json({
-        message: `OK, order saved to database for email ${decodedToken.email}`
-      });
-    })
+        return res.status(200).json({ message: `OK, order saved to database for email ${decodedToken.email}`});
+    },
+      rejection => {
+        console.log('Rejection for INSERT INTO billing_address ... billing address not provided ... OK', rejection);
+      }
+    )
     .catch(error => {
       console.log(error);
       res.status(500).json({
@@ -110,12 +141,17 @@ router.get("/", tokenControl, (req, res) => {
     
     for(let i=0 ; i<ordersCount ; i++){
         fillOrder()
-        .then(OneOrder => {
+        .then(
+          OneOrder => {
           orders.push( OneOrder );
           counter++;
           counter === ordersCount ? res.status(200).send(orders) : null
-        })
-        .catch(err => console.log('calling fillOrder() error: ', err.message))
+        },
+          rejection => {
+            console.log('fillOrder() Rejection: ', rejection)
+          }
+        )
+        .catch(err => console.log('fillOrder() error: ', err))
     }
     
     async function fillOrder(){
@@ -181,7 +217,9 @@ router.get("/", tokenControl, (req, res) => {
       
     }
 
-  })
+  },
+    rejection => { console.log('SELECT FROM orders Rejection: ', rejection); }
+  )
   .catch( err => console.log('ERROR at SELECT ... FROM orders: ' + err.message) )
 
 });

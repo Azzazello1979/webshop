@@ -8,13 +8,18 @@ import { OrdersService } from './../../services/orders.service';
 })
 export class OrdersComponent implements OnInit {
 
-  
+  orders:any[] = [];
 
   constructor(
     private ordersService:OrdersService
   ) { }
 
   ngOnInit() {
+    this.ordersService.loadOrders()
+    .subscribe(
+      ordersArr => this.orders = ordersArr,
+      rejected => console.log('Promise rejected @ loadOrders(): ' + rejected.message)
+    )
   }
 
 }

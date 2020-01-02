@@ -46,6 +46,7 @@ export class PaymentService {
       let obj = {};
       obj['id'] = e.id;
       obj['amount'] = e.amount;
+      obj['price'] = e.price;
       productsToSave.push(obj);
     });
 
@@ -55,7 +56,7 @@ export class PaymentService {
       shippingOption: this.cartService.selectedShippingOption.id,
       paymentOption: this.selectedPayment.id,
       shippingAddress: this.cartService.shippingAddress, 
-      products: productsToSave // this is an array of objects, objects containinig only 'id' and 'amount' ... FIX LATER TO CONTAIN 'size' as well
+      products: productsToSave // this is an array of objects, objects containinig only 'id', 'amount', 'price' ... FIX LATER TO CONTAIN 'size' as well
     };
 
     // If billing address was given by user, append billing address object to order too
