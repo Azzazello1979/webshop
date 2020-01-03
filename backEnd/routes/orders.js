@@ -189,13 +189,12 @@ router.get("/", (req, res) => {
         let DBimg = res3[0][0].img;
         console.log('DBimg is: ', DBimg);
         let res4 = await db.query(`SELECT price FROM products WHERE id = ${DBitems[i].product_id} ;`);
-        let DBprice = res4[0][0];
+        let DBprice = res4[0][0].price;
         console.log('DBprice is: ', DBprice);
 
         item.img = DBimg;
         item.productName = DBproductName;
-        item.price = DBprice.price;
-        
+        item.price = DBprice;
         
         orderTotal += item.price; 
         console.log('item is: ', item);
