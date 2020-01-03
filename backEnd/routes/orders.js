@@ -124,54 +124,46 @@ router.post("/", tokenControl, (req, res) => {
     });
 });
 
-router.get("/", tokenControl, (req, res) => {
+
+
+router.get("/", (req, res) => {
   res.setHeader("Content-Type", "application/json");
-  let decodedToken = jwt.decode(req.headers.authorization.split(" ")[1]);
-  
-  let currentUserID = decodedToken.id;
+
+  //let decodedToken = jwt.decode(req.headers.authorization.split(" ")[1]);
+  //let currentUserID = decodedToken.id;
+
+  let currentUserID = 19;
   let orders = [];
-  let ordersCount = 0;
   let counter = 0;
+  let ordersCount = 0;
+  
+  
   
   db.query(`SELECT id, user_id, shipping_id, payment_id, orderCreated FROM orders WHERE user_id = ${currentUserID};`)
   .then( orderResponse => {
     //console.log('orderResponse[0][0] is: ' , orderResponse[0][0]);
 
     ordersCount = orderResponse[0].length;
+    let DBorders = orderResponse[0];
+    console.log('DBorders.length is: ' + DBorders.length);
     
-    for(let i=0 ; i<ordersCount ; i++){
-        fillOrder()
-        .then(
-          OneOrder => {
-          orders.push( OneOrder );
-          counter++;
-          counter === ordersCount ? res.status(200).send(orders) : null
-        },
-          rejection => {
-            console.log('fillOrder() Rejection: ', rejection)
-          }
-        )
-        .catch(err => console.log('fillOrder() error: ', err))
-    }
     
-    async function fillOrder(){
 
+    async function fillOrder(DBorder){
       let order = {};
-      let itemPrices = [];
       let suborder = [];
+      let orderTotal = 0;
 
-      let orderResponseObj = orderResponse[0][0];
+      order.id = DBorder.id;
+      //console.log('order.id is: ' + DBorder.id);
+      order.user_id = DBorder.user_id;
+      //console.log('order.user_id is: ' + DBorder.user_id);
+      order.orderCreated = DBorder.orderCreated;
+      //console.log('order.orderCreated is: ' + DBorder.orderCreated);
 
-      order.id = orderResponseObj.id;
-      //console.log('order.id is: ' + orderResponseObj.id);
-      order.user_id = orderResponseObj.user_id;
-      //console.log('order.user_id is: ' + orderResponseObj.user_id);
-      order.orderCreated = orderResponseObj.orderCreated;
-      //console.log('order.orderCreated is: ' + orderResponseObj.orderCreated);
-
-      let shipping_id = orderResponseObj.shipping_id;
+      let shipping_id = DBorder.shipping_id;
       //console.log('shipping_id is: ' + shipping_id);
-      let payment_id = orderResponseObj.payment_id;
+      let payment_id = DBorder.payment_id;
       //console.log('payment_id is: ' + payment_id);
 
       let res1 = await db.query(`SELECT name FROM shippingoptions WHERE id = ${shipping_id};`);
@@ -182,45 +174,77 @@ router.get("/", tokenControl, (req, res) => {
       order.paymentName = res2[0][0].name;
       //console.log('order.paymentName is: ' , order.paymentName);
       
-      let res3 = await db.query(`SELECT COUNT(id) FROM suborder WHERE order_id = ${orderResponseObj.id};`);
-      let suborderLength = res3[0][0]['COUNT(id)'];
-      //console.log('suborderLength is: ' , suborderLength);
-      
-      for(let i=0 ; i<suborderLength ; i++){
-        let res1 = await db.query(`SELECT id, product_id, amount, size, price FROM suborder WHERE order_id = ${orderResponse[0][0].id} ;`);
-        //console.log('res1[0] is: ', res1[0]);
-        let items = res1[0];
-        //console.log('items are: ', items);
-        let res2 = await db.query(`SELECT productName FROM products WHERE id = ${items[i].product_id} ;`);
-        let productName = res2[0][0]['productName']
-        //console.log('productName is: ', productName);
-        let res3 = await db.query(`SELECT img FROM products WHERE id = ${items[i].product_id} ;`);
-        let img = res3[0][0]['img'];
-        //console.log('img is: ', img);
+      let res3 = await db.query(`SELECT * FROM suborder WHERE order_id = ${DBorder.id};`);
+      let DBitems = res3[0];
+      //console.log('DBitems are: ', items);
+      console.log('DBitems.length is: ' + DBitems.length);
 
-        items[i].img = img;
-        items[i].productName = productName;
-        //console.log('item.price is: ' + items[i].price);
-        itemPrices.push(items[i].price);
 
-        suborder.push(items[i]);
+      for(let i=0 ; i<DBitems.length ; i++){
+        let item = {};
+        let res2 = await db.query(`SELECT productName FROM products WHERE id = ${DBitems[i].product_id} ;`);
+        let DBproductName = res2[0][0].productName;
+        console.log('DBproductName is: ', DBproductName);
+        let res3 = await db.query(`SELECT img FROM products WHERE id = ${DBitems[i].product_id} ;`);
+        let DBimg = res3[0][0].img;
+        console.log('DBimg is: ', DBimg);
+        let res4 = await db.query(`SELECT price FROM products WHERE id = ${DBitems[i].product_id} ;`);
+        let DBprice = res4[0][0];
+        console.log('DBprice is: ', DBprice);
+
+        item.img = DBimg;
+        item.productName = DBproductName;
+        item.price = DBprice.price;
+        
+        
+        orderTotal += item.price; 
+        console.log('item is: ', item);
+
+        suborder.push(item);
+        
       }
 
-      //console.log('itemPrices is: ', itemPrices);
-      order.total = itemPrices.reduce((acc,curr) => acc + curr);
-      //console.log('order total is: ' + order.total);
+      
+      order.total = orderTotal;
+      console.log('order total is: ' + order.total);
       order.suborder = suborder;
-      //console.log('suborder is: ', suborder);
-      //console.log('order is: ', order);
+      console.log('suborder is: ', suborder);
+      console.log('order is: ', order);
 
       return order;
-      
     }
 
+    for(let i=0 ; i<DBorders.length ; i++){
+        fillOrder(DBorders[i])
+        .then(
+          OneOrder => {
+          orders.push( OneOrder );
+          counter++;
+          console.log(`${counter} order(s) pushed into orders array out of ${ordersCount} total.`);
+        },
+          rejection => {
+            console.log('fillOrder() Rejection: ', rejection);
+          }
+        )
+        .catch(err => console.log('fillOrder() error: ', err));
+    }
+
+    
+    
+
+    
+    
   },
     rejection => { console.log('SELECT FROM orders Rejection: ', rejection); }
   )
   .catch( err => console.log('ERROR at SELECT ... FROM orders: ' + err.message) )
+
+  let interval = setInterval(()=>{
+    if(counter === ordersCount){
+      res.status(200).send(orders);
+      clearInterval(interval);
+    }
+  },200)
 
 });
 

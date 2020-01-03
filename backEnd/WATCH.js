@@ -113,3 +113,44 @@ maxDays: 12,
 imgSrc: './../../assets/icons/Shipping-4-icon.png' }
     
 
+//orders array to send back to front
+[
+{
+  "id": 56,
+  "user_id": 19,
+  "orderCreated": "2020-01-02T21:40:29.000Z",
+  "shippingName": "ePacket",
+  "paymentName": "MasterCard",
+  "total": 492.85,
+  "suborder": [
+      {
+          "id": 66,
+          "product_id": 35,
+          "amount": 1,
+          "size": null,
+          "price": 22.95,
+          "img": "./../../assets/images/collections/sultavia/Sultavia-2.jpg",
+          "productName": "Sultavia Rainbow"
+      },
+      {
+          "id": 67,
+          "product_id": 34,
+          "amount": 1,
+          "size": null,
+          "price": 87.95,
+          "img": "./../../assets/images/collections/sultavia/Sultavia-1.jpg",
+          "productName": "Sultavia Sapphire"
+      },
+      {
+          "id": 68,
+          "product_id": 36,
+          "amount": 1,
+          "size": null,
+          "price": 381.95,
+          "img": "./../../assets/images/collections/sultavia/Sultavia-3.jpg",
+          "productName": "Sultavia Burma Ruby"
+      }
+  ]
+}
+
+]
