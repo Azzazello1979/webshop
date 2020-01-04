@@ -29,7 +29,7 @@ export class ProductDetailComponent implements OnInit{
   }
 
   addToCart(formValue){
-    this.cartService.plus(this.product.id, formValue.size);
+    this.cartService.plus(this.product.id, parseInt(formValue.size));
   }
 
 

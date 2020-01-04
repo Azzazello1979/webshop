@@ -21,8 +21,8 @@ export class CartComponent implements OnInit {
   ) {}
 
 
-  add(productID){
-    this.cartService.plus(productID);
+  increment(productID){
+    this.cartService.increment(productID);
   }
 
   deduct(productID){
