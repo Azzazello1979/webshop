@@ -23,7 +23,14 @@
       </table>
     </div>
     <div class="productDescription">{{ product.description }}</div>
-    <button class="addToCart" (click)="addToCart()">Add to cart</button>
+    <br>
+    <form #addToCartForm="ngForm" (ngSubmit)="addToCart(addToCartForm.value)">
+      <label for="selectSize">Select size:</label>
+      <select id="selectSize" ngModel name="size" required>
+        <option *ngFor="let size of product.sizes" value="{{size}}" required>{{size}}</option>
+      </select>
+      <input type="submit" value="Add to cart" class="addToCart" [disabled]="!addToCartForm.valid">
+    </form>
   </div>
 
 

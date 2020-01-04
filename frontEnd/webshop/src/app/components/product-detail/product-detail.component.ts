@@ -28,8 +28,8 @@ export class ProductDetailComponent implements OnInit{
     }
   }
 
-  addToCart(){
-    this.cartService.plus(this.product.id);
+  addToCart(formValue){
+    this.cartService.plus(this.product.id, formValue.size);
   }
 
 

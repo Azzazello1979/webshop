@@ -103,14 +103,13 @@ export class CartService {
     //console.log(this.cartProducts.length);
   }
 
-  plus(productID) {
+  plus(productID, size) {
     for (let i = 0; i < this.products.length; i++) {
       if (this.products[i].id === productID) {
-        this.products[i].amount++;
-        this.products[i].totalPrice += this.products[i].price;
-        this.totalItems++;
-        this.totalPrice += this.products[i].price;
-        this.getCartProducts(); // update cartProducts
+        let objToCart = {...this.products[i]};
+        objToCart.size = size;
+        this.cartProducts.push(objToCart);
+        console.log('cartProducts: ', this.cartProducts);
       }
     }
   }
