@@ -16,7 +16,7 @@
 }
 
 .cartProduct{
-  width: 400px;
+  width: 500px;
   display:flex;
   justify-content:space-between;
   align-items: center;
@@ -37,6 +37,12 @@
   text-align:left;
   width:100px;
 }
+
+.prodsize{
+  text-align:center;
+  width:100px;
+}
+
 .prodAmount{
   text-align:center;
   width:50px;

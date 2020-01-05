@@ -95,11 +95,19 @@ export class CartService {
     return this.products;
   }
 
-  
+  countCartItems():number{
+    let totalCartItems = 0;
+    let amounts = [];
+    this.cartProducts.forEach( product => {
+      amounts.push(product.amount)
+    });
+    amounts.length > 0 ? totalCartItems = amounts.reduce((acc, curr) => acc + curr) : null;
+    return totalCartItems;
+  }
 
   getCartProducts() {
     // get products added to the cart
-    return this.cartProducts = this.products.filter(e => e.amount > 0);
+    return this.cartProducts;
     //console.log(this.cartProducts.length);
   }
 
@@ -110,45 +118,45 @@ export class CartService {
   }
 
   plus(productID:number, size:number) {
-  let objToCart = {};
+    let objToCart = {};
+    
+    this.products.forEach(product => {
+      if(product.id === productID){
+        objToCart = {...product}
+      } 
+    });
   
-  this.products.forEach(product => {
-    if(product.id === productID){
-      objToCart = {...product}
-    } 
-  });
-
-  objToCart['size'] = size;
-
-  if(this.cartProducts.length === 0){ // if cart array is empty, set its amount to 1 and push product
-    objToCart['amount'] = 1;
-    this.cartProducts.push(objToCart);
-    return console.log('cart was empty so added as 1st product, cartProducts: ', this.cartProducts);
-  } else { // cart array not empty, see if we have product with same id
-
-    let sizesForSameProd = [];
-    this.cartProducts.forEach(cartProduct => {
-      sizesForSameProd.push(cartProduct['size'])
-    })
-
-    this.cartProducts.forEach(cartProduct => {
-      if(cartProduct['id'] === productID){ // same id, now see if size is the same too
-        if(cartProduct['size'] === size){ // size is same too so lets increment amount
-          cartProduct['amount'] ++;
-          return console.log('cart id was same and size was same so incremented, cartProducts: ', this.cartProducts);
-        } else if(!sizesForSameProd.includes(size)){ // same id, but different size, so lets push it as new product
+    objToCart['size'] = size;
+  
+    if(this.cartProducts.length === 0){ // if cart array is empty, set its amount to 1 and push product
+      objToCart['amount'] = 1;
+      this.cartProducts.push(objToCart);
+      return console.log('cart was empty so added as 1st product, cartProducts: ', this.cartProducts);
+    } else { // cart array not empty, see if we have product with same id
+  
+      let sizesForSameProd = [];
+      this.cartProducts.forEach(cartProduct => {
+        sizesForSameProd.push(cartProduct['size'])
+      })
+  
+      this.cartProducts.forEach(cartProduct => {
+        if(cartProduct['id'] === productID){ // same id, now see if size is the same too
+          if(cartProduct['size'] === size){ // size is same too so lets increment amount
+            cartProduct['amount'] ++;
+            return console.log('cart id was same and size was same so incremented, cartProducts: ', this.cartProducts);
+          } else if(!sizesForSameProd.includes(size)){ // same id, but different size, so lets push it as new product
+            objToCart['amount'] = 1;
+            this.cartProducts.push(objToCart);
+            return console.log('cart id was same but size different so added as new product, cartProducts: ', this.cartProducts);
+          }
+        } else { // not the same id so push it as new product
           objToCart['amount'] = 1;
           this.cartProducts.push(objToCart);
-          return console.log('cart id was same but size different so added as new product, cartProducts: ', this.cartProducts);
+          return console.log('id was new so added as new product, cartProducts: ', this.cartProducts);
         }
-      } else { // not the same id so push it as new product
-        objToCart['amount'] = 1;
-        this.cartProducts.push(objToCart);
-        return console.log('id was new so added as new product, cartProducts: ', this.cartProducts);
-      }
-    })
+      })
+    }
   }
-}
   
   
   
