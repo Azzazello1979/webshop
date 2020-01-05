@@ -30,6 +30,7 @@ export class CartService {
 
   cartProducts = [];
   wishListProducts = [];
+  UIDarray = [];
 
   cartAndShippingInitialized = false; // did you load users saved shipping preference & cart products from DB already?
   
@@ -117,53 +118,42 @@ export class CartService {
     })
   }
 
+
   plus(productID:number, size:number) {
     let objToCart = {};
-    
     this.products.forEach(product => {
       if(product.id === productID){
         objToCart = {...product}
       } 
     });
-  
+
     objToCart['size'] = size;
-  
-    if(this.cartProducts.length === 0){ // if cart array is empty, set its amount to 1 and push product
+    objToCart['UID'] = `${objToCart['id']}_${objToCart['size']}`; // UID is new property, made up of id_size, this uniquely identifies object
+    console.log("objToCart['UID'] is: " + objToCart['UID']);
+    
+    if(!this.UIDarray.includes(objToCart['UID'])){
+      this.UIDarray.push(objToCart['UID']);
       objToCart['amount'] = 1;
       this.cartProducts.push(objToCart);
-      return console.log('cart was empty so added as 1st product, cartProducts: ', this.cartProducts);
-    } else { // cart array not empty, see if we have product with same id
-  
-      let sizesForSameProd = [];
-      this.cartProducts.forEach(cartProduct => {
-        sizesForSameProd.push(cartProduct['size'])
+      console.log('New UID, added to cart. cartProducts: ', this.cartProducts);
+    } else {
+      this.cartProducts.forEach(cp => {
+        cp['UID'] === objToCart['UID'] ? cp['amount'] ++ : null ;
       })
-  
-      this.cartProducts.forEach(cartProduct => {
-        if(cartProduct['id'] === productID){ // same id, now see if size is the same too
-          if(cartProduct['size'] === size){ // size is same too so lets increment amount
-            cartProduct['amount'] ++;
-            return console.log('cart id was same and size was same so incremented, cartProducts: ', this.cartProducts);
-          } else if(!sizesForSameProd.includes(size)){ // same id, but different size, so lets push it as new product
-            objToCart['amount'] = 1;
-            this.cartProducts.push(objToCart);
-            return console.log('cart id was same but size different so added as new product, cartProducts: ', this.cartProducts);
-          }
-        } else { // not the same id so push it as new product
-          objToCart['amount'] = 1;
-          this.cartProducts.push(objToCart);
-          return console.log('id was new so added as new product, cartProducts: ', this.cartProducts);
-        }
-      })
+      console.log('Same UID, incremented. cartProducts: ', this.cartProducts);
     }
-  }
+
+    
+
+    
+    
+    
+    
+    
   
   
-  
-        
-     
-  
-  
+}
+
 
   minus(productID) {
     for (let i = 0; i < this.products.length; i++) {

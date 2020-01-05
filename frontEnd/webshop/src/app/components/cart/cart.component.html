@@ -15,14 +15,14 @@
       <div class="prodPrice">{{ product.price * product.amount | currency }}</div>
     </div>
 
-    <p *ngIf="this.cartService.totalItems > 0">Items price ( without shipping ):
+    <p *ngIf="this.cartService.cartProducts.length > 0">Items price ( without shipping ):
       {{ this.cartService.totalPrice | currency }}</p>
   </div>
 
 
 
 
-  <h3 *ngIf="this.cartService.totalItems > 0">Choose a shipping method:
+  <h3 *ngIf="this.cartService.cartProducts.length > 0">Choose a shipping method:
     {{ this.cartService.selectedShippingOption.name }}</h3>
   <div class="shippings" *ngIf="this.cartService.totalItems > 0">
 
@@ -39,7 +39,7 @@
 </div> <!-- end of cartWrapper Div -->
 
 <div class="continue">
-  <table *ngIf="this.cartService.totalItems > 0">
+  <table *ngIf="this.cartService.cartProducts.length > 0">
     <tr>
       <td>Selected shipping option:
         {{ this.cartService.selectedShippingOption.name }}
@@ -52,8 +52,8 @@
     </tr>
     <tr>
       <td>
-        <button *ngIf="this.cartService.totalItems > 0" class="MYbutton" (click)="clearCart()">Clear Cart</button> |
-        <button *ngIf="this.cartService.totalItems > 0" class="MYbutton" (click)="collectAddress()">Enter Shipping
+        <button *ngIf="this.cartService.cartProducts.length > 0"class="MYbutton" (click)="clearCart()">Clear Cart</button> |
+        <button *ngIf="this.cartService.cartProducts.length > 0" class="MYbutton" (click)="collectAddress()">Enter Shipping
           Information</button>
       </td>
     </tr>
