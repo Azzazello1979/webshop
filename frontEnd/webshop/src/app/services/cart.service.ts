@@ -112,13 +112,6 @@ export class CartService {
     //console.log(this.cartProducts.length);
   }
 
-  increment(productID){
-    this.cartProducts.forEach(cartProduct => {
-      cartProduct.id === productID ? cartProduct.amount ++ : null
-    })
-  }
-
-
   plus(productID:number, size:number) {
     let objToCart = {};
     this.products.forEach(product => {
@@ -142,33 +135,37 @@ export class CartService {
       })
       console.log('Same UID, incremented. cartProducts: ', this.cartProducts);
     }
-
-    
-
-    
-    
-    
-    
-    
-  
-  
 }
 
-
-  minus(productID) {
-    for (let i = 0; i < this.products.length; i++) {
-      if (this.products[i].id === productID) {
-        if (this.products[i].amount === 0) {
-          return;
-        }
-        this.products[i].amount--;
-        this.products[i].totalPrice -= this.products[i].price;
-        this.totalItems--;
-        this.totalPrice -= this.products[i].price;
-        this.getCartProducts(); // update cartProducts
-      }
-    }
+  increment(productUID:string){
+    this.cartProducts.forEach(cartProduct => {
+      if(cartProduct['UID'] === productUID){
+        cartProduct['amount'] ++ ;
+        console.log('incremented amount. cartProducts: ', this.cartProducts);
+      } 
+    })
   }
+
+  decrement(productUID:string){
+    this.cartProducts.forEach(cartProduct => {
+
+      if(cartProduct['UID'] === productUID){
+        if(cartProduct['amount'] === 1){
+          this.cartProducts = this.cartProducts.filter(cp => cp['UID'] !== productUID);
+          console.log('amount was 1 so took it out of list. cartProducts: ', this.cartProducts);
+        } else {
+          cartProduct['amount'] -- ;
+          console.log('decremented amount. cartProducts: ', this.cartProducts);
+        }
+      }
+
+    })
+  }
+
+  
+
+
+
 
   clearCart() {
     this.products.forEach(e => {

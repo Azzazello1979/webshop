@@ -21,12 +21,12 @@ export class CartComponent implements OnInit {
   ) {}
 
 
-  increment(productID){
-    this.cartService.increment(productID);
+  increment(productUID){
+    this.cartService.increment(productUID);
   }
 
-  deduct(productID){
-    this.cartService.minus(productID);
+  decrement(productUID){
+    this.cartService.decrement(productUID);
   }
 
   collectAddress(){
