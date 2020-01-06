@@ -16,7 +16,7 @@
     </div>
 
     <p *ngIf="this.cartService.cartProducts.length > 0">Items price ( without shipping ):
-      {{ this.cartService.totalPrice | currency }}</p>
+      {{ this.cartService.getTotalPrice() | currency }}</p>
   </div>
 
 

@@ -106,6 +106,14 @@ export class CartService {
     return totalCartItems;
   }
 
+  getTotalPrice():number{
+    let totalPriceOfAllCartItems = 0;
+    this.cartProducts.forEach(cp => {
+      totalPriceOfAllCartItems += cp['price']*cp['amount'] ;
+    })
+    return totalPriceOfAllCartItems;
+  }
+
   getCartProducts() {
     // get products added to the cart
     return this.cartProducts;
