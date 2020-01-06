@@ -24,7 +24,7 @@
 
   <h3 *ngIf="this.cartService.cartProducts.length > 0">Choose a shipping method:
     {{ this.cartService.selectedShippingOption.name }}</h3>
-  <div class="shippings" *ngIf="this.cartService.totalItems > 0">
+  <div class="shippings" *ngIf="this.cartService.cartProducts.length > 0">
 
     <div class="shippingOptions" *ngFor="let option of this.cartService.shippingOptions"
       (click)="this.cartService.selectedShippingOption = option">
@@ -47,7 +47,7 @@
     </tr>
     <tr>
       <td>Items total price ( with shipping ):
-        {{ this.cartService.totalPrice + this.cartService.selectedShippingOption.cost | currency }}
+        {{ this.cartService.getTotalPrice() + this.cartService.selectedShippingOption.cost | currency }}
       </td>
     </tr>
     <tr>
