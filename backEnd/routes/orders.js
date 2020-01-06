@@ -59,8 +59,8 @@ router.post("/", tokenControl, (req, res) => {
       Promise.all([
         products.forEach(e => {
           //console.log(e);
-          return db.query(`INSERT INTO suborder (order_id, product_id, amount, price) VALUES 
-              ( ${orderID}, ${e.id}, ${e.amount}, ${e.price} );`);
+          return db.query(`INSERT INTO suborder (order_id, product_id, amount, price, size) VALUES 
+              ( ${orderID}, ${e.id}, ${e.amount}, ${e.price}, ${e.size} );`);
         })
       ]).then(
         ok => {
