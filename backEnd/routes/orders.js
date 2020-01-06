@@ -62,13 +62,15 @@ router.post("/", tokenControl, (req, res) => {
           return db.query(`INSERT INTO suborder (order_id, product_id, amount, price, size) VALUES 
               ( ${orderID}, ${e.id}, ${e.amount}, ${e.price}, ${e.size} );`);
         })
-      ]).then(
+      ])
+      .then(
         ok => {
           console.log('OK, all products inserted.' + ok);
           return ok;
         },
         fail => console.log('some inserts into suborder rejected: ' + fail)
-        ).catch(err => console.log('Promise.all([]) error: ' + err))
+        )
+        .catch(err => console.log('Promise.all([]) error: ' + err))
         
 
     },
@@ -86,7 +88,7 @@ router.post("/", tokenControl, (req, res) => {
         '${req.body.shippingAddress.extra}' );`);
     },
       rejection => {
-        return console.log('INSERT INTO address Rejection: ', rejection);
+        return console.log('INSERT INTO suborder Rejection: ', rejection);
       }
     )
     // if req.body.billingAddress is truthy, add billingAddress info to BILLING_ADDRESS
@@ -100,7 +102,7 @@ router.post("/", tokenControl, (req, res) => {
       }
     },
       rejection => {
-        console.log('INSERT INTO billing_address Rejection: ', rejection);
+        console.log('INSERT INTO address Rejection: ', rejection);
       }
     )
     .then(
@@ -125,17 +127,14 @@ router.post("/", tokenControl, (req, res) => {
 });
 
 
-
-router.get("/", (req, res) => {
+router.get("/", tokenControl, (req, res) => {
   res.setHeader("Content-Type", "application/json");
 
-  //let decodedToken = jwt.decode(req.headers.authorization.split(" ")[1]);
-  //let currentUserID = decodedToken.id;
+  let decodedToken = jwt.decode(req.headers.authorization.split(" ")[1]);
+  let currentUserID = decodedToken.id;
 
   let currentUserID = 19;
-  let orders = [];
-  let counter = 0;
-  let ordersCount = 0;
+  let orderPromises = [];
   
   
   
@@ -188,15 +187,15 @@ router.get("/", (req, res) => {
         let res3 = await db.query(`SELECT img FROM products WHERE id = ${DBitems[i].product_id} ;`);
         let DBimg = res3[0][0].img;
         console.log('DBimg is: ', DBimg);
-        let res4 = await db.query(`SELECT price FROM products WHERE id = ${DBitems[i].product_id} ;`);
-        let DBprice = res4[0][0].price;
-        console.log('DBprice is: ', DBprice);
+        
 
         item.img = DBimg;
         item.productName = DBproductName;
-        item.price = DBprice;
-        
-        orderTotal += item.price; 
+        item.price = DBitems[i].price;
+        item.amount = DBitems[i].amount;
+        item.size = DBitems[i].size;
+
+        orderTotal += item.price * item.amount; 
         console.log('item is: ', item);
 
         suborder.push(item);
@@ -214,21 +213,20 @@ router.get("/", (req, res) => {
     }
 
     for(let i=0 ; i<DBorders.length ; i++){
-        fillOrder(DBorders[i])
-        .then(
-          OneOrder => {
-          orders.push( OneOrder );
-          counter++;
-          console.log(`${counter} order(s) pushed into orders array out of ${ordersCount} total.`);
-        },
-          rejection => {
-            console.log('fillOrder() Rejection: ', rejection);
-          }
-        )
-        .catch(err => console.log('fillOrder() error: ', err));
+        let orderPromise = fillOrder(DBorders[i]);
+        orderPromises.push(orderPromise);
     }
 
-    
+    Promise.all(orderPromises)
+    .then(
+      resolved => {
+        console.log('all orderPromises resolved! ', resolved)
+        res.status(200).send(resolved)
+      },
+      rejected => console.log('at least 1 orderPromise was rejected', rejected)
+    )
+    .catch(err => console.log('ERROR @ Promise.all(orderPromises): ', err))
+
     
 
     
@@ -238,12 +236,7 @@ router.get("/", (req, res) => {
   )
   .catch( err => console.log('ERROR at SELECT ... FROM orders: ' + err.message) )
 
-  let interval = setInterval(()=>{
-    if(counter === ordersCount){
-      res.status(200).send(orders);
-      clearInterval(interval);
-    }
-  },200)
+  
 
 });
 
