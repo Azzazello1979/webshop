@@ -152,6 +152,7 @@ export class CartService {
       if(cartProduct['UID'] === productUID){
         if(cartProduct['amount'] === 1){
           this.cartProducts = this.cartProducts.filter(cp => cp['UID'] !== productUID);
+          this.UIDarray = this.UIDarray.filter(uid => uid !== productUID) ;
           console.log('amount was 1 so took it out of list. cartProducts: ', this.cartProducts);
         } else {
           cartProduct['amount'] -- ;
