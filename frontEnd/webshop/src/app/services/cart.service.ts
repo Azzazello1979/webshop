@@ -304,7 +304,7 @@ export class CartService {
 
   saveNewProduct(newProductObj){
     return this.http.post<any>(`${environment.backURL}/products`, newProductObj).subscribe(
-      res => console.log(`cartService >> saveNewProduct >> OK, product successfully saved, id is: ${res}`),
+      responseObj => console.log('cartService >> saveNewProduct >> OK, product successfully saved: ', responseObj),
       err => console.log( 'cartService >> saveNewProduct >> error: ' , err )
     )
   }

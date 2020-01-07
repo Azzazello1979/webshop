@@ -16,13 +16,12 @@ app.use(express.urlencoded({extended: true}));
 
 // require routes...
 const registerRoute = require('./routes/register');
-const usersRoute = require('./routes/users');
 const loginRoute = require('./routes/login');
+const usersRoute = require('./routes/users');
 const ordersRoute = require('./routes/orders');
 const cartRoute = require('./routes/cart');
 const wishRoute = require('./routes/wish');
 const productsRoute = require('./routes/products');
-const productsWithSizesRoute = require('./routes/productsWithSizes');
 const shippingOptions = require('./routes/shippingoptions');
 const paymentOptions = require('./routes/paymentoptions');
 
@@ -35,7 +34,6 @@ app.use('/orders', ordersRoute);
 app.use('/cart', cartRoute);
 app.use('/wish', wishRoute);
 app.use('/products', productsRoute);
-app.use('/productsWithSizes', productsWithSizesRoute);
 app.use('/shippingoptions', shippingOptions);
 app.use('/paymentoptions', paymentOptions);
 

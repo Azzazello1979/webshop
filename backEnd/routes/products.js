@@ -10,6 +10,8 @@ const tokenControl = require("./../middlewares/token_control"); // tokenControl 
 router.post("/", tokenControl, (req, res) => {
   res.setHeader("Content-Type", "application/json");
 
+  //console.log('objToSave: ', req['body']);
+
   const {
     collection,
     productName,
@@ -45,12 +47,30 @@ router.post("/", tokenControl, (req, res) => {
             "saved product to db, insert id is ",
             response2[0].insertId
           );
+
+          let sizePromises = [];
           sizes.forEach(size => {
-            db.query(
+            let sizePromise = db.query(
               `INSERT INTO sizes (product_id, size) VALUES ( ${response2[0].insertId}, ${size} );`
             );
+            sizePromises.push(sizePromise);
           });
-          res.status(200).send(response2[0].insertId.toString()); //send() cannot send a number, so convert it to string
+
+          Promise.all(sizePromises)
+          .then( 
+            () => {
+              let responseObj = {...req.body};
+              return res.status(200).send(responseObj); //send() cannot send a number, so convert it to string
+          },
+            rejection => {
+              console.log('products.js >> POST >> Promise.all() rejected for INSERT INTO sizes: ', rejection);
+              return res.status(500).send('products.js >> POST >> Promise.all() rejected for INSERT INTO sizes: ', rejection)
+            }
+          ).catch(err => {
+            console.log('products.js >> POST >> Promise.all() error: ', err);
+            return res.status(500).send('products.js >> POST >> Promise.all() error: ', err);
+          })
+          
         });
       }
     })
