@@ -21,20 +21,20 @@ router.post("/", tokenControl, (req, res) => {
   let validated_b_POBOX;
 
   // implement more validation errors, like whitespace in input field, etc...
-  req.body.shippingAddress.ZIP === undefined
+  req.body.shippingAddress.ZIP === undefined || req.body.shippingAddress.ZIP === "" 
     ? (validatedZIP = 0)
     : (validatedZIP = req.body.shippingAddress.ZIP);
 
-  req.body.shippingAddress.POBOX === undefined
+  req.body.shippingAddress.POBOX === undefined || req.body.shippingAddress.POBOX === ""
     ? (validatedPOBOX = 0)
     : (validatedPOBOX = req.body.shippingAddress.POBOX);
 
   if (req.body.billingAddress) {
-    req.body.billingAddress.ZIP === undefined
+    req.body.billingAddress.ZIP === undefined || req.body.billingAddress.ZIP === ""
       ? (validated_b_ZIP = 0)
       : (validated_b_ZIP = req.body.billingAddress.ZIP);
 
-    req.body.billingAddress.POBOX === undefined
+    req.body.billingAddress.POBOX === undefined || req.body.billingAddress.POBOX === ""
       ? (validated_b_POBOX = 0)
       : (validated_b_POBOX = req.body.billingAddress.POBOX);
   }
@@ -133,7 +133,6 @@ router.get("/", tokenControl, (req, res) => {
   let decodedToken = jwt.decode(req.headers.authorization.split(" ")[1]);
   let currentUserID = decodedToken.id;
 
-  let currentUserID = 19;
   let orderPromises = [];
   
   
