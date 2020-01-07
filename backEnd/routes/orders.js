@@ -6,12 +6,12 @@ const router = express.Router();
 const tokenControl = require("./../middlewares/token_control"); // tokenControl middleware
 const jwt = require("jsonwebtoken");
 
-router.post("/", tokenControl, (req, res) => {
+router.post("/", (req, res) => {
   res.setHeader("Content-Type", "application/json");
 
-  console.log(req.body);
+  //console.log(req.body);
 
-  let currentUserID;
+  let currentUserID = 0;
   let orderID = 0;
 
   let validatedZIP;
@@ -39,8 +39,12 @@ router.post("/", tokenControl, (req, res) => {
       : (validated_b_POBOX = req.body.billingAddress.POBOX);
   }
 
-  let decodedToken = jwt.decode(req.headers.authorization.split(" ")[1]);
-  currentUserID = decodedToken.id;
+  /* let decodedToken = jwt.decode(req.headers.authorization.split(" ")[1]);
+  currentUserID = decodedToken.id; */
+  currentUserID = 19;
+  let decodedToken = {};
+  decodedToken.email = 'lulu@lulu.com';
+
 
   db.query(
     `INSERT INTO orders (user_id, payment_id, shipping_id, orderCreated) VALUES
@@ -56,28 +60,27 @@ router.post("/", tokenControl, (req, res) => {
       //console.log('this is the type of orderId: ' + typeof orderID);
 
       let products = [...req.body.products];
-      Promise.all([
+      let productPromises = [];
+      
         products.forEach(e => {
           //console.log(e);
-          return db.query(`INSERT INTO suborder (order_id, product_id, amount, price, size) VALUES 
+          let productPromise = db.query(`INSERT INTO suborder (order_id, product_id, amount, price, size) VALUES 
               ( ${orderID}, ${e.id}, ${e.amount}, ${e.price}, ${e.size} );`);
+          productPromises.push( productPromise );
         })
-      ])
-      .then(
-        ok => {
-          console.log('OK, all products inserted.' + ok);
-          return ok;
-        },
-        fail => console.log('some inserts into suborder rejected: ' + fail)
-        )
-        .catch(err => console.log('Promise.all([]) error: ' + err))
-        
+      
+        Promise.all(productPromises).then(
+          productsArr => {
+            console.log('all products inserted into suborder: ', productsArr);
+            return productsArr;
 
-    },
-      rejection => {
-        return console.log('INSERT INTO orders Rejection: ', rejection);
-      }
-    )
+          },
+          rejected => console.log('Promise.all() rejection: at least one product was not inserted: ', rejected)
+          ).catch(err => console.log('Error with Promise.all(): ', err))
+      
+        },
+          rejected => console.log('INSERT INTO ORDERS rejection!: ', rejected)
+        )
     // insert record into ADDRESS table
     .then(response3 => {
       console.log("response after INSERT INTO suborder: ", response3);
@@ -121,7 +124,7 @@ router.post("/", tokenControl, (req, res) => {
       console.log(error);
       res.status(500).json({
         message:
-          "Something went wrong at /order endpoint, check console message!"
+          "Something went wrong at /order post endpoint, check console message!"
       });
     });
 });
