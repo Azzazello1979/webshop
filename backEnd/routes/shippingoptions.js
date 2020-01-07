@@ -8,7 +8,10 @@ const tokenControl = require("./../middlewares/token_control"); // tokenControl 
 router.get("/", tokenControl, (req, res) => {
     res.setHeader("Content-Type", "application/json");
     db.query('SELECT * FROM shippingoptions ;')
-    .then( shippingoptions => res.status(200).send( shippingoptions[0])  )
+    .then( 
+        shippingoptions => res.status(200).send( shippingoptions[0] ), 
+        rejection => console.log('SELECT * FROM shippingoptions rejected: ', rejection)  
+    )
     .catch( err => res.status(500).send('Error @ shippingoptions.js @ GET request: ' + err.message))
 });
 

@@ -43,17 +43,11 @@ router.post('/', tokenControl, (req,res) => {
 
 });
 
-
-
-
 router.get('/', tokenControl, (req,res) => {
     res.setHeader('Content-Type','application/json');
     let decodedToken = jwt.decode(req.headers.authorization.split(' ')[1]);
     let currentUserID = decodedToken.id;
     
-
-    
-
     try{
         getSavedCart();
     }catch(err){
@@ -65,24 +59,10 @@ router.get('/', tokenControl, (req,res) => {
         queryResult = await db.query(
            `SELECT product_id, amount, shipping_id FROM cart WHERE user_id = ${currentUserID};`
            );
-
            console.log('current saved cart of user: ');
            console.table(queryResult);
-
-
-
            res.status(200).send(queryResult);
     }
-
-
-
 });
-
-
-
-
-
-
-
 
 module.exports = router;

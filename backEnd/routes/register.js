@@ -12,26 +12,26 @@ const secret = process.env.SECRET;
 router.post('/', (req, res) => {
   res.setHeader('Content-Type','application/json');
   db.query(`SELECT * FROM users WHERE email = '${req.body.email}';`)
-  .then((rows) => { // will return array with 2 elements, the first element is the array of records, the second element is an array off additional info due to using promises
+  .then(rows => { // will return array with 2 elements, the first element is the array of records, the second element is an array off additional info due to using promises
     if(rows[0].length > 0){
       console.log('This email is already registered. Please choose another.');
       return res.status(400).json({'message':'This email is already registered. Please choose another.'});
     } else {
       db.query(`INSERT INTO users (email, password) VALUES ('${req.body.email}', '${hash(req.body.password + salt)}') ;`)
-      .then((OKpacket) => {
+      .then(OKpacket => {
         console.log('OK, new user registerd');
         //console.log(OKpacket); // visualize OKpacket fields
         
         let token = jwt.sign( { 'id': OKpacket[0].insertId, 'email': req.body.email }, secret, { 'expiresIn': '1d' } );
         res.status(200).json({ 'token': token });
-      })
-      .catch((e) => {
+      }, rejection => console.log('INSERT INTO users rejection: ', rejection))
+      .catch(e => {
         console.log(e.message);
         return res.status(500).json({'message':'database error @ register > insert into'});
       })
     }
-  })
-  .catch((e) => {
+  }, rejection => console.log('SELECT * FROM users rejection: ', rejection))
+  .catch(e => {
     console.log(e.message);
     return res.status(500).json({'message':'database error @ register > select'});
   })

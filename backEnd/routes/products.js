@@ -74,15 +74,12 @@ router.get("/", tokenControl, (req, res) => {
     let originalProducts = [];
     let mappedProducts = [];
 
-    let responseIsSent = false;
-    
     db.query(`SELECT * FROM products ;`)
       .then(products => {
         originalProducts = products[0];
         //console.log('original products: ')
         //console.log(originalProducts)
         
-
         for (let i = 0; i < originalProducts.length; i++) {
           mappedObject(originalProducts[i])
             .then(mappedObj => {
@@ -95,10 +92,14 @@ router.get("/", tokenControl, (req, res) => {
               //console.log(`the mappedProducts array length is: ${mappedProducts.length}`)
               //console.log(mappedProducts);
 
-            }).catch(err => console.log(err.message));
+            }, rejected => console.log('mappedObject() rejected: ', rejected)
+            ).catch(err => console.log('mappedObject() error: ', err));
+        }     
+      },
+        rejected => {
+          console.log('SELECT * FROM products rejected: ', rejected)
         }
-              
-      })
+      )
       .catch(err => {
         res
           .status(500)
@@ -124,15 +125,14 @@ router.get("/", tokenControl, (req, res) => {
       return productObj; // working fine! returning the mapped productObj
     }
         
-    setInterval(() => { 
-      if(responseIsSent === false){
+    // this approach is obsolate, use Promise.all() to send response to frontEnd after loop of promise objects all resolve!
+    // keeping for reference only 
+    let theInterval = setInterval(() => { 
         if(mappedProducts.length === originalProducts.length){
           res.status(200).send( mappedProducts );
-          responseIsSent = true;
-          return;
+          return clearInterval(theInterval);
         } 
-      }
-     }, 100)
+     }, 300)
     
   });
 
