@@ -6,17 +6,13 @@ const router = express.Router();
 const tokenControl = require("./../middlewares/token_control"); // tokenControl middleware
 const jwt = require("jsonwebtoken");
 
-router.post("/", (req, res) => {
+router.post("/", tokenControl, (req, res) => {
   res.setHeader("Content-Type", "application/json");
-
-  //console.log(req.body);
 
   let currentUserID = 0;
   let orderID = 0;
-
   let validatedZIP;
   let validatedPOBOX;
-
   let validated_b_ZIP;
   let validated_b_POBOX;
 
@@ -39,12 +35,8 @@ router.post("/", (req, res) => {
       : (validated_b_POBOX = req.body.billingAddress.POBOX);
   }
 
-  /* let decodedToken = jwt.decode(req.headers.authorization.split(" ")[1]);
-  currentUserID = decodedToken.id; */
-  currentUserID = 19;
-  let decodedToken = {};
-  decodedToken.email = 'lulu@lulu.com';
-
+  let decodedToken = jwt.decode(req.headers.authorization.split(" ")[1]);
+  currentUserID = decodedToken.id;
 
   db.query(
     `INSERT INTO orders (user_id, payment_id, shipping_id, orderCreated) VALUES
@@ -55,15 +47,12 @@ router.post("/", (req, res) => {
     .then(
       response2 => {
       console.log("response after INSERT INTO orders: ", response2);
-
       orderID = response2[0]['insertId']; // orderID to be used in suborder table, address table and billing_address table
-      //console.log('this is the type of orderId: ' + typeof orderID);
 
       let products = [...req.body.products];
       let productPromises = [];
       
         products.forEach(e => {
-          //console.log(e);
           let productPromise = db.query(`INSERT INTO suborder (order_id, product_id, amount, price, size) VALUES 
               ( ${orderID}, ${e.id}, ${e.amount}, ${e.price}, ${e.size} );`);
           productPromises.push( productPromise );
@@ -73,7 +62,6 @@ router.post("/", (req, res) => {
           productsArr => {
             console.log('all products inserted into suborder: ', productsArr);
             return productsArr;
-
           },
           rejected => console.log('Promise.all() rejection: at least one product was not inserted: ', rejected)
           ).catch(err => console.log('Error with Promise.all(): ', err))
@@ -81,8 +69,7 @@ router.post("/", (req, res) => {
         },
           rejected => console.log('INSERT INTO ORDERS rejection!: ', rejected)
         )
-    // insert record into ADDRESS table
-    .then(response3 => {
+    .then(response3 => { // insert into suborder...
       console.log("response after INSERT INTO suborder: ", response3);
       return db.query(`INSERT INTO address (order_id, name, country, state, county, city, ZIP, POBOX, address1, address2, extra) VALUES 
         ( ${orderID}, '${req.body.shippingAddress.name}', '${req.body.shippingAddress.country}', '${req.body.shippingAddress.state}', 
@@ -94,8 +81,7 @@ router.post("/", (req, res) => {
         return console.log('INSERT INTO suborder Rejection: ', rejection);
       }
     )
-    // if req.body.billingAddress is truthy, add billingAddress info to BILLING_ADDRESS
-    .then(response4 => {
+    .then(response4 => { // if req.body.billingAddress is truthy, add billingAddress info to BILLING_ADDRESS
       console.log("response after INSERT INTO address: ", response4);
       if (req.body.billingAddress) {
         return db.query(`INSERT INTO billing_address (order_id, name, country, state, county, city, ZIP, POBOX, address1, address2) VALUES 
@@ -134,10 +120,7 @@ router.get("/", tokenControl, (req, res) => {
 
   let decodedToken = jwt.decode(req.headers.authorization.split(" ")[1]);
   let currentUserID = decodedToken.id;
-
   let orderPromises = [];
-  
-  
   
   db.query(`SELECT id, user_id, shipping_id, payment_id, orderCreated FROM orders WHERE user_id = ${currentUserID};`)
   .then( orderResponse => {
@@ -145,10 +128,8 @@ router.get("/", tokenControl, (req, res) => {
 
     ordersCount = orderResponse[0].length;
     let DBorders = orderResponse[0];
-    console.log('DBorders.length is: ' + DBorders.length);
+    //console.log('DBorders.length is: ' + DBorders.length);
     
-    
-
     async function fillOrder(DBorder){
       let order = {};
       let suborder = [];
@@ -177,17 +158,17 @@ router.get("/", tokenControl, (req, res) => {
       let res3 = await db.query(`SELECT * FROM suborder WHERE order_id = ${DBorder.id};`);
       let DBitems = res3[0];
       //console.log('DBitems are: ', items);
-      console.log('DBitems.length is: ' + DBitems.length);
+      //console.log('DBitems.length is: ' + DBitems.length);
 
 
       for(let i=0 ; i<DBitems.length ; i++){
         let item = {};
         let res2 = await db.query(`SELECT productName FROM products WHERE id = ${DBitems[i].product_id} ;`);
         let DBproductName = res2[0][0].productName;
-        console.log('DBproductName is: ', DBproductName);
+        //console.log('DBproductName is: ', DBproductName);
         let res3 = await db.query(`SELECT img FROM products WHERE id = ${DBitems[i].product_id} ;`);
         let DBimg = res3[0][0].img;
-        console.log('DBimg is: ', DBimg);
+        //console.log('DBimg is: ', DBimg);
         
 
         item.img = DBimg;
@@ -197,19 +178,17 @@ router.get("/", tokenControl, (req, res) => {
         item.size = DBitems[i].size;
 
         orderTotal += item.price * item.amount; 
-        console.log('item is: ', item);
+        //console.log('item is: ', item);
 
         suborder.push(item);
-        
       }
 
       
       order.total = orderTotal;
-      console.log('order total is: ' + order.total);
+      //console.log('order total is: ' + order.total);
       order.suborder = suborder;
-      console.log('suborder is: ', suborder);
-      console.log('order is: ', order);
-
+      //console.log('suborder is: ', suborder);
+      //console.log('order is: ', order);
       return order;
     }
 
@@ -227,11 +206,6 @@ router.get("/", tokenControl, (req, res) => {
       rejected => console.log('at least 1 orderPromise was rejected', rejected)
     )
     .catch(err => console.log('ERROR @ Promise.all(orderPromises): ', err))
-
-    
-
-    
-    
   },
     rejection => { console.log('SELECT FROM orders Rejection: ', rejection); }
   )
