@@ -124,7 +124,7 @@ export class AdminComponent implements OnInit {
       'sale': formValue.sale ? formValue.sale : 1,
       'sizes': formValue.sizes
     }
-    //console.log(newProductObj);
+    console.log(newProductObj);
     this.cartService.saveNewProduct(newProductObj);
   }
 
