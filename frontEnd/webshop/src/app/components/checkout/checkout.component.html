@@ -4,7 +4,7 @@
   <div class="theOrder" >
     <table class="orderTable">
       <tr *ngFor="let product of this.cartService.cartProducts">
-        <td>{{ product.productName }} {{ product.amount}} pcs {{ product.totalPrice | currency }}</td>
+        <td>{{ product.productName }}, size {{ product.size}}, {{ product.amount}} pcs, {{ product.amount * product.price | currency }}</td>
       </tr>
     </table>
   </div>
@@ -92,14 +92,14 @@
       <table>
         <h3>Totals:</h3>
         <tr>
-          <td>Total net price of items (no shipping): {{ this.cartService.totalPrice | currency }} </td>
+          <td>Total net price of items (no shipping): {{ this.cartService.getTotalPrice() | currency }} </td>
         </tr>
         <tr>
           <td>Chosen shipping method: {{ this.cartService.selectedShippingOption.name }} </td>
         </tr>
         <tr>
           <td>Total gross price of items (with shipping):
-            {{ this.cartService.totalPrice + this.cartService.selectedShippingOption.cost | currency }} </td>
+            {{ this.cartService.getTotalPrice() + this.cartService.selectedShippingOption.cost | currency }} </td>
         </tr>
       </table>
     </div>

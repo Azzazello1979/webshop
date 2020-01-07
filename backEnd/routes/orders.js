@@ -126,7 +126,6 @@ router.post("/", tokenControl, (req, res) => {
     });
 });
 
-
 router.get("/", tokenControl, (req, res) => {
   res.setHeader("Content-Type", "application/json");
 
