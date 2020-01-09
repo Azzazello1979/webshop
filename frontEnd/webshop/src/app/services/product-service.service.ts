@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEventType } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { CartService } from './../services/cart.service';
 
@@ -13,8 +13,25 @@ export class ProductService {
     private cartService:CartService
   ) { }
 
+  uploadSingleImage(fd){
+    return this.http.post<any>(`${environment.backURL}/products`, fd, {
+      reportProgress:true,
+      observe: 'events'
+    })
+    .subscribe(
+      event => {
+        if(event.type === HttpEventType.UploadProgress){
+          console.log('Upload progress: ' + Math.round(event.loaded / event.total * 100) + '%');
+        } else if(event.type === HttpEventType.Response){
+          console.log('Full Http response received: ', event);
+        }
+      },
+      rejection => console.log('rejection at uploading single image: ', rejection)
+    )
+  }
+
   updateProduct(patchObj){
-    this.http.patch<any>( `${environment.backURL}/products`, patchObj )
+    return this.http.patch<any>( `${environment.backURL}/products`, patchObj)
     .subscribe(
       responseObj => this.cartService.patchProduct(responseObj),
       error => console.log('Error@product-service.ts@updateProduct(): ' + error.message)
@@ -23,7 +40,7 @@ export class ProductService {
 
   deleteProduct(id:number){
     console.log('this is the id received by deleteProduct(): ', id);
-    this.http.delete<any>(`${environment.backURL}/products/${id}`, {responseType: 'json'})
+    return this.http.delete<any>(`${environment.backURL}/products/${id}`, {responseType: 'json'})
     .subscribe(
       response => 
         { console.log('product-service: This is the response from backEnd after DELETE: ', response.id);

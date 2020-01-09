@@ -6,12 +6,58 @@ const db = require("./../connection"); // This connection uses mysql-promise
 const express = require("express");
 const router = express.Router();
 const tokenControl = require("./../middlewares/token_control"); // tokenControl middleware
+const multipart = require('connect-multiparty');
+const multipartMiddleware = multipart({ uploadDir: './../backEnd/tempUploads'});
+const fs = require('fs');
 
-router.post("/", tokenControl, (req, res) => {
+router.post("/", tokenControl, multipartMiddleware, (req, res) => {
   res.setHeader("Content-Type", "application/json");
 
-  //console.log('objToSave: ', req['body']);
+  
+  if(req['files']){ // deal with incoming images...
+    //console.log(req['files']);
 
+    let tempFilePath = req.files.image.path;
+    console.log('tempFilePath: ' + tempFilePath);
+
+    let newFileName = req.files.image.originalFilename;
+    console.log('newFileName: ' + newFileName);
+
+    let tempFileName = tempFilePath.slice(23,tempFilePath.length);
+    console.log('tempFileName: ' + tempFileName);
+
+    let collection = req.body.collection;
+    //console.log(req.body.collection);
+    
+    //  2. copy temp. file to collections folder
+    fs.copyFile(tempFilePath, `./../frontEnd/webshop/src/assets/images/collections/${collection}/${tempFileName}`, (err) => {
+        if(err){
+            console.log('Error at copyFile: ', err);
+        } else { 
+            //  3. delete temp. file from tempUploads folder
+            fs.unlink(tempFilePath, (err) => {
+                if(err){
+                    console.log('Error when unlinking: ', err);
+                } else {
+                    //  4. rename temp. file at uploads folder to originalFilename
+                    fs.rename(`./../frontEnd/webshop/src/assets/images/collections/${collection}/${tempFileName}`, `./../frontEnd/webshop/src/assets/images/collections/${collection}/${newFileName}`, (err) => {
+                        if(err){
+                            console.log('Error when renaming: ', err);
+                        } else {
+                            console.log('OK, file copied and renamed, temp file deleted.');
+                            //  5. send (200) response & message
+                            return res.status(200).send('OK, file copied and renamed, temp file deleted.'); //cannot attach any message after 204, NodeJS will crash :-)
+                        }
+                    })
+                    
+                }
+            })
+        }
+    });
+
+  } else { // deal with incoming product objects...
+
+  //console.log('objToSave: ', req['body']);
   const {
     collection,
     productName,
@@ -84,6 +130,12 @@ router.post("/", tokenControl, (req, res) => {
           "error is: ": e.message
         });
     });
+
+  }
+
+
+
+  
 });
 
 

@@ -33,16 +33,46 @@ export class AdminComponent implements OnInit {
   materialSwitched = false;
 
   collections = [];
+  collectionForImage = null;
+
   stones = [];
   cuts = [];
   materials = [];
   sizes = [];
+
+  selectedImage:File = null;
+  selectedImages:File = null;
 
   constructor(
     private listingService: ListingService,
     private cartService: CartService,
     private productService: ProductService
   ) { }
+
+  imageIsForCollection(collection){
+    this.collectionForImage = collection;
+    console.log(this.collectionForImage);
+  }
+
+  onSingleImageSelected(event){
+    this.selectedImage = event.target.files[0];
+  }
+
+  onUploadSingleImage(){
+    this.collectionForImage === null ? window.alert('You must select which collection this image belongs to!') : null;
+    let fd = new FormData();
+    fd.append('image', this.selectedImage, this.selectedImage.name);
+    fd.append('collection', this.collectionForImage );
+    this.productService.uploadSingleImage(fd);
+  }
+
+  onMultipleImagesSelected(event){
+    this.selectedImages = event.target.files;
+  }
+
+  onUploadMultipleImages(){
+
+  }
 
   onDeleteProduct(id:number){
     console.log('this is the id received by onDeleteProduct(): ', id);
