@@ -12,25 +12,46 @@ const fs = require('fs');
 
 router.post("/", tokenControl, multipartMiddleware, (req, res) => {
   res.setHeader("Content-Type", "application/json");
+  //req.body is a FormData Obj, so its all strings...
+  //console.log(req.body.sizes)
+  //console.log(typeof req.body.sizes)
+  //console.log(req['body']);
+  //console.log(req['files']);
 
-  console.log(req['body']);
-  console.log(req['files']);
+  let mainImageOK = false; // main image processed?
+
+  const {
+    collection,
+    productName,
+    price,
+    stone,
+    carat,
+    cut,
+    material,
+    description,
+    sale,
+    sizes
+  } = req.body;
+
+  // everything comes through as string ... so convert these to nums
+  let priceP = parseInt(price, 10);
+  let caratP = parseInt(carat, 10);
+  let saleP = parseInt(sale, 10);
+  let sizesA = sizes.split(',');
+  let sizesP = sizesA.map(e => parseInt(e, 10));
+
   
-  /* if(req['files']){ // deal with incoming images...
-    //console.log(req['files']);
-
-    let tempFilePath = req.files.image.path;
+  
+    // deal with incoming images...
+    let tempFilePath = req['files']['mainImageObj']['path'];
     console.log('tempFilePath: ' + tempFilePath);
 
-    let newFileName = req.files.image.originalFilename;
+    let newFileName = req['files']['mainImageObj']['originalFilename'];
     console.log('newFileName: ' + newFileName);
 
     let tempFileName = tempFilePath.slice(23,tempFilePath.length);
     console.log('tempFileName: ' + tempFileName);
 
-    let collection = req.body.collection;
-    //console.log(req.body.collection);
-    
     //  2. copy temp. file to collections folder
     fs.copyFile(tempFilePath, `./../frontEnd/webshop/src/assets/images/collections/${collection}/${tempFileName}`, (err) => {
         if(err){
@@ -47,8 +68,7 @@ router.post("/", tokenControl, multipartMiddleware, (req, res) => {
                             console.log('Error when renaming: ', err);
                         } else {
                             console.log('OK, file copied and renamed, temp file deleted.');
-                            //  5. send (200) response & message
-                            return res.status(200).send('OK, file copied and renamed, temp file deleted.'); //cannot attach any message after 204, NodeJS will crash :-)
+                            mainImageOK = true;
                         }
                     })
                     
@@ -57,22 +77,10 @@ router.post("/", tokenControl, multipartMiddleware, (req, res) => {
         }
     });
 
-  } else { // deal with incoming product objects...
 
+  // deal with incoming product objects...
   //console.log('objToSave: ', req['body']);
-  const {
-    collection,
-    productName,
-    price,
-    stone,
-    carat,
-    cut,
-    img,
-    material,
-    description,
-    sale,
-    sizes
-  } = req.body;
+  
 
   db.query(`SELECT * FROM products WHERE productName = '${productName}';`)
     .then(response1 => {
@@ -87,9 +95,11 @@ router.post("/", tokenControl, multipartMiddleware, (req, res) => {
               "product with the same name already exists, choose a different name"
           });
       } else {
+        let filename = req['files']['mainImageObj']['originalFilename']; // "Rittis-1.jpg"
+        let imgPath = `./src/assets/images/collections/${collection}/${filename}`;
         db.query(
           `INSERT INTO products (collection, productName, price, stone, carat, cut, img, material, description, sale ) VALUES (
-        '${collection}', '${productName}', ${price}, '${stone}', ${carat}, '${cut}', '${img}', '${material}', '${description}', ${sale});`
+        '${collection}', '${productName}', ${priceP}, '${stone}', ${caratP}, '${cut}', '${imgPath}', '${material}', '${description}', ${saleP});`
         ).then(response2 => {
           console.log(
             "saved product to db, insert id is ",
@@ -97,9 +107,9 @@ router.post("/", tokenControl, multipartMiddleware, (req, res) => {
           );
 
           let sizePromises = [];
-          sizes.forEach(size => {
+          sizesP.forEach(asize => {
             let sizePromise = db.query(
-              `INSERT INTO sizes (product_id, size) VALUES ( ${response2[0].insertId}, ${size} );`
+              `INSERT INTO sizes (product_id, size) VALUES ( ${response2[0].insertId}, ${asize} );`
             );
             sizePromises.push(sizePromise);
           });
@@ -108,7 +118,20 @@ router.post("/", tokenControl, multipartMiddleware, (req, res) => {
           .then( 
             () => {
               let responseObj = {...req.body};
-              return res.status(200).send(responseObj); //send() cannot send a number, so convert it to string
+
+              if(mainImageOK){
+                return res.status(200).send(responseObj);
+              } else {
+                let waitingForMainImageToBeProcessed = setInterval(() => {
+                  if(mainImageOK){
+                    res.status(200).send(responseObj);
+                    clearInterval(waitingForMainImageToBeProcessed);
+                    console.log('All OK. DB updated & mainImage processed, sending reply...');
+                  } else {
+                    console.log('mainImage not processed yet...')
+                  }
+                }, 100)
+              }
           },
             rejection => {
               console.log('products.js >> POST >> Promise.all() rejected for INSERT INTO sizes: ', rejection);
@@ -133,7 +156,7 @@ router.post("/", tokenControl, multipartMiddleware, (req, res) => {
         });
     });
 
-  } */
+  
 
 
 

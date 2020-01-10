@@ -121,6 +121,7 @@ export class AdminComponent implements OnInit {
     // sanitize data received from form, before passing it to service
     //console.log('add product form value: ');
     //console.table(formValue);
+    console.log('formValue.sizes...numbers or strings? ', formValue.sizes);
     
     let theCollection = formValue.collection.toLowerCase();
     
