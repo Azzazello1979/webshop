@@ -14,10 +14,10 @@
   <div class="main">
     <!-- you must specify type="button" for the switch buttons, or else, they will be treated as submit buttons... -->
     <div class="addProductWrapper" *ngIf="addProductBtnClicked">
-      <form
+      <form enctype="multipart/form-data"  
         #productForm="ngForm"
-        (ngSubmit)="productFormSubmit(productForm.value)"
-      >
+        (ngSubmit)="productFormSubmit(productForm.value)" 
+         >
         <fieldset>
           <legend>Main info:</legend>
           <p>Product name:</p>
@@ -154,9 +154,11 @@
 
       <div class="editProductForm">
         <form
+          enctype="multipart/form-data" 
           #editProductForm="ngForm"
-          (ngSubmit)="saveProductChanges(editProductForm.value)"
-        >
+          (ngSubmit)="saveProductChanges(editProductForm.value)" 
+          
+           >
 
           <fieldset>
             <legend>Delete product</legend>
