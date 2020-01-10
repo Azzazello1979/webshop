@@ -302,7 +302,7 @@ export class CartService {
     );
   }
 
-  saveNewProduct(newProductObj){
+  saveNewProduct(newProductObj:FormData){
     return this.http.post<any>(`${environment.backURL}/products`, newProductObj).subscribe(
       responseObj => {
         console.log('cartService >> saveNewProduct >> OK, product successfully saved: ', responseObj);

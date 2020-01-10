@@ -132,33 +132,15 @@
             style="resize:none;"
           ></textarea>
         </fieldset>
-        <br />
+
+        <fieldset>
+          <legend>Add main image</legend>
+          <input type="file" (change)="onSingleImageSelected($event)" required>
+        </fieldset>
+        <br>
+        
         <input type="submit" value="Add Product" [disabled]="!productForm.valid">
       </form>
-
-      <div class="addSingeImage">
-        <h3>Add main image</h3>
-        <p>Choose for which collection: </p>
-
-        <div *ngFor="let collection of collections">
-          <label for="{{ collection }}">{{ collection }}</label>
-          <input type="radio" id="{{ collection }}" name="imageCollection" value="{{ collection }}" (mousedown)="imageIsForCollection(collection)">
-        </div>
-        <br>
-                   
-        <input type="file" (change)="onSingleImageSelected($event)">
-        <button type="button" (click)="onUploadSingleImage()">Upload</button>
-      </div>
-      <br>
-
-      <hr>
-
-      <div class="addMultipleImages">
-        <h3>Add gallery images</h3>
-        <input type="file" multiple (change)="onMultipleImagesSelected($event)">
-        <button type="button" (click)="onUploadMultipleImages">Upload</button>
-      </div>
-
     </div>
 
     <div class="editProductWrapper" *ngIf="editProductBtnClicked">

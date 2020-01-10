@@ -33,15 +33,14 @@ export class AdminComponent implements OnInit {
   materialSwitched = false;
 
   collections = [];
-  collectionForImage = null;
-
+  
   stones = [];
   cuts = [];
   materials = [];
   sizes = [];
 
-  selectedImage:File = null;
-  selectedImages:File = null;
+  selectedImageObj:File = null;
+  
 
   constructor(
     private listingService: ListingService,
@@ -49,30 +48,16 @@ export class AdminComponent implements OnInit {
     private productService: ProductService
   ) { }
 
-  imageIsForCollection(collection){
-    this.collectionForImage = collection;
-    console.log(this.collectionForImage);
-  }
+
 
   onSingleImageSelected(event){
-    this.selectedImage = event.target.files[0];
-  }
-
-  onUploadSingleImage(){
-    this.collectionForImage === null ? window.alert('You must select which collection this image belongs to!') : null;
-    let fd = new FormData();
-    fd.append('image', this.selectedImage, this.selectedImage.name);
-    fd.append('collection', this.collectionForImage );
-    this.productService.uploadSingleImage(fd);
-  }
-
-  onMultipleImagesSelected(event){
-    this.selectedImages = event.target.files;
-  }
-
-  onUploadMultipleImages(){
+    this.selectedImageObj = event.target.files[0];
+    //console.log(this.selectedImageObj);
+    //console.log(typeof this.selectedImageObj);
 
   }
+
+
 
   onDeleteProduct(id:number){
     console.log('this is the id received by onDeleteProduct(): ', id);
@@ -134,27 +119,25 @@ export class AdminComponent implements OnInit {
 
   productFormSubmit(formValue){
     // sanitize data received from form, before passing it to service
-
     //console.log('add product form value: ');
     //console.table(formValue);
-    let imgFileName = formValue.img.substring(12);
+    
     let theCollection = formValue.collection.toLowerCase();
-    let constructedImgPath = `./../../assets/images/collections/${theCollection}/${imgFileName}`;
-    //console.log(constructedImgPath);
-    let newProductObj = {
-      'collection': theCollection,
-      'productName': formValue.productName,
-      'price': formValue.price,
-      'stone': formValue.stone,
-      'carat': formValue.carat,
-      'cut': formValue.cut,
-      'img': constructedImgPath,
-      'material': formValue.material,
-      'description': formValue.description,
-      'sale': formValue.sale ? formValue.sale : 1,
-      'sizes': formValue.sizes
-    }
-    console.log(newProductObj);
+    
+    let newProductObj = new FormData(); 
+    newProductObj.append('collection', theCollection);
+    newProductObj.append('productName', formValue.productName);
+    newProductObj.append('price', formValue.price);
+    newProductObj.append('stone', formValue.stone);
+    newProductObj.append('carat', formValue.carat);
+    newProductObj.append('cut', formValue.cut);
+    newProductObj.append('material', formValue.material);
+    newProductObj.append('description', formValue.description);
+    newProductObj.append('sale', formValue.sale ? formValue.sale : 1);
+    newProductObj.append('sizes', formValue.sizes);
+    newProductObj.append('mainImageObj', this.selectedImageObj);
+    
+    //console.log('newProductObj is: ', newProductObj);
     this.cartService.saveNewProduct(newProductObj);
   }
 

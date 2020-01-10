@@ -13,8 +13,10 @@ const fs = require('fs');
 router.post("/", tokenControl, multipartMiddleware, (req, res) => {
   res.setHeader("Content-Type", "application/json");
 
+  console.log(req['body']);
+  console.log(req['files']);
   
-  if(req['files']){ // deal with incoming images...
+  /* if(req['files']){ // deal with incoming images...
     //console.log(req['files']);
 
     let tempFilePath = req.files.image.path;
@@ -131,7 +133,7 @@ router.post("/", tokenControl, multipartMiddleware, (req, res) => {
         });
     });
 
-  }
+  } */
 
 
 
