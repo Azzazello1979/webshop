@@ -95,8 +95,8 @@ router.post("/", tokenControl, multipartMiddleware, (req, res) => {
               "product with the same name already exists, choose a different name"
           });
       } else {
-        let filename = req['files']['mainImageObj']['originalFilename']; // "Rittis-1.jpg"
-        let imgPath = `./src/assets/images/collections/${collection}/${filename}`;
+        let filename = req['files']['mainImageObj']['originalFilename'];
+        let imgPath = `./../../assets/images/collections/${collection}/${filename}`;
         db.query(
           `INSERT INTO products (collection, productName, price, stone, carat, cut, img, material, description, sale ) VALUES (
         '${collection}', '${productName}', ${priceP}, '${stone}', ${caratP}, '${cut}', '${imgPath}', '${material}', '${description}', ${saleP});`
