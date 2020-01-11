@@ -1,13 +1,12 @@
 "use strict";
 
 // save product coming from admin interface
-
-const db = require("./../connection"); // This connection uses mysql-promise
+const db = require("./../connection"); // This connection uses mysql-promise 
 const express = require("express");
 const router = express.Router();
 const tokenControl = require("./../middlewares/token_control"); // tokenControl middleware
 const multipart = require('connect-multiparty');
-const multipartMiddleware = multipart({ uploadDir: './../backEnd/tempUploads'});
+const multipartMiddleware = multipart({ uploadDir: './tempUploads'}); //uploadDir is relative to the root of the NodeJS main dir
 const fs = require('fs');
 
 router.post("/", tokenControl, multipartMiddleware, (req, res) => {
@@ -52,8 +51,20 @@ router.post("/", tokenControl, multipartMiddleware, (req, res) => {
     let tempFileName = tempFilePath.slice(23,tempFilePath.length);
     console.log('tempFileName: ' + tempFileName);
 
+    // 1. make dir for this collection, if you get error, its because the dir exists already,
+    // thats no problem, so even if you get error, run handleFile() anyway.
+    fs.mkdir(`./uploads/images/collections/${collection}`, (err) => {
+      if(err){
+        //console.log('Error when making new collection folder, it exists already: ', err);
+        handleFile();
+      } else {
+        handleFile();
+      }
+    })
+    
     //  2. copy temp. file to collections folder
-    fs.copyFile(tempFilePath, `./../frontEnd/webshop/src/assets/images/collections/${collection}/${tempFileName}`, (err) => {
+    let handleFile = () => {
+      fs.copyFile(tempFilePath, `./uploads/images/collections/${collection}/${tempFileName}`, (err) => {
         if(err){
             console.log('Error at copyFile: ', err);
         } else { 
@@ -63,7 +74,7 @@ router.post("/", tokenControl, multipartMiddleware, (req, res) => {
                     console.log('Error when unlinking: ', err);
                 } else {
                     //  4. rename temp. file at uploads folder to originalFilename
-                    fs.rename(`./../frontEnd/webshop/src/assets/images/collections/${collection}/${tempFileName}`, `./../frontEnd/webshop/src/assets/images/collections/${collection}/${newFileName}`, (err) => {
+                    fs.rename(`./uploads/images/collections/${collection}/${tempFileName}`, `./uploads/images/collections/${collection}/${newFileName}`, (err) => {
                         if(err){
                             console.log('Error when renaming: ', err);
                         } else {
@@ -75,7 +86,7 @@ router.post("/", tokenControl, multipartMiddleware, (req, res) => {
                 }
             })
         }
-    });
+    })}
 
 
   // deal with incoming product objects...
@@ -96,7 +107,7 @@ router.post("/", tokenControl, multipartMiddleware, (req, res) => {
           });
       } else {
         let filename = req['files']['mainImageObj']['originalFilename'];
-        let imgPath = `./../../assets/images/collections/${collection}/${filename}`;
+        let imgPath = `./../../backEnd/uploads/images/collections/${collection}/${filename}`;
         db.query(
           `INSERT INTO products (collection, productName, price, stone, carat, cut, img, material, description, sale ) VALUES (
         '${collection}', '${productName}', ${priceP}, '${stone}', ${caratP}, '${cut}', '${imgPath}', '${material}', '${description}', ${saleP});`
