@@ -18,6 +18,7 @@ router.post("/", tokenControl, multipartMiddleware, (req, res) => {
   //console.log(req['files']);
 
   let mainImageOK = false; // main image processed?
+  let newProductID = null; // the id of the freshy inserted product
 
   const {
     collection,
@@ -112,15 +113,16 @@ router.post("/", tokenControl, multipartMiddleware, (req, res) => {
           `INSERT INTO products (collection, productName, price, stone, carat, cut, img, material, description, sale ) VALUES (
         '${collection}', '${productName}', ${priceP}, '${stone}', ${caratP}, '${cut}', '${imgPath}', '${material}', '${description}', ${saleP});`
         ).then(response2 => {
+          newProductID = response2[0].insertId;
           console.log(
             "saved product to db, insert id is ",
-            response2[0].insertId
+            newProductID
           );
 
           let sizePromises = [];
           sizesP.forEach(asize => {
             let sizePromise = db.query(
-              `INSERT INTO sizes (product_id, size) VALUES ( ${response2[0].insertId}, ${asize} );`
+              `INSERT INTO sizes (product_id, size) VALUES ( ${newProductID}, ${asize} );`
             );
             sizePromises.push(sizePromise);
           });
@@ -128,7 +130,15 @@ router.post("/", tokenControl, multipartMiddleware, (req, res) => {
           Promise.all(sizePromises)
           .then( 
             () => {
-              let responseObj = {...req.body};
+               
+              let responseObj = {};
+
+              db.query(`SELECT * FROM products WHERE id = ${newProductID}`)
+              .then(
+                newProductObj => responseObj = newProductObj,
+                rejected => console.log('SELECT newProductObj was rejected: ', rejected)
+              )
+              .catch(e => console.log('db query error: ', e.message))
 
               if(mainImageOK){
                 return res.status(200).send(responseObj);
