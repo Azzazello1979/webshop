@@ -135,7 +135,7 @@ router.post("/", tokenControl, multipartMiddleware, (req, res) => {
 
               db.query(`SELECT * FROM products WHERE id = ${newProductID}`)
               .then(
-                newProductObj => responseObj = newProductObj,
+                newProductObj => responseObj = newProductObj[0][0],
                 rejected => console.log('SELECT newProductObj was rejected: ', rejected)
               )
               .catch(e => console.log('db query error: ', e.message))
