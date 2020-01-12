@@ -144,8 +144,8 @@ export class AdminComponent implements OnInit {
       responseObj => {
         console.log('admin.component >> saveNewProduct >> OK, product successfully saved: ', responseObj);
         console.log('typeof responseObj must be obj: ' + typeof responseObj);
-        //this.cartService.products.push(responseObj);
-        //this.products = this.cartService.getProducts();
+        this.cartService.products.push(responseObj);
+        this.products = this.cartService.getProducts();
       },
       err => console.log( 'cartService >> saveNewProduct >> error: ' , err )
     )
