@@ -119,6 +119,7 @@ router.post("/", tokenControl, multipartMiddleware, (req, res) => {
             newProductID
           );
 
+
           let sizePromises = [];
           sizesP.forEach(asize => {
             let sizePromise = db.query(
@@ -127,32 +128,53 @@ router.post("/", tokenControl, multipartMiddleware, (req, res) => {
             sizePromises.push(sizePromise);
           });
 
+           
+          
+
           Promise.all(sizePromises)
           .then( 
             () => {
                
-              let responseObj = {};
-
-              db.query(`SELECT * FROM products WHERE id = ${newProductID}`)
+              db.query(`SELECT size FROM sizes WHERE product_id = ${newProductID}`)
               .then(
-                newProductObj => responseObj = newProductObj[0][0],
-                rejected => console.log('SELECT newProductObj was rejected: ', rejected)
-              )
-              .catch(e => console.log('db query error: ', e.message))
+                sizes => {
+                let sizesFromDB = sizes;
 
-              if(mainImageOK){
-                return res.status(200).send(responseObj);
-              } else {
-                let waitingForMainImageToBeProcessed = setInterval(() => {
+                db.query(`SELECT * FROM products WHERE id = ${newProductID}`)
+              .then(
+                response => {
+                  let responseObj = response[0][0];
+                  responseObj['sizes'] = sizesFromDB[0].map(e => e.size);
+
+                  console.log('responseObj: ', responseObj);
+
                   if(mainImageOK){
                     res.status(200).send(responseObj);
-                    clearInterval(waitingForMainImageToBeProcessed);
-                    console.log('All OK. DB updated & mainImage processed, sending reply...');
+                    console.log('All OK. DB updated & mainImage processed, sending responseObj: ', responseObj);
                   } else {
-                    console.log('mainImage not processed yet...')
+                    let waitingForMainImageToBeProcessed = setInterval(() => {
+                      if(mainImageOK){
+                        res.status(200).send(responseObj);
+                        console.log('All OK. DB updated & mainImage processed, sending responseObj: ', responseObj);
+                        clearInterval(waitingForMainImageToBeProcessed);
+                      } else {
+                        console.log('mainImage not processed yet...')
+                      }
+                    }, 100)
                   }
-                }, 100)
-              }
+                },
+                rejected => console.log('SELECT newProductObj was rejected: ', rejected)
+              )
+              .catch(e => console.log('db query error: ', e.message))  
+
+
+              },
+                reject => console.log(reject))
+              .catch(e=>console.log(e));
+
+              
+
+              
           },
             rejection => {
               console.log('products.js >> POST >> Promise.all() rejected for INSERT INTO sizes: ', rejection);
