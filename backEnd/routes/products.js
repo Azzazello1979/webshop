@@ -52,18 +52,41 @@ router.post("/", tokenControl, multipartMiddleware, (req, res) => {
     let tempFileName = tempFilePath.slice(23,tempFilePath.length);
     //console.log('tempFileName: ' + tempFileName);
 
-    
+    let copyRenameDelete = () => {
+      fs.copyFile(tempFilePath, `./../../webshop/frontEnd/webshop/src/assets/images/collections/${collection}/${tempFileName}`, (err) => {
+        if(err){
+          console.log('Error when copying file to frontEnd: ', err);
+        } else {
+          fs.rename(`./../../webshop/frontEnd/webshop/src/assets/images/collections/${collection}/${tempFileName}`, `./../../webshop/frontEnd/webshop/src/assets/images/collections/${collection}/${newFileName}`, (err) => {
+            if(err){
+              console.log('Error when renaming: ', err);
+            } else {
+              fs.unlink(tempFilePath, (err) => {
+                if(err){
+                  console.log('Error when deleting temp. file: ', err);
+                } else {
+                  mainImageOK = true;
+                  console.log('mainImage processed OK!');
+                }
+              })
+            }
+          })
+        }
+      })
+    }
+
     fs.mkdir(`./../../webshop/frontEnd/webshop/src/assets/images/collections/${collection}`, (err) => {
       if(err){
         if(err.code === 'EEXIST'){
           console.log(`NOTE: The collection dir ${collection} already exists. Going on.`);
+          copyRenameDelete();
         } else {
           console.log(`Error when trying to make new collection directory ${collection} on frontEnd: `, err)
         }
       } else {
         console.log('OK...new dir created at frontEnd.')
+        copyRenameDelete();
       }
-
     })
     
 
