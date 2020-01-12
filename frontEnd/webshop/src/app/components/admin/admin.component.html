@@ -14,7 +14,7 @@
   <div class="main">
     <!-- you must specify type="button" for the switch buttons, or else, they will be treated as submit buttons... -->
     <div class="addProductWrapper" *ngIf="addProductBtnClicked">
-      <form enctype="multipart/form-data"  
+      <form   
         #productForm="ngForm"
         (ngSubmit)="productFormSubmit(productForm.value)" 
          >
@@ -154,7 +154,7 @@
 
       <div class="editProductForm">
         <form
-          enctype="multipart/form-data" 
+         
           #editProductForm="ngForm"
           (ngSubmit)="saveProductChanges(editProductForm.value)" 
           

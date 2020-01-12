@@ -97,7 +97,7 @@ router.post("/", tokenControl, multipartMiddleware, (req, res) => {
   // deal with incoming product objects...
   //console.log('objToSave: ', req['body']);
   
-  /* db.query(`SELECT * FROM products WHERE productName = '${productName}';`)
+  db.query(`SELECT * FROM products WHERE productName = '${productName}';`)
     .then(response1 => {
       if (response1[0].length > 0) {
         console.log(
@@ -111,7 +111,7 @@ router.post("/", tokenControl, multipartMiddleware, (req, res) => {
           });
       } else {
         let filename = req['files']['mainImageObj']['originalFilename'];
-        let imgPath = `./../../webshop/frontEnd/webshop/src/assets/images/collections/${collection}/${filename}`;
+        let imgPath = `assets/images/collections/${collection}/${filename}`;
         db.query(
           `INSERT INTO products (collection, productName, price, stone, carat, cut, img, material, description, sale ) VALUES (
         '${collection}', '${productName}', ${priceP}, '${stone}', ${caratP}, '${cut}', '${imgPath}', '${material}', '${description}', ${saleP});`
@@ -200,7 +200,7 @@ router.post("/", tokenControl, multipartMiddleware, (req, res) => {
             "error occured @ products.js endpoint when saving new product to db. ",
           "error is: ": e.message
         });
-    }); */
+    });
 
   
 
