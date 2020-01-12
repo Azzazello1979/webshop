@@ -303,13 +303,7 @@ export class CartService {
   }
 
   saveNewProduct(newProductObj:FormData){
-    return this.http.post<any>(`${environment.backURL}/products`, newProductObj).subscribe(
-      responseObj => {
-        console.log('cartService >> saveNewProduct >> OK, product successfully saved: ', responseObj);
-        this.products.push(responseObj);
-      },
-      err => console.log( 'cartService >> saveNewProduct >> error: ' , err )
-    )
+    return this.http.post<any>(`${environment.backURL}/products`, newProductObj)
   }
 
   patchProduct(receivedProduct){   //{'id':13, 'price':200, 'collection':'Rittis'}

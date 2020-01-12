@@ -139,7 +139,16 @@ export class AdminComponent implements OnInit {
     newProductObj.append('mainImageObj', this.selectedImageObj);
     
     //console.log('newProductObj is: ', newProductObj);
-    this.cartService.saveNewProduct(newProductObj);
+    this.cartService.saveNewProduct(newProductObj)
+    .subscribe(
+      responseObj => {
+        console.log('admin.component >> saveNewProduct >> OK, product successfully saved: ', responseObj);
+        console.log('typeof responseObj must be obj: ' + typeof responseObj);
+        //this.cartService.products.push(responseObj);
+        //this.products = this.cartService.getProducts();
+      },
+      err => console.log( 'cartService >> saveNewProduct >> error: ' , err )
+    )
   }
 
  collectionSwitch(){
