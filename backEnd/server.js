@@ -13,8 +13,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-console.log('__dirname is: ' + __dirname);
-app.use('/folderforthepublic', express.static(__dirname + '/uploads'));
+// not serving images from here, copying them to frontEnd assets folder 
+//console.log('__dirname is: ' + __dirname);
+//app.use('/folderforthepublic', express.static(__dirname + '/uploads'));
 
 
 // require routes...
