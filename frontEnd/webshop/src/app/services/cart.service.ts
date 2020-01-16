@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http"
 import { environment } from "./../../environments/environment"
 import { AuthService } from "./auth.service"
 import { ProductService } from "./product-service.service"
+import { ListingService } from "./listing.service"
 
 @Injectable({
   providedIn: "root"
@@ -25,7 +26,8 @@ export class CartService {
   constructor(
     private http: HttpClient, 
     private auth: AuthService,
-    private productService: ProductService
+    private productService: ProductService,
+    private listingService: ListingService
     ) {}
 
   
@@ -110,12 +112,15 @@ export class CartService {
   }
 
   plus(productID:number, size:number) {
+    console.log('productID incoming: ' + productID, 'size incoming: ' + size)
     let objToCart = {};
-    this.products.forEach(product => {
+    this.listingService.allProducts.forEach(product => {
       if(product.id === productID){
         objToCart = {...product}
       } 
     });
+
+    console.log(objToCart)
 
     objToCart['size'] = size;
     objToCart['UID'] = `${objToCart['id']}_${objToCart['size']}`; // UID is new property, made up of id_size, this uniquely identifies object
