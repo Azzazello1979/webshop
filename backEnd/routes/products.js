@@ -150,7 +150,7 @@ router.post("/", tokenControl, multipartMiddleware, (req, res) => {
                   let responseObj = response[0][0];
                   responseObj['sizes'] = sizesFromDB[0].map(e => e.size);
 
-                  console.log('responseObj: ', responseObj);
+                  //console.log('responseObj: ', responseObj);
 
                   if(mainImageOK){
                     res.status(200).send(responseObj);
