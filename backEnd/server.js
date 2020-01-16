@@ -17,11 +17,10 @@ app.use(express.urlencoded({extended: true}));
 
 //console.log('__dirname is: ' + __dirname);
 app.use('/public', express.static(path.join(__dirname + '/uploads')));
-
-/* app.use((req,res,next)=>{
-  res.header("Access-Control-Allow-Origin", "*")
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-}) */
+// "/public" the 1st arg. is: what to do when this path is requested (this is the path that will appear publicly)
+// second arg. is the express.static() func., it has only one arg.: where is the dir that will serve all static files. 
+// path.join() concats the root directory of the nodejs app ( __dirname ) with the folder that has the static files on the server.
+// "/uploads" here is the "secret" directory, not visible to the public, instead, "/public" is visible  
 
 
 // require routes...

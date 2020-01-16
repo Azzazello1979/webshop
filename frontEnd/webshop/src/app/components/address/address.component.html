@@ -1,21 +1,9 @@
 <h3>Please enter shipping address:</h3>
 <div class="formContainer">
 
-
-<!-- ANGULAR FormControl ... formControl object properties, formGroup object properties -->
-<!-- LOTS of educational stuff here about visualizing ngForm & ngModel properties ... -->
-
-<!-- <p>shippingAddressForm Touched? {{ shippingAddressForm.touched }}</p>
-     <p>shippingAddressForm Valid? {{ shippingAddressForm.valid }}</p>
-
-     <p>shippingAddressForm City Status? {{ shippingAddressForm.controls.City.status }}</p>
-     <p>shippingAddressForm City Valid? {{ shippingAddressForm.controls.City.valid }}</p> -->
-
-    
-
     <form #shippingAddressForm="ngForm"
-        (ngSubmit)="shippingAddressSubmit(shippingAddressForm.value)" (change)="printNgForm(shippingAddressForm)">
-        <input type="text" ngModel name="name" #Name="ngModel" (change)="printNgModel(Name)" placeholder="Name" required autofocus>
+        (ngSubmit)="shippingAddressSubmit(shippingAddressForm.value)" >
+        <input type="text" ngModel name="name" placeholder="Name" required autofocus>
         <input type="text" ngModel name="country" placeholder="Country" required>
         <input type="text" ngModel name="state" placeholder="State (for USA addresses)">
         <input type="text" ngModel name="county" placeholder="County" required>
@@ -29,9 +17,7 @@
     </form>
 </div>
 
-
 <button (click)="this.cartService.toggleShippingBillingAddress()">My billing address is different from my shipping address</button>
-
 
 <h3 *ngIf="this.cartService.billingAddressIsDifferentFromShippingAddress">Please enter billing address:</h3>
 <div class="formContainer" *ngIf="this.cartService.billingAddressIsDifferentFromShippingAddress">
@@ -50,10 +36,10 @@
 </form>
 </div>
 
-
 <button *ngIf="this.cartService.addressSubmitted" class="goToCheckoutButton" (click)="goToCheckout()">Proceed to checkout</button>
 
-
-
-
-
+<!-- NOTES:
+	* you can use for example: #address1="ngModel" similarly to #billingAddressForm="ngForm"
+	* then you will have access to these objects in controller, pass it to a controller function:
+	* someFunction(address1)... this time without the #
+-->
