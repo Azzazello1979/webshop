@@ -1,4 +1,4 @@
-export class Slide{
+export interface Slide{
   src:string;
   txt:string;
 }

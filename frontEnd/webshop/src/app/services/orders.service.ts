@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from "./../../environments/environment";
+import { Injectable } from '@angular/core'
+import { HttpClient } from '@angular/common/http'
+import { environment } from "./../../environments/environment"
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class OrdersService {
   ) { }
 
   loadOrders(){
-    return this.http.get<any>(`${environment.backURL}/orders`);
+    return this.http.get<any>(`${environment.backURL}/orders`)
   }
 
 }

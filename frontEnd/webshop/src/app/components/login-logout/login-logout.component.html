@@ -1,24 +1,11 @@
 <div class="login_logout">
-
-
-
-  <form class="registerLoginForm">
-
-    <button class="registerLoginButton" *ngIf="this.auth.loggedIn" [routerLink]="['/menu']">Menu</button>
-
-    <button class="registerLoginButton" *ngIf="this.auth.loggedIn" [routerLink]="['/cart']" [style.backgroundColor]="this.cartService.cartProducts.length > 0 ? '#ffd47d' : 'white' " >Cart</button>
-    
+  <form class="registerLoginForm" #registerLoginForm="ngForm" (ngSubmit)="userIntent(registerLoginForm)">
+    <button class="registerLoginButton" type="button" *ngIf="this.auth.loggedIn" [routerLink]="['/menu']">Menu</button>
+    <button class="registerLoginButton" type="button" *ngIf="this.auth.loggedIn" [routerLink]="['/cart']" [style.backgroundColor]="this.cartService.cartProducts.length > 0 ? '#ffd47d' : 'white' " >Cart</button>
     <button class="registerLoginButton" *ngIf="!this.auth.loggedIn" (click)="wantsToRegister()">Not registered?</button>
-
-    <input class="registerLoginInput" *ngIf="!this.auth.loggedIn" [(ngModel)]="userObject.email" type="email"
-      name="email" required autofocus placeholder="email" />
-    <input class="registerLoginInput" *ngIf="!this.auth.loggedIn" [(ngModel)]="userObject.password" type="password"
-      name="password" required placeholder="password" (keydown.enter)="this.auth.wantsToRegister = this.auth.wantsToRegister"/>
+    <input class="registerLoginInput" *ngIf="!this.auth.loggedIn" type="email" ngModel name="email" required autofocus placeholder="email" />
+    <input class="registerLoginInput" *ngIf="!this.auth.loggedIn" type="password" ngModel name="password" required placeholder="password" (keydown.enter)="this.auth.wantsToRegister = this.auth.wantsToRegister" />
       <!-- without handling "keydown enter", the submit button below will switch state -->
-
-
-    <input class="registerLoginButton" type="submit" name="submit" value={{this.auth.buttonText}}
-      (click)="userIntent()"  />
-
+    <input class="registerLoginButton" type="submit" value={{this.auth.buttonText}} />
   </form>
 </div>

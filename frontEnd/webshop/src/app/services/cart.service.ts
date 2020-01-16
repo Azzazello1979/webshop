@@ -1,52 +1,45 @@
-import { Injectable, Output } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { environment } from "./../../environments/environment";
-import { AuthService } from "./auth.service";
-
-
+import { Injectable } from "@angular/core"
+import { HttpClient } from "@angular/common/http"
+import { environment } from "./../../environments/environment"
+import { AuthService } from "./auth.service"
+import { ProductService } from "./product-service.service"
 
 @Injectable({
   providedIn: "root"
 })
 export class CartService {
-  currentUserId = 0; // user id from token
-
-  products = []; // load products from DB on startup
-
-  totalItems = 0; // total number of items in cart
-  totalPrice = 0; // total price of rings, no shipping added yet
-
+  
+  products = [];
   clickedCollection = ""; // name of currently clicked collection
   oneCollection = []; // the clickedCollection's objects
-
   shippingAddress = {};
   billingAddress = { 'country':"" };
-
   shippingOptions = []; // get this arr from db
   selectedShippingOption = { 'id':0 }; // default selected shipping option is "free"
-
   billingAddressIsDifferentFromShippingAddress = false;
   addressSubmitted = false;
-
   cartProducts = [];
   wishListProducts = [];
   UIDarray = [];
 
-  cartAndShippingInitialized = false; // did you load users saved shipping preference & cart products from DB already?
-  
-
   constructor(
     private http: HttpClient, 
-    private auth: AuthService
+    private auth: AuthService,
+    private productService: ProductService
     ) {}
 
-  // fill up products array from database
+  
   initProducts(){
-    return this.http.get<any>(`${environment.backURL}/products`);
+    this.productService.getProductsUpdatedListener()
+    .subscribe(
+      products => this.products = [...products],
+      error => console.log(error)
+    )
   }
 
   initShippingOptions(){
-    return this.http.get<any>(`${environment.backURL}/shippingoptions`).subscribe(
+    return this.http.get<any>(`${environment.backURL}/shippingoptions`)
+    .subscribe(
       res => {
         console.log('shipping options loaded: ', res);
         this.shippingOptions = res;
@@ -57,21 +50,18 @@ export class CartService {
   }
 
   addToWish(product) {
-    this.wishListProducts.push(product);
-    this.products.forEach(e =>
-      e.id === product.id ? (e.isWished = !e.isWished) : null
-    );
-    console.log("wishList items: ", this.wishListProducts);
+    let wishListProductsIds = this.wishListProducts.map(e => e.id)
+    if(!wishListProductsIds.includes(product.id)){
+      this.wishListProducts.push(product)
+    }
+    console.log("wishList items: ", this.wishListProducts)
   }
 
   removeFromWish(product) {
     this.wishListProducts = this.wishListProducts.filter(
       e => e.id !== product.id
-    );
-    this.products.forEach(e =>
-      e.id === product.id ? (e.isWished = !e.isWished) : null
-    );
-    console.log("wishList items: ", this.wishListProducts);
+    )
+    console.log("wishList items: ", this.wishListProducts)
   }
 
   shippingAddressSubmit(formValue) {
@@ -88,8 +78,7 @@ export class CartService {
   }
 
   toggleShippingBillingAddress() {
-    this.billingAddressIsDifferentFromShippingAddress = !this
-      .billingAddressIsDifferentFromShippingAddress;
+    this.billingAddressIsDifferentFromShippingAddress = !this.billingAddressIsDifferentFromShippingAddress;
   }
 
   getProducts(){
@@ -180,8 +169,6 @@ export class CartService {
     this.products.forEach(e => {
       e.amount = 0;
     });
-    this.totalItems = 0;
-    this.totalPrice = 0;
     this.getCartProducts(); // update cartProducts
   }
 
@@ -262,17 +249,13 @@ export class CartService {
                 if (p.id === savedCartItem.product_id) {
                   p.amount = savedCartItem.amount;
                   p.totalPrice = p.price * p.amount;
-                  this.totalItems += p.amount;
-                  this.totalPrice += p.totalPrice;
+                  
                   
                 }
               });
             });
             this.getCartProducts(); // update cartProducts
           }
-          
-        
-        this.cartAndShippingInitialized = true; // cannot use this func. more than once
       },
       err => console.log("ERROR @cartService @loadUserCart() " + err)
     );
@@ -306,25 +289,7 @@ export class CartService {
     return this.http.post<any>(`${environment.backURL}/products`, newProductObj)
   }
 
-  patchProduct(receivedProduct){   //{'id':13, 'price':200, 'collection':'Rittis'}
-    this.products.forEach(product => {
-      if(product.id === receivedProduct.id){
-
-        //console.log('the product to be patched: ');
-        //console.log(product);
-
-        for(let keyRP in receivedProduct){
-          for(let keyP in product){
-            keyP === keyRP ? product[keyP] = receivedProduct[keyRP] : null
-          }
-        }
-
-        //console.log('the patched product: ');
-        //console.log(product);
-      }
-    })
-        
-  }
+  
 
   cleanUpCart(){
     // !!!! IMPORTANT !!!!
@@ -335,8 +300,7 @@ export class CartService {
     this.wishListProducts = [];
     this.shippingOptions = [];
     this.selectedShippingOption = { 'id':0 };
-    this.totalItems = 0;
-    this.totalPrice = 0;
+    
   }
 
 }

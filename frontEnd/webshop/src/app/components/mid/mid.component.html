@@ -1,8 +1,4 @@
 <div class="mid">
-
-
-
-
   <div class="productCard" *ngFor="let product of this.listingService.filteredProducts; index as productID">
     <table>
       <tr><td><a [routerLink]="['/products', productID]"><img class="catalogThumb" [src]="product.img" ></a></td></tr>
@@ -11,8 +7,4 @@
       <tr><td>{{ product.price | currency }}</td></tr>
     </table>
   </div>
-
-
-
-
 </div>

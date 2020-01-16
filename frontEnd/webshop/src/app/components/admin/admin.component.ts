@@ -94,22 +94,22 @@ export class AdminComponent implements OnInit {
   }
 
   fillCollections(){
-    this.listingService.fillAllProducts();
+    this.listingService.fillFilters();
     this.collections = this.listingService.getAllCollections();
   }
 
   fillStones(){
-    this.listingService.fillAllProducts();
+    this.listingService.fillFilters();
     this.stones = this.listingService.getAllStones();
   }
 
   fillCuts(){
-    this.listingService.fillAllProducts();
+    this.listingService.fillFilters();
     this.cuts = this.listingService.getAllCuts();
   }
 
   fillMaterials(){
-    this.listingService.fillAllProducts();
+    this.listingService.fillFilters();
     this.materials = this.listingService.getAllMaterials();
   }
 

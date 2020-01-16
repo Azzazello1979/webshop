@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from './../../services/cart.service';
+import { ListingService } from './../../services/listing.service';
 
 @Component({
   selector: 'wish-list',
@@ -8,14 +9,17 @@ import { CartService } from './../../services/cart.service';
 })
 export class WishListComponent implements OnInit {
 
-  
 
   constructor(
-    private cartService:CartService
+    private cartService:CartService,
+    private listingService:ListingService
   ) { }
 
   removeFromWishList(product){
-    this.cartService.removeFromWish(product);
+    this.cartService.removeFromWish(product)
+    this.listingService.allProducts.forEach(e => {
+      product.id === e.id ? e.isWished = false : null
+    })
   }
 
   ngOnInit() {

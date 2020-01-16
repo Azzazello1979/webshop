@@ -4,7 +4,7 @@
   <div class="productCard">
 
       <div class="fav">
-          <img (click)="wish()" [src]="product.isWished === false ? './../../../assets/icons/add-to-favorites-icon.png' : './../../../assets/icons/remove-from-favorites-icon.png'">
+          <img (click)="wish()" [src]=" !product.isWished ? 'assets/icons/add-to-favorites-icon.png' : 'assets/icons/remove-from-favorites-icon.png' ">
       </div>
 
     <div class="mainImage"><img class="mainImage" src="{{ product.img }}"></div>

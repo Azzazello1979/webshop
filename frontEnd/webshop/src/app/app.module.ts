@@ -1,12 +1,6 @@
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 
-// if you did not install @angular/animations, this is what you use
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
-// angular material components must be imported separately, always check
-// https://material.angular.io/components/categories for up to date import paths and <tags></tags>
-import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -80,8 +74,7 @@ import { AdminComponent } from './components/admin/admin.component';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    NoopAnimationsModule,
-    MatCheckboxModule
+
   ],
   providers: [
     AuthService,
