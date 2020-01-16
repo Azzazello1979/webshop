@@ -2,14 +2,11 @@
 <p class="sub">All payment methods are SSL secured.</p>
 <div class="main">
 
-
     <div class="payments">
-
         <div class="paymentCard" *ngFor="let paymentOption of this.paymentService.paymentOptions">
             <img (click)="initPayment(paymentOption)" src="{{ paymentOption.img }}">
             <p class="paymentName">{{ paymentOption.name }}</p>
         </div>
-
     </div>
 
 </div>

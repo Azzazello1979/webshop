@@ -35,6 +35,8 @@ export class CartComponent implements OnInit {
   
   ngOnInit(){
     this.cartService.initShippingOptions()
+    this.cartService.loadUserCartAndShipping()
+    this.cartService.loadUserWish()
   }
 
 

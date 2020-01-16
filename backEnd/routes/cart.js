@@ -12,6 +12,8 @@ router.post('/', tokenControl, (req,res) => {
     let decodedToken = jwt.decode(req.headers.authorization.split(' ')[1]);
     let currentUserID = decodedToken.id;
 
+    
+
     try{
         saveCart();
     }catch(err){
@@ -26,8 +28,8 @@ router.post('/', tokenControl, (req,res) => {
             console.table(deleteResponse);
             
             let insertResponse = await req.body.cartProducts.forEach(e => {
-                db.query(`INSERT INTO cart (user_id, product_id, amount, shipping_id) VALUES(
-                    ${currentUserID}, ${e.id}, ${e.amount}, ${req.body.shippingOption.id}
+                db.query(`INSERT INTO cart (user_id, product_id, amount, shipping_id, size) VALUES(
+                    ${currentUserID}, ${e.id}, ${e.amount}, ${req.body.shippingOption.id}, ${e.size}
                 );`)
             });
             console.log('insertResponse@saveCart(): ');

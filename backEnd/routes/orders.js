@@ -9,6 +9,8 @@ const jwt = require("jsonwebtoken");
 router.post("/", tokenControl, (req, res) => {
   res.setHeader("Content-Type", "application/json");
 
+  console.log('req.body: ', req.body)
+
   let currentUserID = 0;
   let orderID = 0;
   let validatedZIP;
@@ -51,7 +53,7 @@ router.post("/", tokenControl, (req, res) => {
 
       let products = [...req.body.products];
       let productPromises = [];
-      
+      console.log('req.body.products...that are not iterable: ', req.body.products)
         products.forEach(e => {
           let productPromise = db.query(`INSERT INTO suborder (order_id, product_id, amount, price, size) VALUES 
               ( ${orderID}, ${e.id}, ${e.amount}, ${e.price}, ${e.size} );`);

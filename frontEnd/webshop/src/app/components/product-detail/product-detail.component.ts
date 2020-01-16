@@ -43,7 +43,7 @@ export class ProductDetailComponent implements OnInit{
     this.route.paramMap.subscribe(
       params => {
         this.product = this.listingService.filteredProducts[params.get('productID')]
-        console.log('this.product.isWished on init?: ' + this.product.isWished)
+        //console.log('this.product.isWished on init?: ' + this.product.isWished)
 
         //convert 0 to false, 1 to true, MySQL cannot store boolean true/false...
         if(this.product.isWished === 0){
@@ -51,7 +51,7 @@ export class ProductDetailComponent implements OnInit{
         } else if(this.product.isWished === 1){
           this.product.isWished = true
         }
-        console.log('this.product.isWished after conversion?: ' + this.product.isWished)
+        //console.log('this.product.isWished after conversion?: ' + this.product.isWished)
         //this.product = this.listingService.products[+params.get('productID')]; ( + is used to convert a string into a number );
       },
       err => {

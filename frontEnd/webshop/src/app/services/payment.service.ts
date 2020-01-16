@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core'
 import { environment } from './../../environments/environment'
 import { CartService } from './cart.service'
-import { AuthService } from './auth.service'
 import { HttpClient } from '@angular/common/http'
 
 
@@ -13,15 +12,16 @@ export class PaymentService {
   selectedPayment = { 'id':0 } // default selected payment obj
   order = {}
   paymentOptions: any = [] //bring in from database
+  
 
   constructor(
     private cartService:CartService,
-    private auth:AuthService,
     private http:HttpClient
   ) { }
 
   getPaymentOptions(){
-    return this.http.get<any>(`${environment.backURL}/paymentoptions`).subscribe(
+    return this.http.get<any>(`${environment.backURL}/paymentoptions`)
+    .subscribe(
       res => {
         this.paymentOptions = res
         this.selectedPayment = this.paymentOptions[0]
@@ -32,20 +32,18 @@ export class PaymentService {
   }
 
   initPayment(paymentOption) {
-    this.selectedPayment = paymentOption
-
-    // fill order object
+    
     this.order = {
       'shippingOption': this.cartService.selectedShippingOption.id,
-      'paymentOption': this.selectedPayment.id,
+      'paymentOption': paymentOption.id,
       'shippingAddress': this.cartService.shippingAddress, 
-      'products': this.fillOrder()
+      'products': this.fillProductsArray()
     }
-    
-    return this.saveOrder()
+    console.log('initPayment()...', this.order)
+    //return this.saveOrder()
   }
 
-  fillOrder() {
+  fillProductsArray() {
     // take only 'id' and 'amount' from product object
     let productsToSave = []
     this.cartService.cartProducts.forEach(e => {
@@ -55,18 +53,16 @@ export class PaymentService {
       obj['price'] = e.price
       obj['size'] = e.size
       productsToSave.push(obj)
-      return productsToSave
+      //console.log('productsToSave: ', this.productsToSave)
     })
-
-    
-
-    // If billing address was given by user, append billing address object to order too
-    this.cartService.billingAddress.country !== '' ? 
-      this.order['billingAddress'] = this.cartService.billingAddress : 
-      null
+      return productsToSave
   }
 
   saveOrder() {
+    // If billing address was given by user, append billing address object to order too
+    this.cartService.billingAddress.country !== '' ? 
+      this.order['billingAddress'] = this.cartService.billingAddress : null
+      
     return this.http.post<any>(`${environment.backURL}/orders`, this.order)
   }
 
