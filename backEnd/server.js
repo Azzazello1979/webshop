@@ -16,7 +16,12 @@ app.use(express.urlencoded({extended: true}));
 
 
 //console.log('__dirname is: ' + __dirname);
-app.use('/folderforthepublic', express.static(path.join(__dirname + '/uploads')));
+app.use('/public', express.static(path.join(__dirname + '/uploads')));
+
+/* app.use((req,res,next)=>{
+  res.header("Access-Control-Allow-Origin", "*")
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+}) */
 
 
 // require routes...

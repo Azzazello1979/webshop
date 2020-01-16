@@ -1,24 +1,24 @@
 "use strict";
 
 // save product coming from admin interface
-const db = require("./../connection"); // This connection uses mysql-promise 
-const express = require("express");
-const router = express.Router();
-const tokenControl = require("./../middlewares/token_control"); // tokenControl middleware
-const multipart = require('connect-multiparty');
-const multipartMiddleware = multipart({ uploadDir: './tempUploads'}); //uploadDir is relative to the root of the NodeJS main dir
+const db = require("./../connection") // This connection uses mysql-promise 
+const express = require("express")
+const router = express.Router()
+const tokenControl = require("./../middlewares/token_control") // tokenControl middleware
+const multipart = require('connect-multiparty')
+const multipartMiddleware = multipart({ uploadDir: './tempUploads'}) //uploadDir is relative to the root of the NodeJS main dir
 const fs = require('fs');
 
 router.post("/", tokenControl, multipartMiddleware, (req, res) => {
-  res.setHeader("Content-Type", "application/json");
+  res.setHeader("Content-Type", "application/json")
   //req.body is a FormData Obj, so its all strings...
   //console.log(req.body.sizes)
   //console.log(typeof req.body.sizes)
-  //console.log(req['body']);
-  //console.log(req['files']);
+  //console.log(req['body'])
+  //console.log(req['files'])
 
-  let mainImageOK = false; // main image processed?
-  let newProductID = null; // the id of the freshy inserted product
+  let mainImageOK = false // main image processed?
+  let newProductID = null // the id of the freshy inserted product
 
   const {
     collection,
@@ -31,33 +31,33 @@ router.post("/", tokenControl, multipartMiddleware, (req, res) => {
     description,
     sale,
     sizes
-  } = req.body;
+  } = req.body
 
   // everything comes through as string ... so convert these to nums
-  let priceP = parseInt(price, 10);
-  let caratP = parseInt(carat, 10);
-  let saleP = parseInt(sale, 10);
-  let sizesA = sizes.split(',');
-  let sizesP = sizesA.map(e => parseInt(e, 10));
+  let priceP = parseInt(price, 10)
+  let caratP = parseInt(carat, 10)
+  let saleP = parseInt(sale, 10)
+  let sizesA = sizes.split(',')
+  let sizesP = sizesA.map(e => parseInt(e, 10))
 
   
   
     // deal with incoming images...
-    let tempFilePath = req['files']['mainImageObj']['path'];
+    let tempFilePath = req['files']['mainImageObj']['path']
     //console.log('tempFilePath: ' + tempFilePath);
 
-    let newFileName = req['files']['mainImageObj']['originalFilename'];
+    let newFileName = req['files']['mainImageObj']['originalFilename']
     //console.log('newFileName: ' + newFileName);
 
-    let tempFileName = tempFilePath.slice(23,tempFilePath.length);
+    let tempFileName = tempFilePath.slice(23,tempFilePath.length)
     //console.log('tempFileName: ' + tempFileName);
 
     let copyRenameDelete = () => {
-      fs.copyFile(tempFilePath, `./../../webshop/frontEnd/webshop/src/assets/images/collections/${collection}/${tempFileName}`, (err) => {
+      fs.copyFile(tempFilePath, `./../backEnd/uploads/collections/${collection}/${tempFileName}`, (err) => {
         if(err){
-          console.log('Error when copying file to frontEnd: ', err);
+          console.log('Error when copying file to uploads: ', err);
         } else {
-          fs.rename(`./../../webshop/frontEnd/webshop/src/assets/images/collections/${collection}/${tempFileName}`, `./../../webshop/frontEnd/webshop/src/assets/images/collections/${collection}/${newFileName}`, (err) => {
+          fs.rename(`./../backEnd/uploads/collections/${collection}/${tempFileName}`, `./../backEnd/uploads/collections/${collection}/${newFileName}`, (err) => {
             if(err){
               console.log('Error when renaming: ', err);
             } else {
@@ -66,7 +66,7 @@ router.post("/", tokenControl, multipartMiddleware, (req, res) => {
                   console.log('Error when deleting temp. file: ', err);
                 } else {
                   mainImageOK = true;
-                  console.log('mainImage processed OK!');
+                  console.log('mainImage processed OK!, tempFile deleted.');
                 }
               })
             }
@@ -74,18 +74,18 @@ router.post("/", tokenControl, multipartMiddleware, (req, res) => {
         }
       })
     }
-
-    fs.mkdir(`./../../webshop/frontEnd/webshop/src/assets/images/collections/${collection}`, (err) => {
+    
+    fs.mkdir(`./../backEnd/uploads/collections/${collection}`, (err) => {
       if(err){
         if(err.code === 'EEXIST'){
-          console.log(`NOTE: The collection dir ${collection} already exists. Going on.`);
-          copyRenameDelete();
+          console.log(`NOTE: The collection dir ${collection} already exists. Going on.`)
+          copyRenameDelete()
         } else {
-          console.log(`Error when trying to make new collection directory ${collection} on frontEnd: `, err)
+          console.log(`Error when trying to make new collection directory ${collection}: `, err)
         }
       } else {
-        console.log('OK...new dir created at frontEnd.')
-        copyRenameDelete();
+        console.log(`OK...new dir ${collection} created.`)
+        copyRenameDelete()
       }
     })
     
@@ -110,8 +110,9 @@ router.post("/", tokenControl, multipartMiddleware, (req, res) => {
               "product with the same name already exists, choose a different name"
           });
       } else {
-        let filename = req['files']['mainImageObj']['originalFilename'];
-        let imgPath = `assets/images/collections/${collection}/${filename}`;
+        
+        
+        let imgPath = 'http://localhost:3900/public/collections/' + collection + '/' + newFileName;
         db.query(
           `INSERT INTO products (collection, productName, price, stone, carat, cut, img, material, description, sale ) VALUES (
         '${collection}', '${productName}', ${priceP}, '${stone}', ${caratP}, '${cut}', '${imgPath}', '${material}', '${description}', ${saleP});`
