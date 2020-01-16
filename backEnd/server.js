@@ -2,6 +2,7 @@
 
 // module imports...
 const cors = require('cors');
+const path = require('path');
 const express = require('express');
 const app = express();
 require('dotenv').config();
@@ -13,9 +14,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-// not serving images from here, copying them to frontEnd assets folder 
+
 //console.log('__dirname is: ' + __dirname);
-//app.use('/folderforthepublic', express.static(__dirname + '/uploads'));
+app.use('/folderforthepublic', express.static(path.join(__dirname + '/uploads')));
 
 
 // require routes...
