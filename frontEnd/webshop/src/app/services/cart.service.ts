@@ -286,9 +286,7 @@ export class CartService {
     );
   }
 
-  saveNewProduct(newProductObj:FormData){
-    return this.http.post<any>(`${environment.backURL}/products`, newProductObj)
-  }
+  
 
   
 

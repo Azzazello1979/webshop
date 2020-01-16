@@ -13,6 +13,13 @@
 
   <div class="main">
     <!-- you must specify type="button" for the switch buttons, or else, they will be treated as submit buttons... -->
+
+    <!-- 
+        //////////////////////
+        // ADD PRODUCT FORM //
+        //////////////////////
+      -->
+
     <div class="addProductWrapper" *ngIf="addProductBtnClicked">
       <form   
         #productForm="ngForm"
@@ -151,14 +158,14 @@
           </div>
       </div>
 
+      <!-- 
+        ///////////////////////
+        // EDIT PRODUCT FORM //
+        ///////////////////////
+      -->
 
       <div class="editProductForm">
-        <form
-         
-          #editProductForm="ngForm"
-          (ngSubmit)="saveProductChanges(editProductForm.value)" 
-          
-           >
+        <form #editProductForm="ngForm" (ngSubmit)="saveProductChanges(editProductForm.value)" >
 
           <fieldset>
             <legend>Delete product</legend>
@@ -328,36 +335,14 @@
               style="resize:none;"
             ></textarea>
           </fieldset>
-          <br />
 
+          <br>
           <fieldset>
-            <legend>Images:</legend>
-
-            <p>Main image:</p>
-            <input 
-              class="chooseFile"
-              type="file" 
-              ngModel
-              name="img" 
-              accept="image/*" 
-            >
-
-            <p>Gallery images:</p>
-            <input
-              class="chooseFile"
-              type="file"
-              ngModel
-              name="gallImages"
-              accept="image/*"
-              multiple="true"
-            />
+            <legend>Images:</legend> 
           </fieldset>
-          <br />
+          <br>
 
-          <input
-            type="submit"
-            value="Save Product Changes"
-          />
+          <input type="submit" value="Save Product Changes">
         </form>
       </div>
     </div>

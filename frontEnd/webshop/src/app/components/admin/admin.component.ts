@@ -14,31 +14,21 @@ export class AdminComponent implements OnInit {
   @ViewChild('productForm', { static:false }) productForm;
   @ViewChild('editProductForm', { static:false }) editProductForm;
 
-  // this is how you access the queried node's values with @ViewChild:
-  // this.editProductForm.value.productName
-  // This is read-only!
-
   products = [];
-
   selectedProductObj = { };
-
   addProductBtnClicked = false;
   editProductBtnClicked = false;
   manageOrdersBtnClicked = false;
   manageUsersBtnClicked = false;
-
   collectionSwitched = false;
   stoneSwitched = false;
   cutSwitched = false;
   materialSwitched = false;
-
   collections = [];
-  
   stones = [];
   cuts = [];
   materials = [];
   sizes = [];
-
   selectedImageObj:File = null;
   
 
@@ -48,16 +38,11 @@ export class AdminComponent implements OnInit {
     private productService: ProductService
   ) { }
 
-
-
   onSingleImageSelected(event){
     this.selectedImageObj = event.target.files[0];
     //console.log(this.selectedImageObj);
     //console.log(typeof this.selectedImageObj);
-
   }
-
-
 
   onDeleteProduct(id:number){
     console.log('this is the id received by onDeleteProduct(): ', id);
@@ -93,36 +78,19 @@ export class AdminComponent implements OnInit {
     this.manageOrdersBtnClicked = false;
   }
 
-  fillCollections(){
+  // populate dropdowns with data from db
+  populateDropdowns(){
     this.listingService.fillFilters();
     this.collections = this.listingService.getAllCollections();
-  }
-
-  fillStones(){
-    this.listingService.fillFilters();
     this.stones = this.listingService.getAllStones();
-  }
-
-  fillCuts(){
-    this.listingService.fillFilters();
     this.cuts = this.listingService.getAllCuts();
-  }
-
-  fillMaterials(){
-    this.listingService.fillFilters();
     this.materials = this.listingService.getAllMaterials();
-  }
-
-  fillSizes(){
     this.sizes = this.listingService.getAllSizes();
+
   }
 
   productFormSubmit(formValue){
     // sanitize data received from form, before passing it to service
-    //console.log('add product form value: ');
-    //console.table(formValue);
-    console.log('formValue.sizes...numbers or strings? ', formValue.sizes);
-    
     let theCollection = formValue.collection.toLowerCase();
     
     let newProductObj = new FormData(); 
@@ -139,36 +107,29 @@ export class AdminComponent implements OnInit {
     newProductObj.append('mainImageObj', this.selectedImageObj);
     
     //console.log('newProductObj is: ', newProductObj);
-    this.cartService.saveNewProduct(newProductObj)
+    this.productService.addNewProductToDB(newProductObj)
+    this.productService.getProductsUpdatedListener()
     .subscribe(
-      responseObj => {
-        console.log('admin.component >> saveNewProduct >> OK, product successfully saved: ', responseObj);
-        console.log('typeof responseObj must be obj: ' + typeof responseObj);
-        this.cartService.products.push(responseObj);
-        this.products = this.cartService.getProducts();
-      },
-      err => console.log( 'cartService >> saveNewProduct >> error: ' , err )
+      products => this.products = [...products],
+      error => console.log(error)
     )
+    
   }
 
- collectionSwitch(){
+collectionSwitch(){
    this.collectionSwitched = !this.collectionSwitched;
  }
-
- stoneSwitch(){
+stoneSwitch(){
   this.stoneSwitched = !this.stoneSwitched;
 }
-
 cutSwitch(){
   this.cutSwitched = !this.cutSwitched;
 }
-
 materialSwitch(){
   this.materialSwitched = !this.materialSwitched;
 }
 
 saveProductChanges(formValueObj){
-  
   let thePatchObj = {};
   
   for(let keyS in this.selectedProductObj){
@@ -187,10 +148,7 @@ saveProductChanges(formValueObj){
           // compare the 2 arrays's length, if they have same length, do not add 
           // the sizes prop to the patch object because there is nothing to update,
           // else, the value for the sizes key must come from the form
-          
-          
           let theTwoArraysAreNotEqual = false;
-
           let arrayCompare = () => {
 
             let receivedObjectSizeArray = formValueObj['sizes'];
@@ -222,9 +180,8 @@ saveProductChanges(formValueObj){
   if(formValueObj['gallImages'] === ""){ delete thePatchObj['gallImages'] }
 
   // if thePatchObj is empty, do not call service, because nothing was edited on the form...
-
     if( Object.keys( thePatchObj ).length === 0 ){
-      console.log('service will not be called because nothing was changed on the form');
+      //console.log('service will not be called because nothing was changed on the form');
       return;
     } 
 
@@ -235,36 +192,28 @@ saveProductChanges(formValueObj){
 
 sendProductToForm(productObj){
   this.selectedProductObj = { ...productObj };
-  console.log('the filled up init form object: ');
-  console.log(this.selectedProductObj);
+  //console.log('the filled up init form object: ');
+  //console.log(this.selectedProductObj);
 }
 
 setDefaultSelectedProductObj(){
-  this.selectedProductObj = this.cartService.products[0] ;
+  this.selectedProductObj = this.products[0] ;
   //console.log('the default selected product obj after ngOnInit is: ');
   //console.log(this.selectedProductObj);
 }
 
-getProductsFromCart(){
-  this.products = this.cartService.getProducts();
+getProductsFromProductService(){
+  this.productService.getProductsUpdatedListener()
+  .subscribe(
+    products => this.products = [...products],
+    error => console.log(error)
+  )
 }
   
-
   ngOnInit() {
-    this.getProductsFromCart();
+    this.getProductsFromProductService();
     this.setDefaultSelectedProductObj();
-    
-
-    this.fillCollections();
-    this.fillStones();
-    this.fillCuts();
-    this.fillMaterials();
-    this.fillSizes();
+    this.populateDropdowns();
   }
-
-
-  
-
-
 
 }

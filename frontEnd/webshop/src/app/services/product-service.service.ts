@@ -19,6 +19,7 @@ export class ProductService {
     return this.productsUpdated.asObservable()
   }
 
+  // this is the point of entry for products array from DB
   getProductsFromDB(){
     return this.http.get<any>(`${environment.backURL}/products`)
     .subscribe(
@@ -44,7 +45,10 @@ export class ProductService {
   updateProduct(patchObj){
     return this.http.patch<any>( `${environment.backURL}/products`, patchObj)
     .subscribe(
-      responseObj => this.patchProduct(responseObj),
+      responseObj => {
+        this.patchProduct(responseObj)
+        this.productsUpdated.next([...this.products])
+      },
       error => console.log(error)
     )
   }
@@ -72,6 +76,8 @@ export class ProductService {
     })
     this.productsUpdated.next([...this.products])  
   }
+
+  
 
 }
 
