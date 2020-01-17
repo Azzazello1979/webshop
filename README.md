@@ -3,7 +3,6 @@
 <h3>frontEnd</h3>
 <ul>
   <li>Angular 8</li>
-  <li>Angular material</li>
   <li>RxJS - observable service modell</li>
 </ul>
 <br>
