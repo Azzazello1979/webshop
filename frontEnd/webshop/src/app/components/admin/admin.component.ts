@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core'
+import { Component, OnInit, OnDestroy } from '@angular/core'
 import { ListingService } from './../../services/listing.service'
 import { CartService } from './../../services/cart.service'
 import { ProductService } from './../../services/product-service.service'
@@ -12,9 +12,9 @@ import { Subscription } from 'rxjs'
 })
 export class AdminComponent implements OnInit, OnDestroy {
 
-  @ViewChild('productForm', { static:false }) productForm;
-  @ViewChild('editProductForm', { static:false }) editProductForm;
-
+  // can only use in AfterViewInit hook
+  
+  
   productsSub = new Subscription()
   products = []
   selectedProductObj = { }
@@ -201,7 +201,7 @@ getProductsFromProductService(){
     products => {
       this.products = [...products]
       //console.log('admin.component this.products: ', this.products)
-
+      this.setDefaultSelectedProductObj()
       //populate dropdowns...
       this.products.forEach(p => {
         !this.collections.includes(p.collection) ? this.collections.push(p.collection) : null
@@ -217,9 +217,9 @@ getProductsFromProductService(){
   
   ngOnInit() {
     this.getProductsFromProductService()
-    this.setDefaultSelectedProductObj()
   }
 
+  
   ngOnDestroy(){
     this.productsSub.unsubscribe()
   }

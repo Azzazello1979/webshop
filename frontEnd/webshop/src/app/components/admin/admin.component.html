@@ -150,10 +150,16 @@
       </form>
     </div>
 
+      <!-- 
+        ///////////////////////
+        //  PRODUCT LISTING  //
+        ///////////////////////
+      -->
+
     <div class="editProductWrapper" *ngIf="editProductBtnClicked">
       <div class="productListing">
           <div class="productCard" *ngFor="let product of products" (click)="sendProductToForm(product)">
-            <img class="thumb" [src]="product.img" />
+            <img class="thumb" [src]="product.img" #productThumb>
             <p>{{ product.productName }}</p>
           </div>
       </div>
