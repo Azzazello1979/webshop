@@ -1,2 +1,2 @@
-# webshop
-Angular webshop
+# full stack webshop project
+
