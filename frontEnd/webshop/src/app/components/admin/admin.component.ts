@@ -208,7 +208,7 @@ getProductsFromProductService(){
         !this.stones.includes(p.stone) ? this.stones.push(p.stone) : null
         !this.cuts.includes(p.cut) ? this.cuts.push(p.cut) : null
         !this.materials.includes(p.material) ? this.materials.push(p.material) : null
-        !this.sizes.includes(p.size) ? this.sizes.push(p.size) : null
+        this.sizes = this.listingService.getAllSizes()
       })
     },
     error => console.log(error)
