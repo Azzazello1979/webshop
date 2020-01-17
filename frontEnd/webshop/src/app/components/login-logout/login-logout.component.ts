@@ -1,10 +1,8 @@
 import { UserObject } from "./../../interfaces/userobject"
 import { NgForm } from "@angular/forms"
-
 import { AuthService } from "./../../services/auth.service"
 import { ProductService } from "./../../services/product-service.service"
 import { CartService } from "./../../services/cart.service"
-
 import { Component, OnDestroy } from "@angular/core"
 import { Router } from "@angular/router"
 import { Subscription } from "rxjs"

@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ListingService } from './../../services/listing.service';
-import { CartService } from './../../services/cart.service';
-import { ProductService } from './../../services/product-service.service';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core'
+import { ListingService } from './../../services/listing.service'
+import { CartService } from './../../services/cart.service'
+import { ProductService } from './../../services/product-service.service'
+import { Subscription } from 'rxjs'
 
 
 @Component({
@@ -9,27 +10,28 @@ import { ProductService } from './../../services/product-service.service';
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })
-export class AdminComponent implements OnInit {
+export class AdminComponent implements OnInit, OnDestroy {
 
   @ViewChild('productForm', { static:false }) productForm;
   @ViewChild('editProductForm', { static:false }) editProductForm;
 
-  products = [];
-  selectedProductObj = { };
-  addProductBtnClicked = false;
-  editProductBtnClicked = false;
-  manageOrdersBtnClicked = false;
-  manageUsersBtnClicked = false;
-  collectionSwitched = false;
-  stoneSwitched = false;
-  cutSwitched = false;
-  materialSwitched = false;
-  collections = [];
-  stones = [];
-  cuts = [];
-  materials = [];
-  sizes = [];
-  selectedImageObj:File = null;
+  productsSub = new Subscription()
+  products = []
+  selectedProductObj = { }
+  addProductBtnClicked = false
+  editProductBtnClicked = false
+  manageOrdersBtnClicked = false
+  manageUsersBtnClicked = false
+  collectionSwitched = false
+  stoneSwitched = false
+  cutSwitched = false
+  materialSwitched = false
+  collections = []
+  stones = []
+  cuts = []
+  materials = []
+  sizes = []
+  selectedImageObj:File = null
   
 
   constructor(
@@ -78,16 +80,7 @@ export class AdminComponent implements OnInit {
     this.manageOrdersBtnClicked = false;
   }
 
-  // populate dropdowns with data from db
-  populateDropdowns(){
-    this.listingService.fillFilters();
-    this.collections = this.listingService.getAllCollections();
-    this.stones = this.listingService.getAllStones();
-    this.cuts = this.listingService.getAllCuts();
-    this.materials = this.listingService.getAllMaterials();
-    this.sizes = this.listingService.getAllSizes();
-
-  }
+  
 
   productFormSubmit(formValue){
     // sanitize data received from form, before passing it to service
@@ -203,17 +196,32 @@ setDefaultSelectedProductObj(){
 }
 
 getProductsFromProductService(){
-  this.productService.getProductsUpdatedListener()
+  this.productsSub = this.productService.getProductsUpdatedListener()
   .subscribe(
-    products => this.products = [...products],
+    products => {
+      this.products = [...products]
+      //console.log('admin.component this.products: ', this.products)
+
+      //populate dropdowns...
+      this.products.forEach(p => {
+        !this.collections.includes(p.collection) ? this.collections.push(p.collection) : null
+        !this.stones.includes(p.stone) ? this.stones.push(p.stone) : null
+        !this.cuts.includes(p.cut) ? this.cuts.push(p.cut) : null
+        !this.materials.includes(p.material) ? this.materials.push(p.material) : null
+        !this.sizes.includes(p.size) ? this.sizes.push(p.size) : null
+      })
+    },
     error => console.log(error)
   )
 }
   
   ngOnInit() {
-    this.getProductsFromProductService();
-    this.setDefaultSelectedProductObj();
-    this.populateDropdowns();
+    this.getProductsFromProductService()
+    this.setDefaultSelectedProductObj()
+  }
+
+  ngOnDestroy(){
+    this.productsSub.unsubscribe()
   }
 
 }

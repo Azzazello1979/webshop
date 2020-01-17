@@ -73,6 +73,7 @@ export class ListingService {
     }
 
     getAllCollections(){
+      console.log(this.allProducts)
       let result = []
       for(let i=0 ; i<this.allProducts.length ; i++){
         if(!result.includes(this.allProducts[i].collection))
