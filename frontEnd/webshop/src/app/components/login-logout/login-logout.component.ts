@@ -85,7 +85,13 @@ export class LoginLogoutComponent implements OnDestroy {
           localStorage.setItem("token", endPointResponseObj.token)
           this.auth.loggedIn = true
           this.auth.buttonText = "Logout"
+
           this.productService.getProductsFromDB()
+          this.cartService.initShippingOptions()
+          
+          this.cartService.loadUserWish()
+          
+          
 
           // regular user or admin?
           this.auth.adminLoggedIn ? 

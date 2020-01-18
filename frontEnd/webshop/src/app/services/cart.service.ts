@@ -10,7 +10,7 @@ import { ListingService } from "./listing.service"
 })
 export class CartService {
   
-  products = [];
+  
   clickedCollection = ""; // name of currently clicked collection
   oneCollection = []; // the clickedCollection's objects
   shippingAddress = {};
@@ -31,13 +31,7 @@ export class CartService {
     ) {}
 
   
-  initProducts(){
-    this.productService.getProductsUpdatedListener()
-    .subscribe(
-      products => this.products = [...products],
-      error => console.log(error)
-    )
-  }
+  
 
   initShippingOptions(){
     return this.http.get<any>(`${environment.backURL}/shippingoptions`)
@@ -46,6 +40,7 @@ export class CartService {
         console.log('shipping options loaded: ', res);
         this.shippingOptions = res;
         this.selectedShippingOption = res[0];
+        this.loadUserCartAndShipping()
       },
       err => console.log('cartService: initShippingOptions() error: ', err)
     )
@@ -81,10 +76,6 @@ export class CartService {
 
   toggleShippingBillingAddress() {
     this.billingAddressIsDifferentFromShippingAddress = !this.billingAddressIsDifferentFromShippingAddress;
-  }
-
-  getProducts(){
-    return this.products;
   }
 
   countCartItems():number{
@@ -165,16 +156,8 @@ export class CartService {
     })
   }
 
-  
-
-
-
-
   clearCart() {
-    this.products.forEach(e => {
-      e.amount = 0;
-    });
-    this.getCartProducts(); // update cartProducts
+    this.cartProducts = [];
   }
 
   // start LOGOUT procedure:
@@ -213,22 +196,12 @@ export class CartService {
         );
   }
 
-  // call these on LOGIN:
-
   loadUserCartAndShipping() {
-    // get the saved cart contents
-    // we need:
-    // array of {product_id, amount}
-    // {shipping_id}
-    // set amount in products
-    // set selectedShippingOption from shippingOptions
 
-    return this.http.get<any>(`${environment.backURL}/cart`).subscribe(
+    return this.http.get<any>(`${environment.backURL}/cart`)
+    .subscribe(
       result => {
-        console.log("current saved cart of user: ");
-        console.log(result[0]);
-
-        
+        console.log("current saved cart of user (from DB): ", result[0]);
           // update selectedShippingOption from databse
           // the saved shipping id, belonging to the saved cart, from database
           let shippingID;
@@ -241,22 +214,16 @@ export class CartService {
 
           this.selectedShippingOption = this.shippingOptions.filter(e => e.id === shippingID)[0];
           //console.log(this.selectedShippingOption.name);
+          console.log('this.selectedShippingOption.id after loadUserCartAndShipping(): ' + this.selectedShippingOption.id)
 
-
-          // update products amounts from database ... update cart based on saved user data
+          // push to cartProducts from DB
           if(result[0].length > 0){
-            result[0].forEach(savedCartItem => {
-              this.cartProducts.forEach(cartProduct => {
-                if (cartProduct.id === savedCartItem.product_id) {
-                  cartProduct.amount = savedCartItem.amount;
-                  cartProduct.totalPrice = cartProduct.price * cartProduct.amount;
-                  
-                  
-                }
-              });
-            });
-            this.getCartProducts(); // update cartProducts
+            result[0].forEach(savedCartProduct => {
+              
+            })
+            
           }
+          console.log('cartProducts after loadUserCartAndShipping(): ', this.cartProducts)
       },
       err => console.log("ERROR @cartService @loadUserCart() " + err)
     );
