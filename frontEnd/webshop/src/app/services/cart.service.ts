@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core"
 import { HttpClient } from "@angular/common/http"
 import { environment } from "./../../environments/environment"
 import { AuthService } from "./auth.service"
-import { ProductService } from "./product-service.service"
 import { ListingService } from "./listing.service"
 
 @Injectable({
@@ -10,23 +9,28 @@ import { ListingService } from "./listing.service"
 })
 export class CartService {
   
-  
-  clickedCollection = ""; // name of currently clicked collection
-  oneCollection = []; // the clickedCollection's objects
-  shippingAddress = {};
-  billingAddress = { 'country':"" };
-  shippingOptions = []; // get this arr from db
+  shippingOptions = [];
   selectedShippingOption;
-  billingAddressIsDifferentFromShippingAddress = false;
-  addressSubmitted = false;
-  cartProducts = [];
+
   wishListProducts = [];
+
+  shippingAddress;
+  addressSubmitted = false;
+
+  billingAddress;
+  billingAddressIsDifferentFromShippingAddress = false;
+
+  cartProducts = [];
+  totalItemsInCart = 0;
+  totalPriceOfAllCartItems = 0;
+
   UIDarray = [];
 
+
+  
   constructor(
     private http: HttpClient, 
     private auth: AuthService,
-    private productService: ProductService,
     private listingService: ListingService
     ) {}
 
@@ -37,9 +41,10 @@ export class CartService {
     return this.http.get<any>(`${environment.backURL}/shippingoptions`)
     .subscribe(
       res => {
-        console.log('shipping options loaded: ', res);
+        console.log('initShippingOptions()@CART.SERVICE: shipping options loaded: ', res);
         this.shippingOptions = res;
         this.selectedShippingOption = res[0];
+        console.log('initShippingOptions()@CART.SERVICE: this.selectedShippingOption is: ', this.selectedShippingOption)
         this.loadUserCartAndShipping()
       },
       err => console.log('cartService: initShippingOptions() error: ', err)
@@ -48,29 +53,31 @@ export class CartService {
 
   addToWish(product) {
     let wishListProductsIds = this.wishListProducts.map(e => e.id)
+    
     if(!wishListProductsIds.includes(product.id)){
       this.wishListProducts.push(product)
+      console.log('addToWish()@CART.SERVICE: wishList items grown: ', this.wishListProducts)
     }
-    console.log("wishList items: ", this.wishListProducts)
+    console.log('addToWish()@CART.SERVICE: wishList items: ', this.wishListProducts)
   }
 
   removeFromWish(product) {
     this.wishListProducts = this.wishListProducts.filter(
       e => e.id !== product.id
     )
-    console.log("wishList items: ", this.wishListProducts)
+    console.log("removeFromWish()@CART.SERVICE: wishList items shorted: ", this.wishListProducts)
   }
 
   shippingAddressSubmit(formValue) {
     this.shippingAddress = formValue;
     this.addressSubmitted = true;
-    console.log("shippingAddress from cartService: ", this.shippingAddress);
+    console.log("shippingAddressSubmit()@CART.SERVICE: shippingAddress received: ", this.shippingAddress);
     window.alert("Your shipping address is recorded");
   }
 
   billingAddressSubmit(formValue) {
     this.billingAddress = formValue;
-    console.log("billingAddress from cartService: ", this.billingAddress);
+    console.log("billingAddressSubmit()@CART.SERVICE: billingAddress received: ", this.billingAddress);
     window.alert("Your billing address is recorded");
   }
 
@@ -79,21 +86,30 @@ export class CartService {
   }
 
   countCartItems():number{
-    let totalCartItems = 0;
     let amounts = [];
-    this.cartProducts.forEach( product => {
-      amounts.push(product.amount)
-    });
-    amounts.length > 0 ? totalCartItems = amounts.reduce((acc, curr) => acc + curr) : null;
-    return totalCartItems;
+    if(this.cartProducts.length > 0){
+      this.cartProducts.forEach( product => {
+        amounts.push(product.amount)
+      });
+      amounts.length > 0 ? this.totalItemsInCart = amounts.reduce((acc, curr) => acc + curr) : null;
+    }
+    console.log('countCartItems()@CART.SERVICE: totalItemsInCart: ' + this.totalItemsInCart)
+    return this.totalItemsInCart
   }
 
   getTotalPrice():number{
-    let totalPriceOfAllCartItems = 0;
-    this.cartProducts.forEach(cp => {
-      totalPriceOfAllCartItems += cp['price']*cp['amount'] ;
-    })
-    return totalPriceOfAllCartItems;
+    this.totalPriceOfAllCartItems = 0;
+    let amounts = [];
+    if(this.cartProducts.length > 0){
+      this.cartProducts.forEach(e => {
+        amounts.push((e.price*e.amount))
+     })
+     this.totalPriceOfAllCartItems = amounts.reduce((acc,curr) => acc + curr)
+    }
+    
+
+    console.log('getTotalPrice()@CART.SERVICE: totalPriceOfAllCartItems: ' + this.totalPriceOfAllCartItems)
+    return this.totalPriceOfAllCartItems;
   }
 
   getCartProducts() {
@@ -103,7 +119,7 @@ export class CartService {
   }
 
   plus(productID:number, size:number) {
-    console.log('productID incoming: ' + productID, 'size incoming: ' + size)
+    //console.log('plus()@CART.SERVICE: productID incoming: ' + productID, 'size incoming: ' + size)
     let objToCart = {};
     this.listingService.allProducts.forEach(product => {
       if(product.id === productID){
@@ -111,32 +127,36 @@ export class CartService {
       } 
     });
 
-    console.log(objToCart)
+    //console.log(objToCart)
 
     objToCart['size'] = size;
     objToCart['UID'] = `${objToCart['id']}_${objToCart['size']}`; // UID is new property, made up of id_size, this uniquely identifies object
-    console.log("objToCart['UID'] is: " + objToCart['UID']);
+    //console.log("objToCart['UID'] is: " + objToCart['UID']);
     
     if(!this.UIDarray.includes(objToCart['UID'])){
       this.UIDarray.push(objToCart['UID']);
       objToCart['amount'] = 1;
       this.cartProducts.push(objToCart);
-      console.log('New UID, added to cart. cartProducts: ', this.cartProducts);
+      console.log('plus()@CART.SERVICE: New UID, added to cart. cartProducts: ', this.cartProducts);
     } else {
       this.cartProducts.forEach(cp => {
         cp['UID'] === objToCart['UID'] ? cp['amount'] ++ : null ;
       })
-      console.log('Same UID, incremented. cartProducts: ', this.cartProducts);
+      console.log('plus()@CART.SERVICE: Same UID, incremented. cartProducts: ', this.cartProducts);
     }
+    this.countCartItems()
+    this.getTotalPrice()
 }
 
   increment(productUID:string){
     this.cartProducts.forEach(cartProduct => {
       if(cartProduct['UID'] === productUID){
         cartProduct['amount'] ++ ;
-        console.log('incremented amount. cartProducts: ', this.cartProducts);
+        console.log('increment()@CART.SERVICE: incremented amount. cartProducts: ', this.cartProducts);
       } 
     })
+    this.countCartItems()
+    this.getTotalPrice()
   }
 
   decrement(productUID:string){
@@ -146,18 +166,21 @@ export class CartService {
         if(cartProduct['amount'] === 1){
           this.cartProducts = this.cartProducts.filter(cp => cp['UID'] !== productUID);
           this.UIDarray = this.UIDarray.filter(uid => uid !== productUID) ;
-          console.log('amount was 1 so took it out of list. cartProducts: ', this.cartProducts);
+          console.log('decrement()@CART.SERVICE: amount was 1 so took it out of list. cartProducts: ', this.cartProducts);
         } else {
           cartProduct['amount'] -- ;
-          console.log('decremented amount. cartProducts: ', this.cartProducts);
+          console.log('decrement()@CART.SERVICE: decremented amount. cartProducts: ', this.cartProducts);
         }
       }
 
     })
+        this.countCartItems()
+        this.getTotalPrice()
   }
 
   clearCart() {
     this.cartProducts = [];
+    console.log('clearCart()@CART.SERVICE: cart cleared.')
   }
 
   // start LOGOUT procedure:
@@ -168,17 +191,20 @@ export class CartService {
 
   // save current user cart items,amount & shipping preference to DB
   saveCart() {
+    console.log('saveCart()@CART.SERVICE: this.cartProducts: ', this.cartProducts)
+    console.log('saveCart()@CART.SERVICE: this.selectedShippingOption: ', this.selectedShippingOption)
       let info = {
         'cartProducts': this.cartProducts,
         'shippingOption': this.selectedShippingOption
       };
-      return this.http.post<any>(`${environment.backURL}/cart`, info).subscribe(
+      return this.http.post<any>(`${environment.backURL}/cart`, info)
+      .subscribe(
         res => {
-          console.log("cart service: OK, cart items saved to db. ", res);
+          console.log('saveCart()@CART.SERVICE: response from backEnd: ', res);
           this.saveWish();
         },
         err =>
-          console.log("cart service: Error when saving cart items to db. ", err)
+          console.log('saveCart()@CART.SERVICE: response from backEnd: ', err)
       );
   }
 
@@ -187,34 +213,44 @@ export class CartService {
       return this.http.post<any>(`${environment.backURL}/wish`, this.wishListProducts)
       .subscribe(
         res => {
-          console.log("cart service: OK, wish items saved to db. ", res);
-          this.cleanUpCart();
+          console.log('saveWish()@CART.SERVICE: response from backEnd: ', res);
           this.auth.logout(); // call this last, it clears token, and token is needed by above save methods
         },
         err =>
-        console.log("cart service: Error when saving wish items to db. ", err)
+        console.log('saveWish()@CART.SERVICE: response from backEnd: ', err)
         );
   }
 
   loadUserCartAndShipping() {
+  this.selectedShippingOption = [];
+  this.cartProducts = [];
+  this.UIDarray = [];
   return this.http.get<any>(`${environment.backURL}/cart`)
     .subscribe(
       result => {
-        console.log("current saved cart of user (from DB): ", result)
-        this.selectedShippingOption = this.shippingOptions.filter(e => e.id === result.shippingID)[0]
-        //console.log('this.selectedShippingOption after loadUserCartAndShipping(): ', this.selectedShippingOption)
+        console.log("loadUserCartAndShipping()@CART.SERVICE: current saved cart of user (from DB): ", result)
+        let selectedShippingOptionArr = this.shippingOptions.filter(e => e.id === result.shippingID)
+        console.log('loadUserCartAndShipping()@CART.SERVICE: result.shippingID:', result.shippingID)
+        console.log('loadUserCartAndShipping()@CART.SERVICE: selectedShippingOptionArr:', selectedShippingOptionArr )
+        this.selectedShippingOption = selectedShippingOptionArr[0]
+        console.log('loadUserCartAndShipping()@CART.SERVICE: this.selectedShippingOption after loadUserCartAndShipping(): ', this.selectedShippingOption)
         this.cartProducts = result.savedCartProducts
+        console.log('loadUserCartAndShipping()@CART.SERVICE: this.cartProducts after loadUserCartAndShipping(): ', this.cartProducts)
+        this.UIDarray = this.cartProducts.map(e => e.UID)
+        console.log('loadUserCartAndShipping()@CART.SERVICE: this.UIDArray after loadUserCartAndShipping(): ', this.UIDarray)
+        this.countCartItems()
+        this.getTotalPrice()
       },
-      err => console.log(err)
+      err => console.log('loadUserCartAndShipping()@CART.SERVICE: ', err)
     )
   }
 
   // update wishListProducts from database
   loadUserWish() {
+    this.wishListProducts = [];
     return this.http.get<any>(`${environment.backURL}/wish`).subscribe(
       result => {
-        console.log("current saved wish list of user: ");
-        console.log(result[0]);
+        console.log("loadUserWish()@CART.SERVICE: ", result[0]);
         
           result[0].forEach(wishedItem => {
             this.cartProducts.forEach(p => {
@@ -225,7 +261,7 @@ export class CartService {
             });
           });
 
-          console.log('wishListProductsArr after loadUserWish(): ' , this.wishListProducts );
+          console.log('loadUserWish()@CART.SERVICE: wishListProducts after loadUserWish(): ' , this.wishListProducts );
           
         
       },
@@ -237,16 +273,6 @@ export class CartService {
 
   
 
-  cleanUpCart(){
-    // !!!! IMPORTANT !!!!
-    // on logout clean all these variables as otherways they stay in memory in client computer
-    
-    
-    this.cartProducts = [];
-    this.wishListProducts = [];
-    this.shippingOptions = [];
-    this.selectedShippingOption = { 'id':0 };
-    
-  }
+  
 
 }

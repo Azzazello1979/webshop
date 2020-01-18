@@ -2,7 +2,7 @@
 
 
   <div class="items">
-    <p>Total items in cart: {{ this.cartService.countCartItems() }}</p>
+    <p>Total items in cart: {{ this.cartService.totalItemsInCart.toString() }}</p>
 
     <div class="cartProduct" *ngFor="let product of this.cartService.cartProducts">
       <div class="prodName">{{ product.productName }}</div>
@@ -16,7 +16,7 @@
     </div>
 
     <p *ngIf="this.cartService.cartProducts.length > 0">Items price ( without shipping ):
-      {{ this.cartService.getTotalPrice() | currency }}</p>
+      {{ this.cartService.totalPriceOfAllCartItems | currency }}</p>
   </div>
 
 
@@ -47,7 +47,7 @@
     </tr>
     <tr>
       <td>Items total price ( with shipping ):
-        {{ this.cartService.getTotalPrice() + this.cartService.selectedShippingOption.cost | currency }}
+        {{ this.cartService.totalPriceOfAllCartItems + this.cartService.selectedShippingOption.cost | currency }}
       </td>
     </tr>
     <tr>

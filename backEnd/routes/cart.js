@@ -8,37 +8,48 @@ const tokenControl = require('./../middlewares/token_control'); // tokenControl 
 
 
 router.post('/', tokenControl, (req,res) => {
+    console.log('req.body.cartProducts is: ', req.body.cartProducts)
+    console.log('req.body.shippingOption is: ', req.body.shippingOption)
     res.setHeader('Content-Type','application/json');
     let decodedToken = jwt.decode(req.headers.authorization.split(' ')[1]);
     let currentUserID = decodedToken.id;
 
+    let saveCart = async() => {
+        let deleteResponse = await db.query(`DELETE FROM cart WHERE user_id = ${currentUserID};`);
+        console.log('deleteResponse@saveCart(): ', deleteResponse)
     
+        let cartRecordsInsertedPromise = []
+        req.body.cartProducts.forEach(e => {
+            
+            let cartRecordInsertedPromise = db.query(`INSERT INTO cart (product_id, amount, user_id, shipping_id, size, UID) VALUES(
+                ${e.id}, ${e.amount}, ${currentUserID}, ${req.body.shippingOption.id}, ${e.size}, "${e.UID}"
+            );`)
+            cartRecordsInsertedPromise.push(cartRecordInsertedPromise)
+        });
+        let cartRecordsResolved = await Promise.all(cartRecordsInsertedPromise)
+        
+        console.log('cartRecordsResolved: ', cartRecordsResolved)
+        
+    }
 
     try{
-        saveCart();
+        saveCart()
+        .then(
+            ok => {
+                console.log('OK, all cart items stord in DB.')
+                res.status(200).send('OK, all cart items stord in DB.')
+            },
+            err => console.log(err)
+        )
+        .catch(err => console.log(err))
+
     }catch(err){
         console.log('ERROR@cart endpoint - error saving cart to DB: ' + err);
         return res.status(500).json({'message':'ERROR@cart endpoint - error saving cart to DB: ' + err});
     }
 
 
-        async function saveCart(){
-            let deleteResponse = await db.query(`DELETE FROM cart WHERE user_id = ${currentUserID};`);
-            console.log('deleteResponse@saveCart(): ');
-            console.table(deleteResponse);
-            
-            let insertResponse = await req.body.cartProducts.forEach(e => {
-                db.query(`INSERT INTO cart (user_id, product_id, amount, shipping_id, size) VALUES(
-                    ${currentUserID}, ${e.id}, ${e.amount}, ${req.body.shippingOption.id}, ${e.size}
-                );`)
-            });
-            console.log('insertResponse@saveCart(): ');
-            console.table(insertResponse);
-
-           
-
-            res.status(200).send(insertResponse);
-        }
+        
            
 });
 
@@ -50,27 +61,32 @@ router.get('/', tokenControl, (req, res) => {
     
 
     const getShippingIDPromise = async() => {
-        
+        let theShippingID = 1
         let result = await db.query(`SELECT shipping_id FROM cart WHERE user_id = ${currentUserID};`)
-        let theShippingID = result[0][0].shipping_id
-        //console.log('theShippingID is: ' + theShippingID)
+        if(!result[0] === 'undefined'){ //if result is undefined, this user has no saved cart item record, so theShippingID stays at default 1, that is 'free'
+            theShippingID = result[0][0].shipping_id
+        }
+        
+        console.log('theShippingID is: ' + theShippingID)
         return theShippingID
     }
 
     const getSavedCartProductsPromise = async() => {
         
         let records = await db.query(
-            `SELECT products.productName, products.price, cart.size, cart.amount 
+            `SELECT products.id, products.productName, products.price, cart.size, cart.amount, cart.UID 
              FROM products JOIN cart ON products.id = cart.product_id 
              WHERE cart.user_id = ${currentUserID};
             `)
         
             let mappedObjects = records[0].map(record => {
             return {
+                id: record.id,
                 productName: record.productName,
                 price: record.price,
                 size: record.size,
-                amount: record.amount
+                amount: record.amount,
+                UID: record.UID
                 }
             })
 
