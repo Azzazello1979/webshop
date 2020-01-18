@@ -203,8 +203,11 @@ export class CartService {
           console.log('saveCart()@CART.SERVICE: response from backEnd: ', res);
           this.saveWish();
         },
-        err =>
-          console.log('saveCart()@CART.SERVICE: response from backEnd: ', err)
+        err => {
+          console.log('saveCart()@CART.SERVICE: response from backEnd: ', err);
+          this.saveWish();
+        }
+          
       );
   }
 
