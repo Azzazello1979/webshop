@@ -16,7 +16,7 @@ export class CartService {
   shippingAddress = {};
   billingAddress = { 'country':"" };
   shippingOptions = []; // get this arr from db
-  selectedShippingOption = { 'id':0 }; // default selected shipping option is "free"
+  selectedShippingOption;
   billingAddressIsDifferentFromShippingAddress = false;
   addressSubmitted = false;
   cartProducts = [];
@@ -197,36 +197,16 @@ export class CartService {
   }
 
   loadUserCartAndShipping() {
-
-    return this.http.get<any>(`${environment.backURL}/cart`)
+  return this.http.get<any>(`${environment.backURL}/cart`)
     .subscribe(
       result => {
-        console.log("current saved cart of user (from DB): ", result[0]);
-          // update selectedShippingOption from databse
-          // the saved shipping id, belonging to the saved cart, from database
-          let shippingID;
-
-          if(result[0].length === 0){
-            shippingID = 1;
-          } else {
-            shippingID = result[0][0].shipping_id; 
-          }
-
-          this.selectedShippingOption = this.shippingOptions.filter(e => e.id === shippingID)[0];
-          //console.log(this.selectedShippingOption.name);
-          console.log('this.selectedShippingOption.id after loadUserCartAndShipping(): ' + this.selectedShippingOption.id)
-
-          // push to cartProducts from DB
-          if(result[0].length > 0){
-            result[0].forEach(savedCartProduct => {
-              
-            })
-            
-          }
-          console.log('cartProducts after loadUserCartAndShipping(): ', this.cartProducts)
+        console.log("current saved cart of user (from DB): ", result)
+        this.selectedShippingOption = this.shippingOptions.filter(e => e.id === result.shippingID)[0]
+        //console.log('this.selectedShippingOption after loadUserCartAndShipping(): ', this.selectedShippingOption)
+        this.cartProducts = result.savedCartProducts
       },
-      err => console.log("ERROR @cartService @loadUserCart() " + err)
-    );
+      err => console.log(err)
+    )
   }
 
   // update wishListProducts from database
@@ -261,7 +241,7 @@ export class CartService {
     // !!!! IMPORTANT !!!!
     // on logout clean all these variables as otherways they stay in memory in client computer
     
-    this.products = [];
+    
     this.cartProducts = [];
     this.wishListProducts = [];
     this.shippingOptions = [];

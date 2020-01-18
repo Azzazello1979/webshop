@@ -67,7 +67,7 @@ router.get('/', tokenControl, (req, res) => {
         
             let mappedObjects = records[0].map(record => {
             return {
-                name: record.productName,
+                productName: record.productName,
                 price: record.price,
                 size: record.size,
                 amount: record.amount
