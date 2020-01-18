@@ -42,9 +42,10 @@ router.post('/', tokenControl, (req,res) => {
            
 });
 
-router.get('/', (req, res) => {
+router.get('/', tokenControl, (req, res) => {
     res.setHeader('Content-Type','application/json')
-    let currentUserID = 19
+    let decodedToken = jwt.decode(req.headers.authorization.split(' ')[1]);
+    let currentUserID = decodedToken.id;
     
     
 
@@ -93,7 +94,8 @@ router.get('/', (req, res) => {
         createResponseObjPromise()
         .then(
             resolvedResponseObj => {
-                console.log('resolvedResponseObj: ', resolvedResponseObj)
+                //console.log('resolvedResponseObj: ', resolvedResponseObj)
+                res.status(200).send(resolvedResponseObj)
             },
             err => console.log(err)
         )
@@ -102,79 +104,6 @@ router.get('/', (req, res) => {
     }catch(e){
         console.log(e)
     }
-        
-   
-
-
-
-    
-    
-    
-
-    
-
-
 })
-
-/* router.get('/', tokenControl, (req,res) => {
-    res.setHeader('Content-Type','application/json');
-    let decodedToken = jwt.decode(req.headers.authorization.split(' ')[1]);
-    let currentUserID = decodedToken.id;
-    let currentUserID = 19;
-    let shippingID = 0;
-    let savedCartItemsPromises = [];
-    let howManySavedCartItems = 0;
-    
-
-    db.query( `SELECT COUNT(id) FROM cart WHERE user_id = ${currentUserID};` )
-    .then(
-        result => {
-            howManySavedCartItems = result;
-            try{
-                for(let i=0 ; i<howManySavedCartItems ; i++){
-                    let savedCartObjPromise = getSavedCartObj();
-                    savedCartItemsPromises.push(savedCartObjPromise);
-                }
-                Promise.all(savedCartItemsPromises)
-                .then(
-                    savedCartItems => { 
-
-                        let responseObj = {
-                            shippingID: shippingID,
-                            cartProducts: savedCartItems
-                        }
-                        res.status(200).send(responseObj)
-                    },
-                    err => console.log(err)
-                ).catch(err => console.log(err))
-            }catch(err){
-                console.log('ERROR @ cart backend @ getSavedCart() ' + err)
-            }
-
-        },
-        err => console.log(err)
-    )
-    .catch(err => console.log(err))
-    
-    
-
-    async function getSavedCartObj(){
-        let query1response = await db.query( `SELECT product_id, size, amount, shipping_id FROM cart WHERE user_id = ${currentUserID};` );
-            console.log(query1response[0][0])
-        let query2response = await db.query( `SELECT productName, price FROM products WHERE id = ${query1response[0][0].product_id}` );
-            console.log(query2response[0][0])
-
-        howManySavedCartItems = query1response[0].length;    
-        shippingID = query1response[0][0].shipping_id;
-
-        let savedCartObj = {
-            productName: query2response[0][0].productName,
-            productSize: query1response[0][0].size,
-            productAmount: query1response[0][0].amount,
-            productPrice: query2response[0][0].price
-        };
-        return savedCartObj; 
-    }
-}); */
 
 module.exports = router;
