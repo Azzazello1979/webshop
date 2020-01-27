@@ -91,10 +91,11 @@ export class CartService {
       this.cartProducts.forEach( product => {
         amounts.push(product.amount)
       });
-      amounts.length > 0 ? this.totalItemsInCart = amounts.reduce((acc, curr) => acc + curr) : null;
+      this.totalItemsInCart = amounts.length > 0 ? amounts.reduce((acc, curr) => acc + curr) : 0;
     }
-    console.log('countCartItems()@CART.SERVICE: totalItemsInCart: ' + this.totalItemsInCart)
-    return this.totalItemsInCart
+    console.log('countCartItems()@CART.SERVICE: totalItemsInCart: ' + this.totalItemsInCart);
+    console.log('countCartItems()@CART.SERVICE: cartProducts: ', this.cartProducts);
+    return this.totalItemsInCart;
   }
 
   getTotalPrice():number{
@@ -159,20 +160,19 @@ export class CartService {
     this.getTotalPrice()
   }
 
-  decrement(productUID:string){
+  decrement(incomingUID:string){ // 25_12
     this.cartProducts.forEach(cartProduct => {
-
-      if(cartProduct['UID'] === productUID){
-        if(cartProduct['amount'] === 1){
-          this.cartProducts = this.cartProducts.filter(cp => cp['UID'] !== productUID);
-          this.UIDarray = this.UIDarray.filter(uid => uid !== productUID) ;
-          console.log('decrement()@CART.SERVICE: amount was 1 so took it out of list. cartProducts: ', this.cartProducts);
-        } else {
-          cartProduct['amount'] -- ;
-          console.log('decrement()@CART.SERVICE: decremented amount. cartProducts: ', this.cartProducts);
-        }
+     if(cartProduct.UID === incomingUID){ 
+      if(cartProduct.amount > 1){
+        cartProduct.amount -- ;
+        console.log('decrement()@CART.SERVICE: decremented amount. cartProducts: ', this.cartProducts);
+      } else {
+        this.cartProducts = this.cartProducts.filter(cp => cp.UID !== incomingUID);
+        this.UIDarray = this.UIDarray.filter(uid => uid !== incomingUID);
+        this.totalItemsInCart = 0;
+        console.log('decrement()@CART.SERVICE: removed last item. cartProducts: ', this.cartProducts);
       }
-
+     }
     })
         this.countCartItems()
         this.getTotalPrice()
