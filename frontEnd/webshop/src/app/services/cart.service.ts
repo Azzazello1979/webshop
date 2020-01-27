@@ -180,6 +180,7 @@ export class CartService {
 
   clearCart() {
     this.cartProducts = [];
+    this.totalItemsInCart = 0;
     console.log('clearCart()@CART.SERVICE: cart cleared.')
   }
 
