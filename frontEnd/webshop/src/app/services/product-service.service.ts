@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { BehaviorSubject } from 'rxjs';
 
+ 
 @Injectable({
   providedIn: 'root'
 })
@@ -24,8 +25,8 @@ export class ProductService {
     return this.http.get<any>(`${environment.backURL}/products`)
     .subscribe(
       productsFromDB => {
-        this.products = productsFromDB
-        this.productsUpdated.next([...this.products])
+        this.products = productsFromDB;
+        this.productsUpdated.next([...this.products]);
       },
       error => console.log(error)
     )

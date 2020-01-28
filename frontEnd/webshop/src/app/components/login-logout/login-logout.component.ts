@@ -62,7 +62,8 @@ export class LoginLogoutComponent implements OnDestroy {
           localStorage.setItem("token", endPointResponseObj.token)
           this.auth.loggedIn = true
           this.auth.buttonText = "Logout"
-          this.router.navigate(["/dashboard"])
+          this.productService.getProductsFromDB()
+          
         },
         error => {
           console.log(error)
@@ -82,21 +83,19 @@ export class LoginLogoutComponent implements OnDestroy {
       this.loginSubscription = this.auth.logIn(this.userObject)
       .subscribe(
         endPointResponseObj => {
-          localStorage.setItem("token", endPointResponseObj.token)
-          this.auth.loggedIn = true
-          this.auth.buttonText = "Logout"
-
-          this.productService.getProductsFromDB()
-          this.cartService.initShippingOptions()
-          
-          this.cartService.loadUserWish()
-          
-          
+            localStorage.setItem("token", endPointResponseObj.token);
+            this.auth.loggedIn = true;
+            this.auth.buttonText = "Logout";
+            this.productService.getProductsFromDB();
 
           // regular user or admin?
-          this.auth.adminLoggedIn ? 
-          this.router.navigate(["/admin"]) : 
-          this.router.navigate(["/dashboard"])
+          if(this.auth.adminLoggedIn){
+            this.router.navigate(["/admin"]);
+          } else {
+            this.cartService.initShippingOptions();
+            this.cartService.loadUserWish();
+            this.router.navigate(["/dashboard"]);
+        }
           },
         error => {
           console.log(error)
