@@ -3,7 +3,7 @@
 <h3>frontEnd</h3>
 <ul>
   <li>Angular 8</li>
-  <li>RxJS - observable service modell</li>
+  <li>RxJS - subscription store state management</li>
 </ul>
 <br>
 <h3>backEnd</h3>
